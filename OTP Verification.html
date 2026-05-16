@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>OTP Verification | Lost & Found Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="OTP Verification.css">
+</head>
+<body>
+    <div class="window flex">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="logo">
+                    <i class="fas fa-search-location"></i>
+                    <span>Lost<span class="highlight">Found</span></span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="../DashBoard/index.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Verification</span>
+                    </a>
+                    <a href="../Profile Page/index.html" class="nav-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="../Settings/index.html" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-footer">
+                <div class="security-badge">
+                    <i class="fas fa-lock"></i>
+                    <span>Secure Verification</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN BODY -->
+        <main class="main-body">
+            <div class="portrait-container">
+                <div class="form-header">
+                    <div class="header-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h1 class="form-title">Verify Your Identity</h1>
+                    <p class="form-subtitle">Enter the 6-digit verification code sent to your registered email</p>
+                </div>
+                
+                <div class="form-card" id="otpForm">
+                    <div class="icon-header">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <p class="instruction-text">
+                        We've sent a verification code to <strong id="userEmail">user@example.com</strong>
+                    </p>
+                    <p class="instruction-note">Please check your inbox and spam folder</p>
+                    
+                    <!-- OTP Input Group -->
+                    <div class="otp-group" id="otpGroup">
+                        <input type="text" maxlength="1" class="otp-input" id="otp1" autofocus>
+                        <input type="text" maxlength="1" class="otp-input" id="otp2">
+                        <input type="text" maxlength="1" class="otp-input" id="otp3">
+                        <input type="text" maxlength="1" class="otp-input" id="otp4">
+                        <input type="text" maxlength="1" class="otp-input" id="otp5">
+                        <input type="text" maxlength="1" class="otp-input" id="otp6">
+                    </div>
+
+                    <div class="error-message" id="errorMessage"></div>
+
+                    <button class="verify-btn" id="verifyBtn">
+                        <i class="fas fa-check-circle"></i> Verify Code
+                    </button>
+
+                    <div class="resend-container">
+                        <span>Didn't receive the code?</span>
+                        <button class="resend-link" id="resendBtn">
+                            <i class="fas fa-redo-alt"></i> Resend OTP
+                        </button>
+                    </div>
+
+                    <div class="timer-container" id="timerContainer">
+                        <i class="fas fa-hourglass-half"></i>
+                        <span>Resend available in <strong id="timer">00:00</strong></span>
+                    </div>
+                </div>
+
+                <!-- Alternative Methods -->
+                <div class="alternative-methods">
+                    <div class="divider">
+                        <span>or verify via</span>
+                    </div>
+                    <div class="method-buttons">
+                        <button class="method-btn" id="whatsappMethod">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button class="method-btn" id="smsMethod">
+                            <i class="fas fa-sms"></i> SMS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-container success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Verification Successful!</h3>
+            <p>Your account has been verified. You will be redirected to the dashboard.</p>
+            <div class="progress-spinner">
+                <div class="spinner"></div>
+            </div>
+            <button class="btn-primary" id="goToDashboardBtn">Go to Dashboard Now</button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal-container error-modal">
+            <div class="error-icon">
+                <i class="fas fa-times-circle"></i>
+            </div>
+            <h3>Verification Failed</h3>
+            <p id="errorModalMessage">Invalid verification code. Please try again.</p>
+            <button class="btn-secondary" id="closeErrorBtn">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="OTP Verification.js"></script>
+</body>
+</html>
