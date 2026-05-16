@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PetLost | Lost & Found Pets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Pet Category.css">
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <i class="fas fa-paw"></i>
+            <span>PetLost</span>
+            <span class="badge-new">Finder</span>
+        </div>
+        <ul class="nav-links">
+            <li class="active"><i class="fas fa-home"></i> <span>Home</span></li>
+            <li><i class="fas fa-search"></i> <span>Browse</span></li>
+            <li><i class="fas fa-plus-square"></i> <span>Post</span></li>
+            <li><i class="fas fa-user"></i> <span>Profile</span></li>
+            <li><i class="fas fa-bell"></i> <span>Alerts</span></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="emergency-btn">
+                <i class="fas fa-phone-alt"></i> Emergency
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="greeting">
+                <h1>Pet Rescue Hub <i class="fas fa-dog"></i></h1>
+                <p>Help reunite lost pets with their families</p>
+            </div>
+            <div class="header-actions">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search lost pets, breeds, locations...">
+                    <button id="clearSearch"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge">3</span>
+                </div>
+                <div class="avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-paw"></i></div>
+                <div class="stat-info">
+                    <h3>24</h3>
+                    <p>Active Lost Pets</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                <div class="stat-info">
+                    <h3>18</h3>
+                    <p>Found Reports</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-info">
+                    <h3>142</h3>
+                    <p>Active Rescuers</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-info">
+                    <h3>92%</h3>
+                    <p>Reunited Rate</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-filter"></i> Filter by Pet Type</h2>
+                <button class="reset-btn" id="resetCategoryBtn"><i class="fas fa-undo-alt"></i> Reset All</button>
+            </div>
+            <div class="category-grid" id="categoryGrid">
+                <div class="category-card active-category" data-category="all">
+                    <div class="icon-box"><i class="fas fa-heart"></i></div>
+                    <p>All Pets</p>
+                    <span class="count">42</span>
+                </div>
+                <div class="category-card" data-category="dog">
+                    <div class="icon-box"><i class="fas fa-dog"></i></div>
+                    <p>Dogs</p>
+                    <span class="count">18</span>
+                </div>
+                <div class="category-card" data-category="cat">
+                    <div class="icon-box"><i class="fas fa-cat"></i></div>
+                    <p>Cats</p>
+                    <span class="count">15</span>
+                </div>
+                <div class="category-card" data-category="bird">
+                    <div class="icon-box"><i class="fas fa-dove"></i></div>
+                    <p>Birds</p>
+                    <span class="count">4</span>
+                </div>
+                <div class="category-card" data-category="other">
+                    <div class="icon-box"><i class="fas fa-rabbit"></i></div>
+                    <p>Other</p>
+                    <span class="count">5</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Posts Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-newspaper"></i> Recent Pet Reports</h2>
+                <a href="#" class="see-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-status="all">All Reports</button>
+                <button class="filter-tab" data-status="lost">Lost Pets <i class="fas fa-exclamation-triangle"></i></button>
+                <button class="filter-tab" data-status="found">Found Pets <i class="fas fa-check-circle"></i></button>
+            </div>
+
+            <div class="posts-grid" id="postsGrid">
+                <!-- Pet Cards will be dynamically inserted via JS -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+                <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-sync-alt"></i> Load More</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="Pet Category.js"></script>
+</body>
+</html>
