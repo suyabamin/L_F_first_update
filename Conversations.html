@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Conversations | Lost & Found Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Conversations.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <a class="brand" href="../index.html">
+        <div class="logo-icon">
+          <i class="fa-solid fa-shield-heart"></i>
+        </div>
+        <div class="logo-text">
+          <span>Lost</span>
+          <span>& Found</span>
+        </div>
+      </a>
+      <nav class="nav-list">
+        <a href="../DashBoard/index.html">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="../Chat/index.html">
+          <i class="fa-solid fa-message"></i>
+          <span>Chat</span>
+        </a>
+        <a class="active" href="../Conversations/index.html">
+          <i class="fa-solid fa-comments"></i>
+          <span>Conversations</span>
+          <span class="nav-badge">3</span>
+          <div class="nav-indicator"></div>
+        </a>
+        <a href="../Notifications/index.html">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="nav-badge">5</span>
+        </a>
+        <a href="../Profile Page/index.html">
+          <i class="fa-solid fa-user-circle"></i>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <img src="https://ui-avatars.com/api/?name=Alex+M&background=00cfe8&color=fff&bold=true&size=40" alt="User">
+          <div>
+            <p>Alex Morgan</p>
+            <span><i class="fas fa-circle"></i> Online</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Header -->
+      <header class="topline">
+        <div class="header-left">
+          <p class="eyebrow"><i class="fa-solid fa-comments"></i> Messages</p>
+          <h1>Conversations</h1>
+          <p class="subtitle">Your ongoing discussions about lost and found items</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-outline" id="filterBtn">
+            <i class="fa-solid fa-filter"></i> Filter
+          </button>
+          <button class="btn-primary" id="newConversationBtn">
+            <i class="fa-solid fa-plus"></i> New Conversation
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats Summary -->
+      <div class="stats-summary">
+        <div class="stat-box">
+          <i class="fa-solid fa-comment-dots"></i>
+          <div>
+            <span class="stat-number" id="totalConversations">8</span>
+            <span class="stat-label">Total Conversations</span>
+          </div>
+        </div>
+        <div class="stat-box">
+          <i class="fa-solid fa-envelope-open-text"></i>
+          <div>
+            <span class="stat-number" id="unreadCount">3</span>
+            <span class="stat-label">Unread Messages</span>
+          </div>
+        </div>
+        <div class="stat-box">
+          <i class="fa-solid fa-clock"></i>
+          <div>
+            <span class="stat-number" id="activeNow">2</span>
+            <span class="stat-label">Active Now</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" id="searchConversations" placeholder="Search conversations by item, person, or message...">
+        <kbd class="search-hint">⌘ + K</kbd>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All Conversations</button>
+        <button class="filter-tab" data-filter="unread">Unread</button>
+        <button class="filter-tab" data-filter="active">Active</button>
+        <button class="filter-tab" data-filter="resolved">Resolved</button>
+      </div>
+
+      <!-- Conversations List -->
+      <section class="conversations-list" id="conversationsList">
+        
+        <!-- Conversation 1 - Unread -->
+        <article class="conversation-card unread" data-status="unread" data-item="iPhone 13" data-person="Maya Johnson" data-time="2024-06-15T09:41:00">
+          <div class="conversation-avatar">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Maya Johnson">
+            <span class="online-indicator"></span>
+          </div>
+          <div class="conversation-info">
+            <div class="conversation-header">
+              <div>
+                <h3>Maya Johnson</h3>
+                <span class="item-badge found">Found Item</span>
+              </div>
+              <span class="time">9:41 AM</span>
+            </div>
+            <p class="item-name"><i class="fa-solid fa-mobile-alt"></i> iPhone 13</p>
+            <p class="last-message">Great, please submit a claim request. I'll hold the item for you.</p>
+            <div class="conversation-meta">
+              <span class="message-count">2 new messages</span>
+              <span class="status active">Active</span>
+            </div>
+          </div>
+          <div class="conversation-actions">
+            <a href="../Chat/index.html" class="btn-chat">
+              <i class="fa-solid fa-comment"></i> Open Chat
+            </a>
+            <button class="btn-more" data-id="1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </article>
+
+        <!-- Conversation 2 - Active -->
+        <article class="conversation-card" data-status="active" data-item="Lost Wallet" data-person="Ahmed Hossain" data-time="2024-06-14T15:30:00">
+          <div class="conversation-avatar">
+            <img src="https://randomuser.me/api/portraits/men/47.jpg" alt="Ahmed Hossain">
+          </div>
+          <div class="conversation-info">
+            <div class="conversation-header">
+              <div>
+                <h3>Ahmed Hossain</h3>
+                <span class="item-badge lost">Lost Item</span>
+              </div>
+              <span class="time">3:30 PM</span>
+            </div>
+            <p class="item-name"><i class="fa-solid fa-briefcase"></i> Brown Leather Wallet</p>
+            <p class="last-message">I can meet near the main gate. What time works for you?</p>
+            <div class="conversation-meta">
+              <span class="status active">Active</span>
+            </div>
+          </div>
+          <div class="conversation-actions">
+            <a href="../Chat/index.html" class="btn-chat">
+              <i class="fa-solid fa-comment"></i> Open Chat
+            </a>
+            <button class="btn-more" data-id="2"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </article>
+
+        <!-- Conversation 3 - Unread -->
+        <article class="conversation-card unread" data-status="unread" data-item="Lost Cat" data-person="Sarah Ahmed" data-time="2024-06-14T10:15:00">
+          <div class="conversation-avatar">
+            <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Sarah Ahmed">
+            <span class="online-indicator"></span>
+          </div>
+          <div class="conversation-info">
+            <div class="conversation-header">
+              <div>
+                <h3>Sarah Ahmed</h3>
+                <span class="item-badge lost">Lost Item</span>
+              </div>
+              <span class="time">10:15 AM</span>
+            </div>
+            <p class="item-name"><i class="fa-solid fa-cat"></i> White Persian Cat</p>
+            <p class="last-message">Have you seen my cat? She responds to "Snowy". Please help!</p>
+            <div class="conversation-meta">
+              <span class="message-count">1 new message</span>
+              <span class="status urgent">Urgent</span>
+            </div>
+          </div>
+          <div class="conversation-actions">
+            <a href="../Chat/index.html" class="btn-chat">
+              <i class="fa-solid fa-comment"></i> Open Chat
+            </a>
+            <button class="btn-more" data-id="3"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </article>
+
+        <!-- Conversation 4 - Resolved -->
+        <article class="conversation-card" data-status="resolved" data-item="Found Keys" data-person="Rita Das" data-time="2024-06-13T18:20:00">
+          <div class="conversation-avatar">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Rita Das">
+          </div>
+          <div class="conversation-info">
+            <div class="conversation-header">
+              <div>
+                <h3>Rita Das</h3>
+                <span class="item-badge found">Found Item</span>
+              </div>
+              <span class="time">6:20 PM</span>
+            </div>
+            <p class="item-name"><i class="fa-solid fa-key"></i> Key Set</p>
+            <p class="last-message">Thank you for returning the keys! You're a lifesaver.</p>
+            <div class="conversation-meta">
+              <span class="status resolved">✓ Resolved</span>
+            </div>
+          </div>
+          <div class="conversation-actions">
+            <a href="../Chat/index.html" class="btn-chat">
+              <i class="fa-solid fa-comment"></i> View Chat
+            </a>
+            <button class="btn-more" data-id="4"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </article>
+
+        <!-- Conversation 5 -->
+        <article class="conversation-card" data-status="active" data-item="Lost Backpack" data-person="Hasan Miah" data-time="2024-06-13T09:00:00">
+          <div class="conversation-avatar">
+            <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="Hasan Miah">
+          </div>
+          <div class="conversation-info">
+            <div class="conversation-header">
+              <div>
+                <h3>Hasan Miah</h3>
+                <span class="item-badge lost">Lost Item</span>
+              </div>
+              <span class="time">9:00 AM</span>
+            </div>
+            <p class="item-name"><i class="fa-solid fa-backpack"></i> North Face Backpack</p>
+            <p class="last-message">Any update on the backpack? It has my laptop inside.</p>
+            <div class="conversation-meta">
+              <span class="status active">Active</span>
+            </div>
+          </div>
+          <div class="conversation-actions">
+            <a href="../Chat/index.html" class="btn-chat">
+              <i class="fa-solid fa-comment"></i> Open Chat
+            </a>
+            <button class="btn-more" data-id="5"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </article>
+
+        <!-- Conversation 6 - Resolved -->
+        <article class="conversation-card" data-status="resolved" data-item="Found ID Card" data-person="Nabila Chowdhury" data-time="2024-06-12T14:30:00">
+          <div class="conversation-avatar">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Nabila Chowdhury">
+          </div>
+          <div class="conversation-info">
+            <div class="conversation-header">
+              <div>
+                <h3>Nabila Chowdhury</h3>
+                <span class="item-badge found">Found Item</span>
+              </div>
+              <span class="time">2:30 PM</span>
+            </div>
+            <p class="item-name"><i class="fa-solid fa-id-card"></i> Student ID Card</p>
+            <p class="last-message">ID card has been returned to the owner. Case closed.</p>
+            <div class="conversation-meta">
+              <span class="status resolved">✓ Resolved</span>
+            </div>
+          </div>
+          <div class="conversation-actions">
+            <a href="../Chat/index.html" class="btn-chat">
+              <i class="fa-solid fa-comment"></i> View Chat
+            </a>
+            <button class="btn-more" data-id="6"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </article>
+      </section>
+
+      <!-- Empty State (hidden by default) -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <i class="fa-solid fa-inbox"></i>
+        <h3>No conversations found</h3>
+        <p>Start a conversation by reaching out to someone about an item</p>
+        <button class="btn-primary" id="startNewBtn">Start New Conversation</button>
+      </div>
+
+      <!-- Load More Button -->
+      <div class="load-more-container" id="loadMoreContainer">
+        <button class="load-more-btn" id="loadMoreBtn">
+          <i class="fa-solid fa-rotate-right"></i> Load More Conversations
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Action Menu Modal -->
+  <div class="action-menu" id="actionMenu">
+    <div class="action-menu-content">
+      <button class="action-item" id="markReadBtn">
+        <i class="fa-solid fa-envelope-open"></i> Mark as Read
+      </button>
+      <button class="action-item" id="archiveBtn">
+        <i class="fa-solid fa-archive"></i> Archive
+      </button>
+      <button class="action-item" id="deleteBtn">
+        <i class="fa-solid fa-trash"></i> Delete Conversation
+      </button>
+      <button class="action-item" id="reportBtn">
+        <i class="fa-solid fa-flag"></i> Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="Conversations.js"></script>
+</body>
+</html>
