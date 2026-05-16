@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Notification Center | Lost & Found Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Notification.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="../index.html">
+        <i class="fa-solid fa-search-location"></i>
+        <span>Lost<span class="highlight">Found</span></span>
+      </a>
+      <nav class="nav-list">
+        <a href="../DashBoard/index.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a href="../Browse Listings/index.html"><i class="fas fa-table-list"></i> Browse Listings</a>
+        <a href="../Chat/index.html"><i class="fas fa-comment-dots"></i> Chat</a>
+        <a class="active" href="../Notifications/index.html"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="../Profile Page/index.html"><i class="fas fa-user-circle"></i> Profile</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="notification-stats">
+          <i class="fas fa-envelope"></i>
+          <span id="unreadTotal">0</span> unread
+        </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topline">
+        <div>
+          <p class="eyebrow"><i class="fas fa-bell"></i> Notification Center</p>
+          <h1>Latest updates</h1>
+          <p class="subtitle">Stay informed about your lost & found activities</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn ghost" id="markAllReadBtn"><i class="fas fa-check-double"></i> Mark all as read</button>
+          <button class="btn primary" id="settingsBtn"><i class="fas fa-cog"></i> Settings</button>
+        </div>
+      </header>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All Notifications</button>
+        <button class="filter-tab" data-filter="unread">Unread <span id="unreadCount" class="count-badge">0</span></button>
+        <button class="filter-tab" data-filter="read">Read</button>
+      </div>
+
+      <!-- Notifications Container -->
+      <div class="notifications-container" id="notificationsContainer">
+        <!-- Dynamic notifications will be inserted here -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <i class="fas fa-bell-slash"></i>
+        <h3>No notifications</h3>
+        <p>You're all caught up! New notifications will appear here.</p>
+      </div>
+
+      <!-- Load More Button -->
+      <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+        <button class="load-more-btn" id="loadMoreBtn">
+          <i class="fas fa-sync-alt"></i> Load More
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3><i class="fas fa-sliders-h"></i> Notification Settings</h3>
+        <button class="modal-close" id="closeSettingsBtn"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-group">
+          <label class="setting-label">
+            <i class="fas fa-envelope"></i> Email Notifications
+          </label>
+          <label class="switch">
+            <input type="checkbox" id="emailToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-group">
+          <label class="setting-label">
+            <i class="fab fa-whatsapp"></i> WhatsApp Alerts
+          </label>
+          <label class="switch">
+            <input type="checkbox" id="whatsappToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-group">
+          <label class="setting-label">
+            <i class="fas fa-bell"></i> Push Notifications
+          </label>
+          <label class="switch">
+            <input type="checkbox" id="pushToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-group">
+          <label class="setting-label">
+            <i class="fas fa-robot"></i> AI Match Alerts
+          </label>
+          <label class="switch">
+            <input type="checkbox" id="aiToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelSettingsBtn">Cancel</button>
+        <button class="btn-primary" id="saveSettingsBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="Notification.js"></script>
+</body>
+</html>
