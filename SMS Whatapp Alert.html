@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Alert Management Center | Lost & Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="SMS Whatapp Alert.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-bell"></i>
+                <span>Alert<span class="highlight">Hub</span></span>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item"><i class="fas fa-th-large"></i> DASHBOARD</div>
+                <div class="nav-item active"><i class="fas fa-bell"></i> NOTIFICATIONS</div>
+                <div class="nav-item"><i class="fas fa-user-circle"></i> ACCOUNT</div>
+                <div class="nav-item"><i class="fas fa-envelope"></i> MESSAGES</div>
+                <div class="nav-item"><i class="fas fa-cog"></i> ADMIN</div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="live-status">
+                    <i class="fas fa-circle"></i> System Online
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-tower-broadcast"></i> ALERT MANAGEMENT CENTER</h1>
+                    <p>Real-time notifications & intelligent alerts</p>
+                </div>
+                <div class="header-right">
+                    <div class="notification-badge">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge-count" id="alertCount">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="tabs">
+                <button class="tab active" data-tab="sms"><i class="fab fa-whatsapp"></i> SMS / WhatsApp Alerts</button>
+                <button class="tab" data-tab="email"><i class="fas fa-envelope"></i> Email Alerts</button>
+                <button class="tab" data-tab="map"><i class="fas fa-map-marked-alt"></i> Nearby Maps</button>
+            </div>
+
+            <section class="alerts-container" id="alertsContainer">
+                <!-- Alert cards will be dynamically inserted -->
+            </section>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-bell-slash"></i>
+                <h3>No Alerts</h3>
+                <p>You're all caught up! New alerts will appear here.</p>
+            </div>
+        </main>
+
+        <aside class="settings-panel">
+            <div class="settings-header">
+                <h2><i class="fas fa-sliders-h"></i> ACCOUNT SETTINGS</h2>
+                <button class="settings-minimize" id="minimizeSettings"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="settings-content" id="settingsContent">
+                <div class="settings-group">
+                    <label class="group-label"><i class="fas fa-bell"></i> Notification Preferences</label>
+                    <div class="setting-row">
+                        <span><i class="fab fa-whatsapp"></i> WhatsApp Notifications</span>
+                        <label class="switch">
+                            <input type="checkbox" id="whatsappToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <span><i class="fas fa-sms"></i> SMS Alerts</span>
+                        <label class="switch">
+                            <input type="checkbox" id="smsToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="verified-box">
+                        <p><i class="fas fa-check-circle"></i> Primary Verified Number</p>
+                        <strong>+880 1712 345 678</strong>
+                        <button class="btn-edit" id="editNumberBtn"><i class="fas fa-edit"></i> Change</button>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <label class="group-label"><i class="fas fa-envelope"></i> Notification Methods</label>
+                    <div class="setting-row">
+                        <span><i class="fas fa-bell"></i> Push Notifications</span>
+                        <label class="switch"><input type="checkbox" id="pushToggle" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="setting-row">
+                        <span><i class="fas fa-envelope"></i> Email Alerts</span>
+                        <label class="switch"><input type="checkbox" id="emailToggle" checked><span class="slider"></span></label>
+                    </div>
+                    <div class="setting-row">
+                        <span><i class="fab fa-whatsapp"></i> WhatsApp</span>
+                        <label class="switch"><input type="checkbox" id="whatsappMethodToggle" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <label class="group-label"><i class="fas fa-clock"></i> ALERT FREQUENCY</label>
+                    <select class="frequency-select" id="frequencySelect">
+                        <option value="instant">Instant (Real-time)</option>
+                        <option value="hourly">Hourly Digest</option>
+                        <option value="daily">Daily Summary</option>
+                        <option value="weekly">Weekly Report</option>
+                    </select>
+                </div>
+
+                <div class="settings-group">
+                    <label class="group-label"><i class="fas fa-map-marked-alt"></i> Nearby Radius</label>
+                    <div class="radius-control">
+                        <input type="range" id="radiusSlider" min="1" max="20" value="5">
+                        <span id="radiusValue">5 km</span>
+                    </div>
+                </div>
+
+                <button class="btn-save" id="saveSettingsBtn"><i class="fas fa-save"></i> Save Preferences</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Change Number Modal -->
+    <div class="modal-overlay" id="numberModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-phone-alt"></i> Update Phone Number</h3>
+                <button class="modal-close" id="closeNumberModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Country Code</label>
+                    <input type="text" id="countryCode" value="+880" placeholder="+880">
+                </div>
+                <div class="input-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phoneNumber" placeholder="1XXXXXXXXX">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelNumberBtn">Cancel</button>
+                <button class="btn-primary" id="saveNumberBtn">Save Number</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="SMS Whatapp Alert.js"></script>
+</body>
+</html>
