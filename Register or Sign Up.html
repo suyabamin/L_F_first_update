@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Create Account | Lost & Found Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Register or Sign Up.css">
+</head>
+<body>
+    <div class="window flex">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="logo">
+                    <i class="fas fa-search-location"></i>
+                    <span>Lost<span class="highlight">Found</span></span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="../DashBoard/index.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                    <a href="../Browse Listings/index.html" class="nav-item">
+                        <i class="fas fa-search"></i>
+                        <span>Browse</span>
+                    </a>
+                    <a href="../Profile Page/index.html" class="nav-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profile</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-footer">
+                <div class="login-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Already have an account? <a href="../Login/index.html">Sign In</a></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN BODY -->
+        <main class="main-body">
+            <div class="portrait-container">
+                <div class="form-header">
+                    <h1 class="form-title">Create Account</h1>
+                    <p class="form-subtitle">Join our community and help reunite lost items</p>
+                </div>
+                
+                <div class="form-card" id="registerForm">
+                    <!-- Standard Inputs -->
+                    <div class="input-block">
+                        <label><i class="fas fa-at"></i> Username</label>
+                        <input type="text" id="username" placeholder="@username" class="modern-input">
+                        <span class="error-message" id="usernameError"></span>
+                    </div>
+                    
+                    <div class="input-block">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="fullname" placeholder="John Doe" class="modern-input">
+                        <span class="error-message" id="fullnameError"></span>
+                    </div>
+                    
+                    <div class="input-block">
+                        <label><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="email" placeholder="john@example.com" class="modern-input">
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="input-block half">
+                            <label><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+880 1XXX-XXXXXX" class="modern-input">
+                            <span class="error-message" id="phoneError"></span>
+                        </div>
+                        <div class="input-block half">
+                            <label><i class="fas fa-globe"></i> Country</label>
+                            <select id="country" class="modern-input">
+                                <option value="">Select Country</option>
+                                <option value="BD">Bangladesh</option>
+                                <option value="IN">India</option>
+                                <option value="US">United States</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="CA">Canada</option>
+                                <option value="AU">Australia</option>
+                            </select>
+                            <span class="error-message" id="countryError"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="input-block half">
+                            <label><i class="fas fa-lock"></i> Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="password" placeholder="Create a strong password" class="modern-input">
+                                <button type="button" class="toggle-password" data-target="password">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="error-message" id="passwordError"></span>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                                <span class="strength-text">Enter password</span>
+                            </div>
+                        </div>
+                        <div class="input-block half">
+                            <label><i class="fas fa-lock"></i> Confirm Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="confirmPassword" placeholder="Confirm your password" class="modern-input">
+                                <button type="button" class="toggle-password" data-target="confirmPassword">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="error-message" id="confirmError"></span>
+                        </div>
+                    </div>
+
+                    <!-- Gender Selection -->
+                    <div class="selection-group">
+                        <label><i class="fas fa-venus-mars"></i> Gender</label>
+                        <div class="gender-options">
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="male">
+                                <span><i class="fas fa-mars"></i> Male</span>
+                            </label>
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="female">
+                                <span><i class="fas fa-venus"></i> Female</span>
+                            </label>
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="other">
+                                <span><i class="fas fa-genderless"></i> Other</span>
+                            </label>
+                        </div>
+                        <span class="error-message" id="genderError"></span>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="selection-group">
+                        <label><i class="fas fa-calendar-alt"></i> Date of Birth</label>
+                        <div class="dob-container">
+                            <select id="dobDay" class="dob-select">
+                                <option value="">Day</option>
+                                <!-- Days will be populated via JS -->
+                            </select>
+                            <select id="dobMonth" class="dob-select">
+                                <option value="">Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <select id="dobYear" class="dob-select">
+                                <option value="">Year</option>
+                                <!-- Years will be populated via JS -->
+                            </select>
+                        </div>
+                        <span class="error-message" id="dobError"></span>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="terms-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="termsCheck">
+                            <span class="checkmark"></span>
+                            <span class="terms-text">I agree to the <a href="#" id="termsLink">Terms & Conditions</a> and <a href="#" id="privacyLink">Privacy Policy</a></span>
+                        </label>
+                        <span class="error-message" id="termsError"></span>
+                    </div>
+
+                    <!-- Main Action -->
+                    <button type="button" class="create-btn" id="createAccountBtn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+
+                    <div class="divider">
+                        <span>Or sign up with</span>
+                    </div>
+
+                    <div class="social-buttons">
+                        <button class="social-btn google">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Terms Modal -->
+    <div class="modal-overlay" id="termsModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Terms & Conditions</h3>
+                <button class="modal-close" id="closeTermsModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to Lost & Found Portal. By registering, you agree to:</p>
+                <ul>
+                    <li>Provide accurate and truthful information</li>
+                    <li>Not post false or misleading lost/found reports</li>
+                    <li>Respect other users' privacy and property</li>
+                    <li>Use the platform responsibly for reuniting lost items</li>
+                    <li>Report any suspicious activity to moderators</li>
+                </ul>
+                <p>Violation of these terms may result in account suspension.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="acceptTermsBtn">I Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-container success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Registration Successful!</h3>
+            <p>Your account has been created. You will be redirected to the dashboard.</p>
+            <button class="btn-primary" id="goToDashboardBtn">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="Register or Sign Up.js"></script>
+</body>
+</html>
