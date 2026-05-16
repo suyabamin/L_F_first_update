@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Browse Listings | Lost & Found Nexus</title>
+  <!-- Google Fonts + Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Browse Listing.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="../index.html"><i class="fa-solid fa-map-location-dot"></i> Lost & Found</a>
+    <nav class="nav-list">
+      <a href="../DashBoard/index.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+      <a class="active" href="Browse%20Listing.html"><i class="fa-solid fa-table-list"></i> Browse Listings</a>
+      <a href="../Create Post/index.html"><i class="fa-solid fa-pen-to-square"></i> Post Item</a>
+      <a href="../Map View/index.html"><i class="fa-solid fa-map"></i> Map View</a>
+      <a href="../Profile Page/index.html"><i class="fa-solid fa-circle-user"></i> Profile</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topline">
+      <div>
+        <p class="eyebrow"><i class="fa-regular fa-compass"></i> Discover & Reunite</p>
+        <h1>Recent lost and found items</h1>
+      </div>
+      <div class="top-actions">
+        <a class="btn" href="../Search Results/index.html" id="searchTriggerBtn"><i class="fa-solid fa-magnifying-glass"></i> Advanced Search</a>
+        <a class="btn primary" href="../Create Post/index.html"><i class="fa-solid fa-plus"></i> Post Item</a>
+      </div>
+    </header>
+
+    <!-- dynamic filter + search bar -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <button class="filter-chip active-filter" data-filter="all">All items</button>
+        <button class="filter-chip" data-filter="lost">Lost <i class="fa-regular fa-circle-exclamation"></i></button>
+        <button class="filter-chip" data-filter="found">Found <i class="fa-regular fa-hand-peace"></i></button>
+      </div>
+      <div class="search-bar-mini">
+        <i class="fa-solid fa-search" style="color:#6a8aaa;"></i>
+        <input type="text" id="searchInput" placeholder="Search by title, category...">
+        <button id="clearSearchBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <!-- Cards grid injected via JS -->
+    <div class="grid" id="listingsGrid"></div>
+  </main>
+</div>
+<div id="toastMsg" class="toast-msg">✨ Updated results</div>
+
+<script src="Browse Listing.js"></script>
+</body>
+</html>
