@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Input Area</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-bg" aria-hidden="true"></div>
+
+  <main class="app-shell" aria-label="Smart input web app">
+    <header class="top-bar">
+      <a class="brand" href="#" aria-label="Smart input home">
+        <span class="brand-dot"></span>
+        Smart Input
+      </a>
+
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a href="#">Dashboard</a>
+        <a href="#">Lost Items</a>
+        <a href="#">Found Items</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <p class="kicker">Search with text or voice</p>
+      <h1>Smart Input Area</h1>
+      <p class="subcopy">Describe what you lost or found, then submit to get instant matching posts.</p>
+    </section>
+
+    <section class="search-panel" aria-label="Search input panel">
+      <form class="smart-input" action="#" method="get" autocomplete="off">
+        <label class="sr-only" for="smart-query">Describe what you lost or found</label>
+        <input
+          id="smart-query"
+          name="q"
+          type="text"
+          placeholder="describe what you lost or found"
+        >
+
+        <button class="mic-btn" type="button" aria-label="Use voice input">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 3.25a3.25 3.25 0 0 0-3.25 3.25v5.5a3.25 3.25 0 1 0 6.5 0V6.5A3.25 3.25 0 0 0 12 3.25Zm-4.75 8.5a.75.75 0 0 1 .75.75 4 4 0 1 0 8 0 .75.75 0 0 1 1.5 0 5.5 5.5 0 0 1-4.75 5.44v1.31h1.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5h1.5v-1.31A5.5 5.5 0 0 1 6.5 12.5a.75.75 0 0 1 .75-.75Z"/>
+          </svg>
+        </button>
+
+        <button class="action-btn" type="submit" aria-label="Submit input"></button>
+      </form>
+
+      <div class="quick-tags" aria-label="Quick prompts">
+        <button type="button">Wallet near market</button>
+        <button type="button">Found phone in bus</button>
+        <button type="button">Lost pet in block C</button>
+      </div>
+
+      <div class="result-hint">
+        <span class="live-dot"></span>
+        AI search ready
+      </div>
+    </section>
+  </main>
+</body>
+</html>

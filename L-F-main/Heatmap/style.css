@@ -1,0 +1,167 @@
+:root {
+    --primary-teal: #1a8a91;
+    --bg-light: #f1f8f9;
+    --white: #ffffff;
+    --text-dark: #333333;
+    --border-color: #d1e5e7;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.dashboard-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive Header */
+.main-header {
+    background: var(--primary-teal);
+    color: white;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 70px;
+    flex-wrap: wrap; /* Allows wrapping on very small windows */
+    animation: slideDown 0.5s ease-out;
+}
+
+.logo-text { font-size: clamp(18px, 2vw, 24px); font-weight: 800; }
+
+.search-container {
+    background: white;
+    flex: 0 1 400px; /* Grows to 400px but shrinks if needed */
+    margin: 10px 20px;
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    border: none;
+    width: 100%;
+    padding: 8px;
+    outline: none;
+    font-size: 14px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links-desktop {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.icon-group {
+    display: flex;
+    gap: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Filters Section */
+.filters-bar {
+    padding: 20px 5%;
+    animation: fadeIn 0.8s ease-in;
+}
+
+.filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1.5px solid var(--primary-teal);
+    background: white;
+    color: var(--primary-teal);
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.filter-btn.active { background: var(--primary-teal); color: white; }
+
+/* Responsive Map Section */
+.map-container {
+    padding: 0 5%;
+    animation: zoomIn 0.6s ease-out;
+}
+
+.heatmap-canvas {
+    background: var(--white);
+    aspect-ratio: 21 / 9; /* Maintains landscape ratio */
+    min-height: 350px;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+/* Insight Cards - Fluid Grid */
+.insights-section {
+    padding: 30px 5%;
+    animation: slideUp 0.7s ease-out;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.insight-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 15px;
+    box-shadow: var(--shadow);
+    transition: 0.3s;
+}
+
+.insight-card:hover { transform: translateY(-5px); }
+
+/* Bottom Nav */
+.bottom-nav {
+    margin-top: auto;
+    background: white;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+    border-top: 1px solid #eee;
+}
+
+.nav-item { font-weight: 600; color: var(--text-dark); cursor: pointer; }
+
+/* Animations */
+@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes zoomIn { from { transform: scale(0.98); opacity: 0; } to { transform: scale(1); opacity: 1; } }

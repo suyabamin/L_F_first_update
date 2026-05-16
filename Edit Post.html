@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Edit Listing | Lost & Found Workspace</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Edit Post.css">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo-brand">
+            <div class="logo-icon"><i class="fas fa-shield-heart"></i></div>
+            <span>L&F <span class="logo-accent">Admin</span></span>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="../DashBoard/index.html" class="nav-link">
+                <i class="fas fa-chart-pie"></i> <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-link active">
+                <i class="fas fa-layer-group"></i> <span>My Listings</span>
+                <span class="nav-badge">6</span>
+            </a>
+            <a href="../Conversations/index.html" class="nav-link">
+                <i class="fas fa-envelope"></i> <span>Messages</span>
+                <span class="nav-badge new">3</span>
+            </a>
+            <a href="../Add Favorite Post/index.html" class="nav-link">
+                <i class="fas fa-heart"></i> <span>Favorites</span>
+            </a>
+            <a href="../Profile Page/index.html" class="nav-link">
+                <i class="fas fa-user-gear"></i> <span>Settings</span>
+            </a>
+        </div>
+
+        <div class="sidebar-user">
+            <img src="https://ui-avatars.com/api/?name=Alex+Morgan&background=00cfe8&color=fff&bold=true&size=45" alt="User Avatar">
+            <div class="user-meta">
+                <span class="u-name">Alex Morgan</span>
+                <span class="u-role"><i class="fas fa-check-circle"></i> Pro Member</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="page-header">
+            <div class="header-info">
+                <div class="breadcrumb">
+                    <i class="fas fa-home"></i> Listings / <span class="highlight">Edit Mode</span> / <span id="postIdDisplay">#LF-90210</span>
+                </div>
+                <h1 class="page-title">Modify Listing</h1>
+                <p class="page-subtitle">Update your item details to improve visibility</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost" id="discardBtn">
+                    <i class="fas fa-times"></i> Discard
+                </button>
+                <button class="btn btn-primary" id="saveBtn">
+                    <i class="fas fa-cloud-arrow-up"></i> Save Changes
+                </button>
+            </div>
+        </header>
+
+        <div class="workspace-grid">
+            <!-- Left Column: Primary Content -->
+            <div class="form-column">
+                <!-- Core Details Card -->
+                <div class="card animate-card">
+                    <div class="card-header">
+                        <h2 class="card-label"><i class="fas fa-info-circle"></i> Core Details</h2>
+                        <span class="card-badge">Required</span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="label">Product Title <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="title" value="Found: Black Leather Wallet" placeholder="e.g., Lost iPhone 13 Pro">
+                        <div class="input-hint">Be specific - include brand, color, and unique features</div>
+                    </div>
+
+                    <div class="input-row">
+                        <!-- Category -->
+                        <div class="input-group">
+                            <label class="label">Category <span class="required">*</span></label>
+                            <div class="select-wrapper">
+                                <select class="form-control" id="category">
+                                    <option value="electronics">📱 Electronics</option>
+                                    <option value="personal" selected>👤 Personal Items</option>
+                                    <option value="documents">📄 ID & Documents</option>
+                                    <option value="pets">🐾 Pets</option>
+                                    <option value="bags">🎒 Bags & Luggage</option>
+                                    <option value="keys">🔑 Keys</option>
+                                    <option value="jewelry">💎 Jewelry</option>
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="input-group">
+                            <label class="label">Item Status <span class="required">*</span></label>
+                            <div class="select-wrapper">
+                                <select class="form-control status-select" id="status">
+                                    <option value="lost">⚠️ Reported Lost</option>
+                                    <option value="found" selected>✅ Reported Found</option>
+                                    <option value="resolved">🔵 Resolved / Returned</option>
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="label">Location <span class="required">*</span></label>
+                        <div class="icon-input">
+                            <i class="fas fa-location-dot"></i>
+                            <input type="text" class="form-control" id="location" value="Food Court, 3rd Floor, Bashundhara City" placeholder="Where was it lost/found?">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="label">Full Description <span class="required">*</span></label>
+                        <textarea class="form-control" rows="6" id="desc">Found near the food court on the third floor. Contains a local transit card and some cash. Please describe the brand and any distinctive marks to claim. Reward offered for honest return.</textarea>
+                        <div class="counter-row">
+                            <span id="charCount">0</span> / <span id="charMax">1000</span> characters
+                            <div class="char-progress">
+                                <div class="char-progress-bar" id="charProgressBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Gallery Card -->
+                <div class="card animate-card">
+                    <div class="card-header">
+                        <h2 class="card-label"><i class="fas fa-image"></i> Media Gallery</h2>
+                        <span class="card-badge">Up to 5 images</span>
+                    </div>
+                    
+                    <div class="media-manager">
+                        <div class="current-photos" id="photoGrid">
+                            <!-- Dynamic photo gallery will be injected here -->
+                        </div>
+                        <div class="upload-placeholder" id="uploadPlaceholder" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Add Photo</span>
+                            <small>JPG, PNG, up to 5MB</small>
+                        </div>
+                        <input type="file" id="fileInput" hidden multiple accept="image/jpeg,image/png,image/jpg,image/webp">
+                    </div>
+                </div>
+
+                <!-- Additional Details Card -->
+                <div class="card animate-card">
+                    <div class="card-header">
+                        <h2 class="card-label"><i class="fas fa-calendar-alt"></i> Additional Details</h2>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label">Date Lost/Found</label>
+                            <div class="icon-input">
+                                <i class="fas fa-calendar"></i>
+                                <input type="date" class="form-control" id="date" value="2024-01-15">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="label">Contact Information (Optional)</label>
+                            <div class="icon-input">
+                                <i class="fas fa-phone"></i>
+                                <input type="text" class="form-control" id="contact" placeholder="Phone or email" value="+880 1XXX-XXXXXX">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="label">Reward Offered (Optional)</label>
+                        <div class="icon-input">
+                            <i class="fas fa-tag"></i>
+                            <input type="text" class="form-control" id="reward" placeholder="e.g., $50 reward, Coffee treat, etc." value="Small reward offered">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Actions & Insights -->
+            <div class="status-column">
+                <!-- Quick Actions Card -->
+                <div class="card animate-card">
+                    <div class="card-header">
+                        <h2 class="card-label"><i class="fas fa-bolt"></i> Quick Actions</h2>
+                    </div>
+                    <div class="management-actions">
+                        <button class="btn btn-outline" id="favoriteBtn">
+                            <i class="far fa-heart"></i> <span>Add to Favorites</span>
+                        </button>
+                        <button class="btn btn-outline" id="shareBtn">
+                            <i class="fas fa-share-nodes"></i> Share Post
+                        </button>
+                        <button class="btn btn-outline" id="previewBtn">
+                            <i class="fas fa-eye"></i> Preview Listing
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Insights Card -->
+                <div class="card animate-card">
+                    <div class="card-header">
+                        <h2 class="card-label"><i class="fas fa-chart-line"></i> Post Insights</h2>
+                        <i class="fas fa-ellipsis-h" style="color: var(--text-muted); cursor: pointer;"></i>
+                    </div>
+                    <div class="stats-mini">
+                        <div class="stat-item">
+                            <span><i class="fas fa-eye"></i> Views</span>
+                            <strong id="viewCount">412</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span><i class="fas fa-handshake"></i> Claims</span>
+                            <strong id="claimCount">3</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span><i class="fas fa-heart"></i> Saves</span>
+                            <strong id="saveCount">27</strong>
+                        </div>
+                        <div class="stat-item">
+                            <span><i class="fas fa-clock"></i> Posted</span>
+                            <strong id="postDate">Jan 15, 2024</strong>
+                        </div>
+                    </div>
+                    <div class="insight-note">
+                        <i class="fas fa-chart-simple"></i>
+                        <span>This post is performing better than 78% of listings</span>
+                    </div>
+                </div>
+
+                <!-- Visibility Settings Card -->
+                <div class="card animate-card">
+                    <div class="card-header">
+                        <h2 class="card-label"><i class="fas fa-globe"></i> Visibility</h2>
+                    </div>
+                    <div class="visibility-options">
+                        <label class="radio-label">
+                            <input type="radio" name="visibility" value="public" checked>
+                            <span class="radio-custom"></span>
+                            <div>
+                                <strong>Public</strong>
+                                <small>Visible to everyone on the platform</small>
+                            </div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="visibility" value="verified">
+                            <span class="radio-custom"></span>
+                            <div>
+                                <strong>Verified Only</strong>
+                                <small>Only verified users can view</small>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Danger Zone Card -->
+                <div class="card danger-card animate-card">
+                    <div class="card-header">
+                        <h2 class="card-label" style="color: var(--danger);"><i class="fas fa-triangle-exclamation"></i> Danger Zone</h2>
+                    </div>
+                    <p class="danger-text">⚠️ Deleting this post will permanently remove all associated chat history and data. This action cannot be undone.</p>
+                    <button class="btn btn-danger" id="deleteBtn">
+                        <i class="fas fa-trash-can"></i> Delete Post
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Changes Saved Successfully!</h2>
+            <p>Your listing has been updated and is now live.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="viewListingBtn">View Listing</button>
+                <button class="btn btn-secondary" id="continueEditBtn">Continue Editing</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content delete-modal">
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2>Delete This Post?</h2>
+            <p>Are you sure you want to delete this listing? This action is permanent and cannot be undone. All associated messages will also be removed.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="confirmDeleteBtn">Yes, Delete Permanently</button>
+                <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="Edit Post.js"></script>
+</body>
+</html>

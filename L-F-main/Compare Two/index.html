@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precision Compare | L&F Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="compare-style.css">
+</head>
+<body class="compare-page">
+
+  <div class="glow-bg"></div>
+
+  <main class="compare-wrapper">
+    <!-- Sophisticated Navigation Header -->
+    <header class="glass-nav">
+      <div class="nav-left">
+        <button class="round-btn" onclick="window.history.back()"><i class="fas fa-chevron-left"></i></button>
+        <div class="nav-text">
+          <span class="breadcrumb">Intelligence / Duplicate Auditor</span>
+          <h1>Compare Records</h1>
+        </div>
+      </div>
+
+      <div class="match-analytics">
+        <div class="ai-status">
+          <i class="fas fa-microchip"></i>
+          <span>AI Analysis Active</span>
+        </div>
+        <div class="match-percentage">
+          <svg class="progress-ring" width="60" height="60">
+            <circle class="progress-ring__background" stroke="#e2e8f0" stroke-width="4" fill="transparent" r="26" cx="30" cy="30"/>
+            <circle class="progress-ring__circle" stroke="url(#paint0_linear)" stroke-width="4" stroke-linecap="round" fill="transparent" r="26" cx="30" cy="30"/>
+            <defs>
+                <linearGradient id="paint0_linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#00cfe8" />
+                  <stop offset="100%" stop-color="#7c3aed" />
+                </linearGradient>
+            </defs>
+          </svg>
+          <span class="score-text">94%</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="comparison-grid">
+      <!-- Item Alpha -->
+      <div class="compare-panel item-alpha">
+        <div class="panel-header">
+          <div class="id-pill">Source #LF-402</div>
+          <span class="status-dot"></span>
+        </div>
+        
+        <div class="visual-container">
+          <img src="https://images.unsplash.com/photo-1590247813693-5541d1c609fd?w=600" alt="Item A">
+          <div class="media-overlay">Primary Reference</div>
+        </div>
+
+        <div class="attribute-list">
+          <div class="attr-row match">
+            <span class="attr-label"><i class="fas fa-tag"></i> Title</span>
+            <div class="attr-val">Sony WH-1000XM4 Headphones</div>
+          </div>
+          <div class="attr-row match">
+            <span class="attr-label"><i class="fas fa-layer-group"></i> Category</span>
+            <div class="attr-val">Electronics</div>
+          </div>
+          <div class="attr-row conflict">
+            <span class="attr-label"><i class="fas fa-location-dot"></i> Location</span>
+            <div class="attr-val">Waiting Lounge - Gate B1</div>
+          </div>
+          <div class="attr-row match">
+            <span class="attr-label"><i class="fas fa-calendar"></i> Date Found</span>
+            <div class="attr-val">May 1, 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sync Hub (Center Icon) -->
+      <div class="sync-hub">
+        <div class="line"></div>
+        <div class="hub-icon"><i class="fas fa-bolt"></i></div>
+        <div class="line"></div>
+      </div>
+
+      <!-- Item Beta -->
+      <div class="compare-panel item-beta">
+        <div class="panel-header">
+          <div class="id-pill">Duplicate Candidate #LF-881</div>
+          <span class="status-dot warning"></span>
+        </div>
+
+        <div class="visual-container">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600" alt="Item B">
+          <div class="media-overlay">Scanned Entry</div>
+        </div>
+
+        <div class="attribute-list">
+          <div class="attr-row match">
+            <span class="attr-label">Title</span>
+            <div class="attr-val">Sony Headphones (Black)</div>
+          </div>
+          <div class="attr-row match">
+            <span class="attr-label">Category</span>
+            <div class="attr-val">Electronics</div>
+          </div>
+          <div class="attr-row conflict">
+            <span class="attr-label">Location</span>
+            <div class="attr-val">Starbucks near Gate B4</div>
+          </div>
+          <div class="attr-row match">
+            <span class="attr-label">Date Found</span>
+            <div class="attr-val">May 1, 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smart Footer -->
+    <footer class="action-footer">
+      <div class="footer-note">
+        <i class="fas fa-circle-info"></i>
+        <span>Conflict detected in <strong>Location</strong> field. Analysis suggests same item moved.</span>
+      </div>
+      <div class="footer-btns">
+        <button class="btn-secondary">Discard Match</button>
+        <button class="btn-gradient">Merge Intelligence</button>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>

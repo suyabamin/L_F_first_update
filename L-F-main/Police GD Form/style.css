@@ -1,0 +1,173 @@
+:root {
+    --app-bg: #e0f7f4;
+    --header-teal: #b2f2e9;
+    --card-teal: #a8ede3;
+    --text-dark: #1e293b;
+    --input-gray: #d9d9d9;
+    --button-blue: #60c9f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body.mobile-app-theme {
+    background-color: var(--app-bg);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.app-shell {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* App Header */
+.app-header {
+    background-color: var(--header-teal);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.app-header h1 {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 40px; /* Counterbalance for back button */
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Form Content */
+.form-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Info Cards */
+.info-card {
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.card-header {
+    background-color: var(--card-teal);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Profile Data Styles */
+.profile-data .data-row {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.profile-data strong {
+    color: var(--text-dark);
+}
+
+/* Input Styles */
+.field-container {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+.field-container label {
+    font-size: 14px;
+    font-weight: 600;
+    padding-left: 5px;
+}
+
+.rounded-input {
+    background-color: var(--input-gray);
+    border: none;
+    border-radius: 20px;
+    padding: 12px 15px;
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+}
+
+.field-row {
+    display: flex;
+    gap: 15px;
+}
+
+/* Side Icon Layout */
+.side-icon {
+    padding-left: 45px;
+}
+
+.label-icon {
+    position: absolute;
+    left: 0;
+    bottom: 12px;
+    font-size: 24px;
+    color: #000;
+}
+
+/* Custom Upload Box */
+.upload-box {
+    width: 120px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Footer & Buttons */
+.form-actions {
+    padding: 10px 0 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-save {
+    background-color: var(--button-blue);
+    border: none;
+    padding: 12px 40px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text-dark);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-save:active {
+    transform: scale(0.95);
+}

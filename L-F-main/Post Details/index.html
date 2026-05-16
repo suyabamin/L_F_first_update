@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listing Details – Lost & Found</title>
+    <!-- External Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Professional Top Navigation -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="brand">
+                <div class="logo-icon"><i class="fas fa-search-location"></i></div>
+                <span>Lost<b>Found</b></span>
+            </a>
+            <nav class="center-links">
+                <a href="../DashBoard/index.html" class="active">Home</a>
+                <a href="../Browse Listings/index.html">Browse All</a>
+                <a href="../Map View/index.html">Map View</a>
+                <a href="../Notifications/index.html">Notifications</a>
+            </nav>
+            <div class="header-actions">
+                <button class="post-btn-header" onclick="location.href='../Create Post/index.html'"><i class="fas fa-plus"></i> Post Listing</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Listing Hero Section -->
+        <section class="listing-hero">
+            <div class="breadcrumb">
+                Home <i class="fas fa-chevron-right"></i> <span id="breadCategory">Category</span> <i class="fas fa-chevron-right"></i> <span>Listing Details</span>
+            </div>
+            
+            <div class="title-container">
+                <div class="title-main">
+                    <h1 class="detail-title" id="detailTitle">Loading Listing...</h1>
+                    <div class="hero-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> <span id="headLoc">Dhaka</span></span>
+                        <span><i class="far fa-clock"></i> <span id="headTime">Just now</span></span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-outline"><i class="fas fa-share-nodes"></i> Share</button>
+                    <button class="btn-outline" id="favBtnTop"><i class="far fa-heart"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <div class="detail-wrapper">
+            <!-- Left Column: Content & Visuals -->
+            <div class="detail-left">
+                <div class="carousel">
+                    <div class="carousel-track" id="carouselTrack"></div>
+                    <button class="carousel-btn prev" onclick="slideCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" onclick="slideCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+
+                <div class="card">
+                    <h2 class="section-title">Description</h2>
+                    <p class="detail-desc" id="detailDesc">—</p>
+                    <div class="meta-chips">
+                        <div class="chip" id="statusChip">Status</div>
+                        <div class="chip chip-neutral" id="categoryChip">Category</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Location Details</h2>
+                    <div class="map-placeholder">
+                        <div style="text-align: center;">
+                            <i class="fas fa-location-dot"></i>
+                            <p id="mapLocationText">Location Placeholder</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Actions & Summary -->
+            <div class="detail-right">
+                <div class="card sticky-card">
+                    <h2 class="section-title">Take Action</h2>
+                    <button class="action-btn btn-primary" onclick="location.href='../Chat/index.html'">
+                        <i class="fas fa-comments"></i> Chat
+                    </button>
+                    <button class="action-btn btn-secondary" onclick="location.href='../Claim Item/index.html'">
+                        <i class="fas fa-hand-holding-heart"></i> Claim Item
+                    </button>
+                    <button class="action-btn btn-fav" id="favBtnSide" onclick="toggleFav()">
+                        <i class="far fa-heart"></i> Add to Favorites
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h2 class="section-title">Item Summary</h2>
+                    <div class="summary-row"><span>Reference ID</span><strong>#LF-9928</strong></div>
+                    <div class="summary-row"><span>Current Status</span><strong id="sumStatus">—</strong></div>
+                    <div class="summary-row"><span>Category</span><strong id="sumCat">—</strong></div>
+                    <div class="summary-row"><span>Location</span><strong id="sumLoc">—</strong></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal System -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div id="modalContent"></div>
+            <button class="btn-outline" style="width:100%; margin-top:20px;" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>

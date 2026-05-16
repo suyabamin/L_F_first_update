@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results | Lost & Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../flow.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="../index.html"><i class="fa-solid fa-location-crosshairs"></i> Lost & Found</a>
+      <nav class="nav-list">
+        <a href="../DashBoard/index.html">Dashboard</a>
+        <a href="../Browse Listings/index.html">Browse Listings</a>
+        <a class="active" href="../Search Results/index.html">Search</a>
+        <a href="../Notifications/index.html">Notifications</a>
+        <a href="../Profile Page/index.html">Profile</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topline">
+        <div>
+          <p class="eyebrow">Search</p>
+          <h1>Results</h1>
+        </div>
+      </header>
+
+      <form class="search-panel" action="../Search Results/index.html">
+        <input class="search-input" type="search" value="phone near campus" aria-label="Search listings">
+        <button class="btn primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+      </form>
+
+      <section class="list">
+        <article class="card">
+          <div class="meta"><span class="pill found">Found</span><span class="pill">Best match</span></div>
+          <h2>Found iPhone 13</h2>
+          <p>Matched by item name, location, and electronics category.</p>
+          <div class="card-actions">
+            <a class="btn primary" href="../Post Details/index.html">Item Details</a>
+            <a class="btn" href="../Chat/index.html">Chat</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="meta"><span class="pill found">Found</span><span class="pill">Nearby</span></div>
+          <h2>Found Pixel 8 Pro</h2>
+          <p>Another phone found in the same area within the last hour.</p>
+          <div class="card-actions">
+            <a class="btn primary" href="../Post Details/index.html">Item Details</a>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

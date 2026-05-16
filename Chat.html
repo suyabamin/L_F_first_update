@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Messages | Lost & Found Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Chat.css">
+</head>
+<body>
+  <main class="messages-app">
+    <section class="shell">
+      <!-- Conversation Panel - Left Sidebar -->
+      <aside class="conversation-panel">
+        <div class="panel-header">
+          <a class="back-link" href="#" aria-label="Back to conversations">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <div>
+            <p class="eyebrow">Messages</p>
+            <h1>Desktop chat</h1>
+          </div>
+          <button class="new-chat-btn" id="newChatBtn" aria-label="New conversation">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+        </div>
+
+        <!-- Item Card -->
+        <div class="item-card">
+          <p class="meta">Item in discussion</p>
+          <div class="item-title">
+            <div>
+              <h2>Silver watch</h2>
+              <p>Found near the campus gate</p>
+            </div>
+            <span class="status-pill">Open</span>
+          </div>
+          <div class="item-stats">
+            <span><i class="fa-solid fa-location-dot"></i> North entrance</span>
+            <span><i class="fa-solid fa-clock"></i> <span id="lastActive">2 min ago</span></span>
+          </div>
+          <div class="item-actions">
+            <a class="ghost-btn" href="#">View item</a>
+            <a class="primary-btn" href="#">Claim item</a>
+          </div>
+        </div>
+
+        <!-- Contact List -->
+        <div class="contact-list">
+          <p class="section-label">Recent chats</p>
+          <div class="search-contacts">
+            <i class="fas fa-search"></i>
+            <input type="text" id="contactSearch" placeholder="Search conversations...">
+          </div>
+          <div class="contacts-container" id="contactsList">
+            <article class="contact active" data-contact-id="1" data-name="Maya Johnson">
+              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Maya avatar">
+              <div>
+                <div class="contact-row">
+                  <h3>Maya Johnson</h3>
+                  <span class="time">9:41</span>
+                </div>
+                <p class="preview">Yes, my watch. Please hold it for me.</p>
+                <span class="unread-badge">2</span>
+              </div>
+            </article>
+            <article class="contact" data-contact-id="2" data-name="Amin Rahman">
+              <img src="https://randomuser.me/api/portraits/men/47.jpg" alt="Amin avatar">
+              <div>
+                <div class="contact-row">
+                  <h3>Amin Rahman</h3>
+                  <span class="time">Yesterday</span>
+                </div>
+                <p class="preview">I found a black wallet by the parking lot.</p>
+              </div>
+            </article>
+            <article class="contact" data-contact-id="3" data-name="Rita Das">
+              <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Rita avatar">
+              <div>
+                <div class="contact-row">
+                  <h3>Rita Das</h3>
+                  <span class="time">Mon</span>
+                </div>
+                <p class="preview">Could you confirm the serial number?</p>
+              </div>
+            </article>
+            <article class="contact" data-contact-id="4" data-name="Hasan Miah">
+              <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="Hasan avatar">
+              <div>
+                <div class="contact-row">
+                  <h3>Hasan Miah</h3>
+                  <span class="time">Sun</span>
+                </div>
+                <p class="preview">Thanks for returning my bag!</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Chat Panel - Right Side -->
+      <section class="chat-panel">
+        <header class="chat-header">
+          <div class="chat-peer">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Maya avatar" id="chatAvatar">
+            <div>
+              <h2 id="chatName">Maya Johnson</h2>
+              <p id="chatStatus">Online now · verifying ownership</p>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button type="button" id="callBtn" aria-label="Call"><i class="fa-solid fa-phone"></i></button>
+            <button type="button" id="videoBtn" aria-label="Video call"><i class="fa-solid fa-video"></i></button>
+            <button type="button" id="moreBtn" aria-label="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </header>
+
+        <div class="chat-body" id="chatMessages">
+          <div class="day-divider">Today</div>
+
+          <div class="bubble-row other" data-message-id="1">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Maya avatar">
+            <div class="bubble">
+              <p>Hi, have you found something? I think I lost my watch near the campus gate.</p>
+              <span class="message-time">9:28</span>
+              <span class="message-status"><i class="fas fa-check"></i> Read</span>
+            </div>
+          </div>
+
+          <div class="bubble-row me" data-message-id="2">
+            <div class="bubble">
+              <p>Yes, I found a silver watch. Can you describe it so I can verify it is yours?</p>
+              <span class="message-time">9:30</span>
+              <span class="message-status"><i class="fas fa-check-double"></i> Delivered</span>
+            </div>
+            <img src="https://randomuser.me/api/portraits/men/16.jpg" alt="Your avatar">
+          </div>
+
+          <div class="bubble-row other" data-message-id="3">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Maya avatar">
+            <div class="bubble">
+              <p>It has a black leather strap and a small scratch on the side.</p>
+              <span class="message-time">9:33</span>
+              <span class="message-status"><i class="fas fa-check"></i> Read</span>
+            </div>
+          </div>
+
+          <div class="bubble-row me" data-message-id="4">
+            <div class="bubble">
+              <p>That matches the item. I can hand it over after you confirm the pickup location.</p>
+              <span class="message-time">9:34</span>
+              <span class="message-status"><i class="fas fa-check-double"></i> Read</span>
+            </div>
+            <img src="https://randomuser.me/api/portraits/men/16.jpg" alt="Your avatar">
+          </div>
+
+          <div class="bubble-row other" data-message-id="5">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Maya avatar">
+            <div class="bubble">
+              <p>Perfect. Meet me at the front office at 10:00.</p>
+              <span class="message-time">9:38</span>
+              <span class="message-status"><i class="fas fa-check"></i> Read</span>
+            </div>
+          </div>
+
+          <div class="bubble-row me" data-message-id="6">
+            <div class="bubble">
+              <p>Done. I will bring it there.</p>
+              <span class="message-time">9:40</span>
+              <span class="message-status"><i class="fas fa-check-double"></i> Read</span>
+            </div>
+            <img src="https://randomuser.me/api/portraits/men/16.jpg" alt="Your avatar">
+          </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+          <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <span>Maya is typing...</span>
+        </div>
+
+        <form class="composer" id="messageForm">
+          <button type="button" class="icon-btn" id="attachBtn" aria-label="Attach file">
+            <i class="fa-solid fa-paperclip"></i>
+          </button>
+          <button type="button" class="icon-btn" id="emojiBtn" aria-label="Add emoji">
+            <i class="fa-regular fa-face-smile"></i>
+          </button>
+          <label class="sr-only" for="messageInput">Type a message</label>
+          <input id="messageInput" type="text" placeholder="Type a message..." autocomplete="off">
+          <button class="send-btn" type="submit">
+            Send <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="Chat.js"></script>
+</body>
+</html>

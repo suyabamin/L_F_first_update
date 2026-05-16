@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found Desktop</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">Lost & Found</div>
+        <ul class="nav-links">
+            <li class="active"><i class="fas fa-home"></i> Home</li>
+            <li><i class="fas fa-search"></i> Browse</li>
+            <li><i class="fas fa-plus-square"></i> Post</li>
+            <li><i class="fas fa-user"></i> Profile</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search For Lost and Found">
+            </div>
+            <div class="notifications">
+                <i class="fas fa-bell"></i>
+            </div>
+        </header>
+
+        <!-- Categories Section -->
+        <section class="section">
+            <h2>Browse by Category</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="filterByCategory('electronics', this)">
+                    <div class="icon-box"><i class="fas fa-laptop"></i></div>
+                    <p>Electronics</p>
+                </div>
+                <div class="category-card" onclick="filterByCategory('pets', this)">
+                    <div class="icon-box"><i class="fas fa-paw"></i></div>
+                    <p>Pets</p>
+                </div>
+                <div class="category-card" onclick="filterByCategory('bag', this)">
+                    <div class="icon-box"><i class="fas fa-briefcase"></i></div>
+                    <p>Bag</p>
+                </div>
+                <div class="category-card" onclick="filterByCategory('key', this)">
+                    <div class="icon-box"><i class="fas fa-key"></i></div>
+                    <p>Key</p>
+                </div>
+                <div class="category-card active-category" onclick="filterByCategory('paper', this)">
+                    <div class="icon-box"><i class="fas fa-file-alt"></i></div>
+                    <p>Paper</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Posts Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Recent Posts</h2>
+                <a href="#" class="see-all">See all</a>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterPosts('all', this)">All</button>
+                <button class="filter-tab" onclick="filterPosts('lost', this)">Lost</button>
+                <button class="filter-tab" onclick="filterPosts('found', this)">Found</button>
+            </div>
+
+            <div class="posts-grid" id="postsGrid">
+
+                <div class="post-card" data-status="lost" data-category="bag">
+                    <div class="img-placeholder" style="background:#f5e6d3;">👜</div>
+                    <div class="post-info">
+                        <span class="status-badge status-lost">Lost</span>
+                        <h3>Lost Wallet</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Bag</p>
+                        <span class="time"><i class="far fa-clock"></i> 2 hours ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="electronics">
+                    <div class="img-placeholder" style="background:#ddeeff;">📱</div>
+                    <div class="post-info">
+                        <span class="status-badge status-found">Found</span>
+                        <h3>Found iPhone 13</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Electronics</p>
+                        <span class="time"><i class="far fa-clock"></i> 3 hours ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="electronics">
+                    <div class="img-placeholder" style="background:#e8f5e9;">📲</div>
+                    <div class="post-info">
+                        <span class="status-badge status-found">Found</span>
+                        <h3>Found Pixel 8 Pro</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Electronics</p>
+                        <span class="time"><i class="far fa-clock"></i> 1 hour ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="bag">
+                    <div class="img-placeholder" style="background:#f3e5f5;">🎒</div>
+                    <div class="post-info">
+                        <span class="status-badge status-lost">Lost</span>
+                        <h3>Lost Side Bag</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Bag</p>
+                        <span class="time"><i class="far fa-clock"></i> 4 hours ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="pets">
+                    <div class="img-placeholder" style="background:#fff3e0;">🐱</div>
+                    <div class="post-info">
+                        <span class="status-badge status-lost">Lost</span>
+                        <h3>Lost Cat</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Pets</p>
+                        <span class="time"><i class="far fa-clock"></i> 5 hours ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="key">
+                    <div class="img-placeholder" style="background:#e8f5e9;">🔑</div>
+                    <div class="post-info">
+                        <span class="status-badge status-found">Found</span>
+                        <h3>Found Side Bag</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Key</p>
+                        <span class="time"><i class="far fa-clock"></i> 30 mins ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="key">
+                    <div class="img-placeholder" style="background:#e8f5e9;">🔑</div>
+                    <div class="post-info">
+                        <span class="status-badge status-found">Found</span>
+                        <h3>A "Found Key" notice/poster</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Key</p>
+                        <span class="time"><i class="far fa-clock"></i> 2 hours ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="pets">
+                    <div class="img-placeholder" style="background:#fff3e0;">🐾</div>
+                    <div class="post-info">
+                        <span class="status-badge status-lost">Lost</span>
+                        <h3>Our beloved cat is missing!</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Pets</p>
+                        <span class="time"><i class="far fa-clock"></i> 1 hour ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <!-- Paper / Document cards -->
+                <div class="post-card" data-status="found" data-category="paper">
+                    <div class="img-placeholder" style="background:#fdf3e3;">📜</div>
+                    <div class="post-info">
+                        <span class="status-badge status-found">Found</span>
+                        <h3>Found a Certificate</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Document</p>
+                        <span class="time"><i class="far fa-clock"></i> 1 hour ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="paper">
+                    <div class="img-placeholder" style="background:#eaf0fb;">🪪</div>
+                    <div class="post-info">
+                        <span class="status-badge status-lost">Lost</span>
+                        <h3>Lost NID Card</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Document</p>
+                        <span class="time"><i class="far fa-clock"></i> 2 hours ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="paper">
+                    <div class="img-placeholder" style="background:#fce8e8;">📋</div>
+                    <div class="post-info">
+                        <span class="status-badge status-lost">Lost</span>
+                        <h3>Lost Birth Certificate</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Document</p>
+                        <span class="time"><i class="far fa-clock"></i> 3 hours ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="paper">
+                    <div class="img-placeholder" style="background:#e8f5e9;">🛂</div>
+                    <div class="post-info">
+                        <span class="status-badge status-found">Found</span>
+                        <h3>Found Passport Copy</h3>
+                        <p class="category-label"><i class="fas fa-tag"></i> Category: Document</p>
+                        <span class="time"><i class="far fa-clock"></i> 30 mins ago</span>
+                    </div>
+                    <i class="far fa-heart heart-icon"></i>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let activeStatus = 'all';
+        let activeCategory = 'paper';
+
+        function applyFilters() {
+            document.querySelectorAll('.post-card').forEach(card => {
+                const statusMatch = activeStatus === 'all' || card.dataset.status === activeStatus;
+                const categoryMatch = activeCategory === 'all' || card.dataset.category === activeCategory;
+                card.style.display = (statusMatch && categoryMatch) ? 'flex' : 'none';
+            });
+        }
+
+        function filterPosts(type, btn) {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            activeStatus = type;
+            applyFilters();
+        }
+
+        function filterByCategory(category, card) {
+            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active-category'));
+            card.classList.add('active-category');
+            activeCategory = category;
+            applyFilters();
+        }
+
+        // Default: show Electronics on page load
+        applyFilters();
+
+        document.querySelectorAll('.heart-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                icon.classList.toggle('far');
+                icon.classList.toggle('fas');
+                icon.style.color = icon.classList.contains('fas') ? '#ff5c5c' : '#ccc';
+            });
+        });
+    </script>
+
+</body>
+</html>

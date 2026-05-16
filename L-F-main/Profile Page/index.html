@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Dashboard - Fixed Spacing</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="window flex">
+        <!-- SIDEBAR -->
+        <aside class="sidebar color3 white-text flex-column justify-between">
+            <div class="padding">
+                <div class="logo-area">Lost& Found</div>
+                <nav class="nav-menu flex-column gap-10">
+                    <div class="nav-item">Dashboard</div>
+                    <div class="nav-item active">Profile</div>
+                    <div class="nav-item">Settings</div>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-body color2 scrollable">
+            <!-- TOP BAR -->
+            <div class="top-bar padding-x flex justify-between align-center">
+                <div class="breadcrumb">Overview / <strong>Edit Profile</strong></div>
+                <div class="user-pill white border-radius shadow-sm flex align-center">
+                    <div class="mini-avatar"></div>
+                    <span>John Doe</span>
+                </div>
+            </div>
+
+            <!-- PROFILE BANNER -->
+            <div class="banner-section border-radius shadow">
+                <div class="banner-overlay flex-column center">
+                    <div class="avatar-main shadow"></div>
+                    <h2>Edit Profile</h2>
+                </div>
+            </div>
+
+            <!-- CONTENT GRID (STOPS OVERLAPPING) -->
+            <div class="content-grid flex padding">
+                <!-- FORM SECTION -->
+                <div class="card-large white border-radius shadow padding">
+                    <h3 class="card-title">Personal Information</h3>
+                    <div class="input-row flex gap-20">
+                        <div class="input-group flex-1">
+                            <label>User Name</label>
+                            <input type="text" placeholder="@highjohn" class="styled-input">
+                        </div>
+                        <div class="input-group flex-1">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe" class="styled-input">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="john@example.com" class="styled-input">
+                    </div>
+                    <button class="save-btn color3 white-text">Save Settings</button>
+                </div>
+
+                <!-- PREFERENCES SECTION -->
+                <div class="card-small white border-radius shadow padding">
+                    <h3 class="card-title">Preferences</h3>
+                    <div class="menu-list">
+                        <div class="menu-row flex justify-between">
+                            <span>🌐 Language</span>
+                            <span class="badge">EN</span>
+                        </div>
+                        <div class="menu-row flex justify-between">
+                            <span>🌙 Dark Mode</span>
+                            <div class="toggle-switch"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

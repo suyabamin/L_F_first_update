@@ -1,0 +1,130 @@
+:root {
+    --primary-grad: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    --text-dark: #0f172a;
+    --glass: rgba(255, 255, 255, 0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #f0fdfa;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Dynamic Color Blobs */
+.color-blob {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    filter: blur(80px);
+    z-index: -1;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: blobMove 15s infinite alternate;
+}
+
+.blob-1 { background: #22d3ee; top: -10%; left: -10%; }
+.blob-2 { background: #818cf8; bottom: -10%; right: -10%; animation-delay: -5s; }
+.blob-3 { background: #f472b6; top: 30%; left: 40%; animation-delay: -10s; }
+
+@keyframes blobMove {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(50px, 100px) scale(1.2); }
+}
+
+/* Content Container */
+.glass-shell {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    width: 90%;
+    max-width: 400px;
+    padding: 50px 30px;
+    border-radius: 40px;
+    border: 1px solid rgba(255,255,255,0.5);
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+/* Icon Design */
+.main-icon-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.icon-blob {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    animation: float 4s ease-in-out infinite;
+}
+
+.q-mark {
+    position: absolute;
+    bottom: 20px;
+    font-weight: 800;
+    font-size: 30px;
+    color: #4facfe;
+}
+
+/* Typography */
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    background: linear-gradient(to right, #0f172a, #334155);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 15px;
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+/* CTA Buttons */
+.cta-group { display: flex; flex-direction: column; gap: 15px; }
+
+.btn {
+    padding: 18px;
+    border-radius: 20px;
+    border: none;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-gradient {
+    background: var(--primary-grad);
+    color: white;
+    box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--text-dark);
+}
+
+.btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}

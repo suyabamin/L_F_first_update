@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Favorites Workspace | Lost & Found</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Add Favorite Post.css">
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="logo-brand">
+      <div class="logo-icon"><i class="fas fa-shield-heart"></i></div>
+      <span>L&F Admin</span>
+    </div>
+    <div class="nav-menu">
+      <a href="../DashBoard/index.html" class="nav-link"><i class="fas fa-grid-2"></i> <span>Dashboard</span></a>
+      <a href="../Browse Listings/index.html" class="nav-link"><i class="fas fa-box-archive"></i> <span>My Listings</span></a>
+      <a href="#" class="nav-link active"><i class="fas fa-bookmark"></i> <span>Saved Items</span></a>
+      <a href="../Notifications/index.html" class="nav-link"><i class="fas fa-bell"></i> <span>Alerts</span></a>
+    </div>
+    <div class="sidebar-user">
+      <img src="https://ui-avatars.com/api/?name=Alex+M&background=00cfe8&color=fff&bold=true&size=48" alt="User">
+      <div class="user-meta">
+        <span class="u-name">Alex Morgan</span>
+        <span class="u-role">Pro Member <i class="fas fa-badge-check"></i></span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!-- Premium Header -->
+    <header class="fav-header-premium">
+      <div class="header-top">
+        <div class="title-meta">
+          <div class="status-pill">
+            <span class="pulse-dot"></span>
+            <i class="fas fa-circle"></i> Live Collection
+          </div>
+          <h1>Saved Favorites</h1>
+          <p>Manage and monitor your tracked lost and found cases.</p>
+        </div>
+        
+        <div class="header-stats">
+          <div class="stat-box">
+            <span class="stat-val" id="total-count">03</span>
+            <span class="stat-label">Total Saved</span>
+            <i class="fas fa-heart stat-bg-icon"></i>
+          </div>
+          <div class="stat-box">
+            <span class="stat-val text-green" id="resolved-count">01</span>
+            <span class="stat-label">Resolved</span>
+            <i class="fas fa-check-circle stat-bg-icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-bar">
+        <div class="search-integration">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search by item name, location, or ID...">
+          <kbd class="search-hint">⌘ + K</kbd>
+        </div>
+        
+        <div class="filter-actions">
+          <div class="custom-select-group">
+            <i class="fas fa-filter"></i>
+            <select id="categoryFilter">
+              <option value="all">All Categories</option>
+              <option value="electronics">Electronics</option>
+              <option value="pets">Pets</option>
+              <option value="personal">Personal</option>
+            </select>
+          </div>
+          <button class="btn btn-dark" id="newAlertBtn">
+            <i class="fas fa-plus"></i> New Alert
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Grid -->
+    <div class="fav-container" id="favoritesGrid">
+      
+      <!-- Card 1 -->
+      <div class="modern-card" data-category="electronics" data-title="Google Pixel 7 Pro" data-location="North Terminal, Gate 12" data-status="found">
+        <div class="card-media">
+          <img src="https://images.unsplash.com/photo-1592890288564-76628a30a657?w=600&auto=format" alt="Phone">
+          <div class="glass-badge found">Found</div>
+          <button class="heart-btn" data-id="card1">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+        <div class="card-content">
+          <div class="cat-tag">Electronics</div>
+          <h3>Google Pixel 7 Pro</h3>
+          <div class="loc-tag"><i class="fas fa-map-pin"></i> North Terminal, Gate 12</div>
+          <div class="card-bottom">
+            <button class="btn-action view-case-btn">View Case <i class="fas fa-arrow-right"></i></button>
+            <span class="timestamp">Just now</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="modern-card" data-category="pets" data-title="Golden Retriever Mix" data-location="Oak Ridge Park" data-status="lost">
+        <div class="card-media">
+          <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&auto=format" alt="Dog">
+          <div class="glass-badge lost">Lost</div>
+          <button class="heart-btn" data-id="card2">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+        <div class="card-content">
+          <div class="cat-tag">Pets</div>
+          <h3>Golden Retriever Mix</h3>
+          <div class="loc-tag"><i class="fas fa-map-pin"></i> Oak Ridge Park</div>
+          <div class="card-bottom">
+            <button class="btn-action view-case-btn">View Case <i class="fas fa-arrow-right"></i></button>
+            <span class="timestamp">2h ago</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="modern-card" data-category="personal" data-title="Bellroy Leather Wallet" data-location="Downtown Cafe" data-status="resolved">
+        <div class="card-media">
+          <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&auto=format" alt="Wallet">
+          <div class="glass-badge resolved">Resolved</div>
+          <button class="heart-btn" data-id="card3">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+        <div class="card-content">
+          <div class="cat-tag">Personal</div>
+          <h3>Bellroy Leather Wallet</h3>
+          <div class="loc-tag"><i class="fas fa-map-pin"></i> Downtown Cafe</div>
+          <div class="card-bottom">
+            <button class="btn-action view-case-btn">View History <i class="fas fa-arrow-right"></i></button>
+            <span class="timestamp">Oct 24</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <i class="fas fa-heart-broken"></i>
+      <h3>No saved items yet</h3>
+      <p>Start adding favorites from listings to track them here.</p>
+      <button class="btn-outline" id="browseBtn">Browse Listings <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <!-- No Results State -->
+    <div class="empty-state" id="noResultsState" style="display: none;">
+      <i class="fas fa-filter-circle-xmark"></i>
+      <h3>No matching favorites</h3>
+      <p>Try adjusting your search or category filter.</p>
+      <button class="btn-outline" id="clearFiltersBtn">Clear Filters</button>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="Add Favorite Post.js"></script>
+</body>
+</html>

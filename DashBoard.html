@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Lost & Found | Dashboard</title>
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="DashBoard.css">
+</head>
+<body>
+
+    <!-- SIDEBAR (sticky left) -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">🔍</div>
+            <div class="logo-text">Lost<span>&Found</span></div>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item active" data-nav="home">
+                <i class="fas fa-home"></i> <span>Home</span>
+                <div class="nav-indicator"></div>
+            </li>
+            <li class="nav-item" data-nav="browse">
+                <i class="fas fa-search"></i> <span>Browse</span>
+                <div class="nav-indicator"></div>
+            </li>
+            <li class="nav-item" data-nav="post">
+                <i class="fas fa-plus-square"></i> <span>Post</span>
+                <div class="nav-indicator"></div>
+            </li>
+            <li class="nav-item" data-nav="profile">
+                <i class="fas fa-user"></i> <span>Profile</span>
+                <div class="nav-indicator"></div>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="help-btn">
+                <i class="far fa-question-circle"></i> Help
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+        <!-- TOP HEADER with welcome and actions -->
+        <header class="top-header">
+            <div class="greeting">
+                <h1 class="welcome-title">Welcome back, <span class="user-name">Alex</span> 👋</h1>
+                <p class="subhead">Find what's lost, return what's found.</p>
+            </div>
+            <div class="header-actions">
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search for lost or found items..." id="globalSearch" aria-label="Search">
+                </div>
+                <div class="notifications" id="notifBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge">3</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?background=0D9488&color=fff&rounded=true&bold=true&size=40&name=Alex+M" alt="Avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- STATS / KPI CARDS (animated counters) -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-eye"></i></div>
+                <div class="stat-info">
+                    <h3 class="stat-value" data-target="1248">0</h3>
+                    <p>Active Listings</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+                <div class="stat-info">
+                    <h3 class="stat-value" data-target="367">0</h3>
+                    <p>Successful Matches</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-info">
+                    <h3 class="stat-value" data-target="5842">0</h3>
+                    <p>Community Members</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORIES SECTION (with hover/glide) -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-th-large"></i> Browse by Category</h2>
+                <a href="#" class="see-all-link">All categories <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="category-grid" id="categoryGrid">
+                <div class="category-card" data-cat="electronics">
+                    <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
+                    <p>Electronics</p>
+                    <span class="cat-count">142 items</span>
+                </div>
+                <div class="category-card" data-cat="pets">
+                    <div class="icon-box"><i class="fas fa-paw"></i></div>
+                    <p>Pets</p>
+                    <span class="cat-count">53 items</span>
+                </div>
+                <div class="category-card" data-cat="bag">
+                    <div class="icon-box"><i class="fas fa-briefcase"></i></div>
+                    <p>Bag & Luggage</p>
+                    <span class="cat-count">87 items</span>
+                </div>
+                <div class="category-card" data-cat="key">
+                    <div class="icon-box"><i class="fas fa-key"></i></div>
+                    <p>Keys</p>
+                    <span class="cat-count">34 items</span>
+                </div>
+                <div class="category-card" data-cat="paper">
+                    <div class="icon-box"><i class="fas fa-file-alt"></i></div>
+                    <p>Documents</p>
+                    <span class="cat-count">41 items</span>
+                </div>
+                <div class="category-card" data-cat="jewelry">
+                    <div class="icon-box"><i class="fas fa-gem"></i></div>
+                    <p>Jewelry</p>
+                    <span class="cat-count">28 items</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- RECENT POSTS SECTION with FILTER + LOAD MORE -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> Recent Activity</h2>
+                <a href="#" class="see-all-link" id="seeAllPostsBtn">View all <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Filter Tabs animated -->
+            <div class="filter-tabs">
+                <button class="filter-btn active" data-filter="all">✨ All</button>
+                <button class="filter-btn" data-filter="lost">⚠️ Lost</button>
+                <button class="filter-btn" data-filter="found">✅ Found</button>
+            </div>
+
+            <div class="posts-grid" id="postsGrid">
+                <!-- dynamic cards generated from JS for consistency + interaction -->
+            </div>
+
+            <!-- Load more button with animation -->
+            <div class="load-more-container" id="loadMoreBtn">
+                <button class="load-more">Load more posts <i class="fas fa-arrow-down"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <!-- floating toast container -->
+    <div id="toast-message" class="toast"></div>
+
+    <script src="DashBoard.js"></script>
+</body>
+</html>

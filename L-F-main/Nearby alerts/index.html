@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found Hub - Nearby Alerts</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>LOST & FOUND HUB</span>
+            </div>
+            <nav class="menu">
+                <div class="menu-item active"><i class="fa-solid fa-bell"></i> All Alerts</div>
+                <div class="menu-item"><i class="fa-solid fa-briefcase"></i> Lost Items</div>
+                <div class="menu-item"><i class="fa-solid fa-circle-check"></i> Found Items</div>
+                <div class="menu-item"><i class="fa-solid fa-shield-halved"></i> Hub Alerts</div>
+                <hr>
+                <div class="menu-item"><i class="fa-solid fa-user"></i> My Account</div>
+                <div class="menu-item logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="navbar">
+                <div class="nav-links">
+                    <span class="nav-link active">Home</span>
+                    <span class="nav-link">Maps</span>
+                    <span class="nav-link">My Listings</span>
+                    <span class="nav-link">Verify Status</span>
+                    <span class="nav-link">Messages</span>
+                    <span class="nav-link">Contact</span>
+                </div>
+                <div class="nav-profile">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="location-tag"><i class="fa-solid fa-location-dot"></i> Dhanmondi, Dhaka</span>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <section class="map-section animate-fade">
+                    <h2>Nearby Alerts</h2>
+                    <div class="filter-pills">
+                        <button class="pill active">All</button>
+                        <button class="pill">Lost Items</button>
+                        <button class="pill">Found Items</button>
+                        <button class="pill">Hub Alerts</button>
+                    </div>
+                    
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            <div class="map-pin you"><i class="fa-solid fa-location-arrow"></i> You</div>
+                            <div class="map-pin hub"><i class="fa-solid fa-hand-holding-heart"></i> Hub</div>
+                        </div>
+                        <div class="map-key">
+                            <h3>Map Key</h3>
+                            <ul>
+                                <li><i class="fa-solid fa-magnifying-glass lost"></i> Lost</li>
+                                <li><i class="fa-solid fa-magnifying-glass found"></i> Found</li>
+                                <li><i class="fa-solid fa-location-arrow you"></i> You</li>
+                                <li><i class="fa-solid fa-hand-holding-heart hub"></i> Hub</li>
+                            </ul>
+                            <h3>Summary</h3>
+                            <p><strong>Lost Item:</strong> iPhone 13 Pro (Active Pin)</p>
+                            <p><strong>Found Item:</strong> Wallet (verified)</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="feed-section animate-slide">
+                    <div class="feed-header">
+                        <h2>Current Alerts Feed</h2>
+                        <div class="search-sort">
+                            <input type="text" placeholder="Search...">
+                            <button><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</button>
+                        </div>
+                    </div>
+
+                    <div class="scroll-area">
+                        <div class="card card-found">
+                            <div class="card-icon"><i class="fa-solid fa-user-check"></i></div>
+                            <div class="card-body">
+                                <h4>found: Maroon Leather Wallet</h4>
+                                <p>Found at Dhanmondi 27. Verified bounty offered via bKash</p>
+                                <span class="time">2 mins ago</span>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+
+                        <div class="card card-lost">
+                            <div class="card-icon"><i class="fa-solid fa-circle-dot"></i></div>
+                            <div class="card-body">
+                                <h4>lost: iPhone 13 Pro (Blue) <span class="badge ai">AI Match?</span></h4>
+                                <p>Lost near Star Kabab, Satmasjid Road 85% AI Match Probability</p>
+                                <span class="time">2 mins ago</span>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+
+                        <div class="card card-hub">
+                            <div class="card-icon"><i class="fa-solid fa-building-shield"></i></div>
+                            <div class="card-body">
+                                <h4>UIU Hub Alert: 15 New Items</h4>
+                                <p>Found items synchronized from UIU Security today. View inventory.</p>
+                                <span class="time">2 mins ago</span>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+
+                        <div class="card card-lost">
+                            <div class="card-icon"><i class="fa-solid fa-circle-dot"></i></div>
+                            <div class="card-body">
+                                <h4>lost: Black Backpack <span class="badge ai-gold">AI Match 70%</span></h4>
+                                <p>Lost near Satmasjid Rd. containing textbooks and a laptop.</p>
+                                <span class="time">2 mins ago</span>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="footer-caption">UIU campus map data ©2026 Terms of Use</p>
+                </section>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin Reports Centre | Lost & Found Analytics</title>
+    <link rel="stylesheet" href="Admin Reports Centre.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for World Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        .leaflet-container {
+            z-index: 1;
+            font-family: 'Inter', sans-serif;
+        }
+        .map-wrapper .leaflet-control-zoom {
+            border: none;
+            box-shadow: var(--shadow-md);
+        }
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+        .leaflet-popup-content {
+            margin: 12px;
+            min-width: 200px;
+        }
+        .custom-marker {
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: transform 0.2s ease;
+        }
+        .custom-marker:hover {
+            transform: scale(1.1);
+        }
+        .leaflet-control-geocoder {
+            border-radius: 30px !important;
+            border: none !important;
+            box-shadow: var(--shadow-md) !important;
+        }
+        .leaflet-control-geocoder-form input {
+            padding: 8px 16px !important;
+            border-radius: 30px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div>
+                <h1>ADMIN REPORTS CENTRE</h1>
+                <span>Intelligence Dashboard</span>
+            </div>
+        </div>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="globalSearch" placeholder="Search Report by ID, user, or NID...">
+            <kbd class="search-hint">⌘ + F</kbd>
+        </div>
+        <nav class="main-nav">
+            <a href="#" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="#" class="nav-link"><i class="fas fa-database"></i> Browse All</a>
+            <a href="#" class="nav-link"><i class="fas fa-plus-circle"></i> Post</a>
+            <a href="#" class="admin-label"><i class="fas fa-user-shield"></i> Admin</a>
+        </nav>
+    </header>
+
+    <div class="toolbar">
+        <div class="primary-filters">
+            <button class="filter-primary active" data-filter="overview">Overview</button>
+            <button class="filter-primary" data-filter="flags">Flags & Moderation</button>
+            <button class="filter-primary" data-filter="detailed">Detailed Report</button>
+            <button class="filter-primary" data-filter="analytics">Analytics</button>
+            <button class="filter-primary" data-filter="batch">Batch Mod</button>
+        </div>
+        <div class="secondary-filters">
+            <button class="filter-secondary active" data-type="all">All Reports</button>
+            <button class="filter-secondary" data-type="nid">NID Verification Flags</button>
+            <button class="filter-secondary" data-type="police">Police GD Cases</button>
+            <button class="filter-secondary" data-type="fraud">Fraud Alerts</button>
+        </div>
+        <div class="advanced-tools">
+            <div class="time-selector">
+                <i class="fas fa-calendar-alt"></i>
+                <select id="timeRange">
+                    <option value="7d">Last 7 Days</option>
+                    <option value="30d" selected>Last 30 Days</option>
+                    <option value="90d">Last 90 Days</option>
+                    <option value="1y">This Year</option>
+                </select>
+            </div>
+            <div class="filter-pills">
+                <span class="pill"><i class="fas fa-chart-line"></i> Performance</span>
+                <span class="pill"><i class="fas fa-flag-checkered"></i> Priority</span>
+                <span class="pill"><i class="fas fa-clock"></i> Real-time</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="dashboard-container">
+        
+        <!-- Analytical Column -->
+        <section class="analytical-col">
+            <div class="card analytical-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Analytical Performance</h3>
+                    <span class="live-badge"><span class="pulse-dot"></span> Live</span>
+                </div>
+                <div class="stats-summary">
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <p class="stat-label">Active Hubs</p>
+                            <h4 class="stat-value" id="activeHubs">8</h4>
+                            <span class="trend up"><i class="fas fa-arrow-up"></i> +2</span>
+                        </div>
+                        <div class="stat-item">
+                            <p class="stat-label">Total Reports</p>
+                            <h4 class="stat-value" id="totalReports">12,500</h4>
+                            <span class="trend up"><i class="fas fa-arrow-up"></i> +8%</span>
+                        </div>
+                        <div class="stat-item">
+                            <p class="stat-label">Open Flags</p>
+                            <h4 class="stat-value" id="openFlags">112</h4>
+                            <span class="trend down"><i class="fas fa-arrow-down"></i> -5%</span>
+                        </div>
+                        <div class="stat-item">
+                            <p class="stat-label">Match Rate</p>
+                            <h4 class="stat-value">71.5<span style="font-size:0.9rem;">%</span></h4>
+                            <span class="trend up"><i class="fas fa-arrow-up"></i> +3%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mini-charts-grid">
+                    <div class="mini-chart">
+                        <p><i class="fas fa-building"></i> Hubs</p>
+                        <canvas class="sparkline" id="hubSpark" width="80" height="40"></canvas>
+                    </div>
+                    <div class="mini-chart">
+                        <p><i class="fas fa-file-alt"></i> Reports</p>
+                        <canvas class="sparkline" id="reportSpark" width="80" height="40"></canvas>
+                    </div>
+                    <div class="mini-chart">
+                        <p><i class="fas fa-flag"></i> Flags</p>
+                        <canvas class="sparkline" id="flagSpark" width="80" height="40"></canvas>
+                    </div>
+                    <div class="mini-chart">
+                        <p><i class="fas fa-percent"></i> Rate</p>
+                        <canvas class="sparkline" id="rateSpark" width="80" height="40"></canvas>
+                    </div>
+                </div>
+
+                <div class="breakdown-section">
+                    <h4><i class="fas fa-chart-bar"></i> Report Breakdown by Type</h4>
+                    <div class="bar-chart" id="barChart">
+                        <div class="bar" data-value="90"><span class="label">Dhaka</span><div class="bar-fill"></div></div>
+                        <div class="bar" data-value="70"><span class="label">Chattogram</span><div class="bar-fill"></div></div>
+                        <div class="bar" data-value="55"><span class="label">Rajshahi</span><div class="bar-fill"></div></div>
+                        <div class="bar" data-value="45"><span class="label">Khulna</span><div class="bar-fill"></div></div>
+                        <div class="bar" data-value="35"><span class="label">Sylhet</span><div class="bar-fill"></div></div>
+                        <div class="bar" data-value="28"><span class="label">Barishal</span><div class="bar-fill"></div></div>
+                        <div class="bar" data-value="22"><span class="label">Rangpur</span><div class="bar-fill"></div></div>
+                        <div class="bar" data-value="18"><span class="label">Mymensingh</span><div class="bar-fill"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- World Map Column with Bangladesh Focus -->
+        <section class="map-col">
+            <div class="map-wrapper">
+                <div class="map-ui-controls">
+                    <button class="map-control" id="zoomIn" title="Zoom In"><i class="fas fa-plus"></i></button>
+                    <button class="map-control" id="zoomOut" title="Zoom Out"><i class="fas fa-minus"></i></button>
+                    <button class="map-control" id="resetView" title="Reset to Bangladesh"><i class="fas fa-home"></i></button>
+                    <button class="map-control" id="locateMe" title="My Location"><i class="fas fa-location-arrow"></i></button>
+                    <button class="map-control" id="fullscreenMap" title="Fullscreen"><i class="fas fa-expand"></i></button>
+                </div>
+                <div id="worldMap" class="real-map"></div>
+                <div class="map-overlay-info" id="mapInfo">
+                    <span><i class="fas fa-map-marker-alt"></i> Bangladesh | 24 active cases</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Activity Feed Column -->
+        <section class="feed-col">
+            <div class="feed-header">
+                <h3 class="feed-title"><i class="fas fa-broadcast-tower"></i> Live Activity Feed</h3>
+                <span class="feed-count" id="feedCount">4</span>
+            </div>
+            
+            <div class="feed-container" id="feedContainer">
+                <div class="feed-item priority">
+                    <div class="icon-box red-bg"><i class="fas fa-flag"></i></div>
+                    <div class="feed-text">
+                        <strong>Recent Priority Flags</strong>
+                        <p>Report #GD789 (Laptop Loss) | NID & Police GD: Pending Review</p>
+                        <span class="feed-time">2 mins ago</span>
+                    </div>
+                </div>
+
+                <div class="feed-item">
+                    <div class="icon-box blue-bg"><i class="fas fa-university"></i></div>
+                    <div class="feed-text">
+                        <strong>Hub Activity Summary</strong>
+                        <p>UIU Campus: 215 items | 72% Match Rate</p>
+                        <span class="feed-time">15 mins ago</span>
+                    </div>
+                </div>
+
+                <div class="feed-item">
+                    <div class="icon-box teal-bg"><i class="fas fa-clock"></i></div>
+                    <div class="feed-text">
+                        <strong>Operational Reports</strong>
+                        <p>Avg Resolution Time: 2 hrs | Verified Handovers: 15</p>
+                        <span class="feed-time">1 hour ago</span>
+                    </div>
+                </div>
+
+                <div class="feed-item">
+                    <div class="icon-box gold-bg"><i class="fas fa-hand-holding-usd"></i></div>
+                    <div class="feed-text">
+                        <strong>Financial Summary</strong>
+                        <p>Processed Bounties: 15,000 BDT | Revenue: 2,500 BDT</p>
+                        <span class="feed-time">3 hours ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="load-more-btn" id="loadMoreFeed"><i class="fas fa-sync-alt"></i> Load More</button>
+        </section>
+    </main>
+
+    <div class="action-heading">
+        <i class="fas fa-bolt"></i> Operational Actions
+    </div>
+    <footer class="footer-actions">
+        <div class="action-card">
+            <i class="fas fa-file-alt"></i>
+            <div>
+                <h4>View Detailed Logs</h4>
+                <p>Comprehensive change history</p>
+            </div>
+        </div>
+        <div class="action-card">
+            <i class="fas fa-layer-group"></i>
+            <div>
+                <h4>Batch Moderate Flags</h4>
+                <p>Apply actions to multiple reports</p>
+            </div>
+        </div>
+        <div class="action-card">
+            <i class="fas fa-file-pdf"></i>
+            <div>
+                <h4>Generate Institutional Reports</h4>
+                <p>Create formatted documents</p>
+            </div>
+        </div>
+        <div class="action-card">
+            <i class="fas fa-file-export"></i>
+            <div>
+                <h4>Export All Data</h4>
+                <p>Detailed data dumps (CSV/JSON)</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toastMessage" class="toast-message"></div>
+
+    <!-- Leaflet JS for World Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="Admin Reports Centre.js"></script>
+</body>
+</html>

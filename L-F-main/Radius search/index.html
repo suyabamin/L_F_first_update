@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radius Search Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="nav-links">
+                <div class="nav-item active"><i data-lucide="layout-dashboard"></i> Dashboard</div>
+                <div class="nav-item"><i data-lucide="bell"></i> Notifications <span class="badge">New</span></div>
+                <div class="nav-item"><i data-lucide="shield-check"></i> Claims</div>
+                <div class="nav-item"><i data-lucide="message-square"></i> Messaging</div>
+            </div>
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/40" alt="User">
+                <button class="logout-btn"><i data-lucide="log-out"></i> Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <h1>RADIUS SEARCH</h1>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i data-lucide="search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <i data-lucide="bell" class="header-icon"></i>
+                </div>
+            </header>
+
+            <div class="content-grid">
+                <section class="map-section">
+                    <div class="map-placeholder">
+                        <div class="radius-circle">
+                            <div class="user-marker">You</div>
+                            <i data-lucide="search" class="map-pin pin-1"></i>
+                            <i data-lucide="search" class="map-pin pin-2"></i>
+                            <div class="hub-pin pin-3"><i data-lucide="hand-metal"></i></div>
+                        </div>
+                        <div class="map-controls">
+                            <button>+</button>
+                            <button>-</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="controls-section">
+                    <h3>Radius Search Controls</h3>
+                    <div class="input-group">
+                        <label>Enter Location</label>
+                        <input type="text" placeholder="Enter Location">
+                    </div>
+                    <div class="input-group">
+                        <label>Define Radius</label>
+                        <input type="range" min="500" max="5000" value="2500">
+                        <div class="range-labels">
+                            <span>500m</span>
+                            <span>2.5km</span>
+                            <span>5km</span>
+                        </div>
+                    </div>
+                    <div class="toggle-group">
+                        <span>Adjust Radius by time or min</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <button class="secondary-btn">Filter by Time/Category</button>
+                    <button class="secondary-btn">Search Again</button>
+                    <button class="primary-btn">Save Search</button>
+                </section>
+
+                <section class="feed-section">
+                    <div class="feed-header">
+                        <h3>Matched Listings Feed</h3>
+                        <p>Recent & Nearby Items (Matching Dhanmondi Zone)</p>
+                    </div>
+                    
+                    <div class="feed-scroll">
+                        <div class="feed-card">
+                            <div class="card-icon wallet"><i data-lucide="user"></i></div>
+                            <div class="card-info">
+                                <h4>found: Maroon Leather Wallet</h4>
+                                <p>Dhanmondi 27. Verified bounty offered via bKash</p>
+                                <span class="time">2 mins ago</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+
+                        <div class="feed-card">
+                            <div class="card-icon phone"><i data-lucide="search"></i></div>
+                            <div class="card-info">
+                                <h4>lost: iPhone 13 Pro (Blue) <span class="ai-tag">AI Match?</span></h4>
+                                <p>Lost near Star Kabab, Satmasjid Rd</p>
+                                <span class="time">2 mins ago</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+
+                        <div class="feed-card">
+                            <div class="card-icon keys"><i data-lucide="user"></i></div>
+                            <div class="card-info">
+                                <h4>found: Car Keys</h4>
+                                <p>Found at Dhanmondi. Verified bounty via Kash</p>
+                                <span class="time">2 mins ago</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="bottom-nav">
+                <div class="nav-links-left">
+                    <span>Home</span>
+                    <span>Utility</span>
+                    <span>Deverboard</span>
+                    <span>Contact</span>
+                </div>
+                <div class="nav-links-right">
+                    <span>Travestory</span>
+                    <span>Liog</span>
+                    <span>About</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

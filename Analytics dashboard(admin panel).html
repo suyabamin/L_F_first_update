@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Performance Analytics | Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-teal: #008b8b;
+            --primary-dark: #006666;
+            --primary-light: #2ca0a0;
+            --accent-cyan: #00cfe8;
+            --bg-light: #e8f4f3;
+            --card-bg: #ffffff;
+            --text-dark: #1a2a3a;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e8f4f3 0%, #dcebeb 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header-main {
+            background: linear-gradient(135deg, var(--primary-teal), var(--primary-dark));
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .header-left h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .header-left span {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .header-center {
+            flex: 1;
+            max-width: 450px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 48px;
+            border-radius: 50px;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,207,232,0.3);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .search-hint {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar img {
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        /* Filter Nav */
+        .filter-nav {
+            background: white;
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-primary {
+            background: none;
+            border: 2px solid var(--border-light);
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .filter-primary.active {
+            background: var(--primary-teal);
+            border-color: var(--primary-teal);
+            color: white;
+        }
+
+        .pill-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .pill {
+            background: #f1f5f9;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .pill.active {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        .filter-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-main-btn {
+            background: white;
+            border: 1px solid var(--border-light);
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr 340px;
+            gap: 24px;
+            padding: 24px 32px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+
+        .live-badge {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Metrics */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .trend.up { color: var(--success); }
+
+        .mini-graph-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .graph-item {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Map Container */
+        .map-container {
+            background: #e8f4f3;
+            border-radius: 20px;
+            height: 100%;
+            min-height: 550px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--border-light);
+        }
+
+        .real-map {
+            width: 100%;
+            height: 100%;
+            min-height: 550px;
+            z-index: 1;
+        }
+
+        .top-loss-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(8px);
+            padding: 15px;
+            border-radius: 16px;
+            z-index: 10;
+            min-width: 180px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .top-loss-overlay ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .top-loss-overlay li {
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+        }
+
+        .heatmap-legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .heatmap-legend .box {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+
+        .high { background: #ef4444; }
+        .medium { background: #f59e0b; }
+        .low { background: #3b82f6; }
+
+        .map-stats-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .stat-chip {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+        }
+
+        /* Feed Section */
+        .feed-scroll {
+            max-height: 450px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .feed-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .feed-icon {
+            font-size: 1.3rem;
+            color: var(--primary-teal);
+        }
+
+        .feed-desc {
+            flex: 1;
+        }
+
+        .feed-desc strong {
+            font-size: 0.85rem;
+            display: block;
+        }
+
+        .feed-desc p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .badge.urgent {
+            background: #fee2e2;
+            color: #dc2626;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .badge.found {
+            background: #d1fae5;
+            color: #065f46;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cat-tab {
+            padding: 6px 14px;
+            background: #f1f5f9;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .cat-tab.active {
+            background: var(--primary-teal);
+            color: white;
+        }
+
+        .load-more-feed {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-light);
+            border-radius: 40px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .action-label {
+            padding: 20px 32px 10px 32px;
+            font-weight: 700;
+            color: var(--primary-teal);
+        }
+
+        .action-footer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 0 32px 32px 32px;
+        }
+
+        .action-item {
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .action-item i {
+            font-size: 1.8rem;
+            color: var(--primary-teal);
+        }
+
+        /* Toast */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast-message.show {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .action-footer {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+            }
+            .action-footer {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-main">
+        <div class="header-left">
+            <div class="logo-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+                <h1>PERFORMANCE ANALYTICS DASHBOARD</h1>
+                <span>Admin Intelligence Hub</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="globalSearch" placeholder="Search analytics for Users, Items, or Hubs...">
+                <kbd class="search-hint">⌘ + K</kbd>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn" id="gridViewBtn"><i class="fas fa-th"></i></button>
+            <button class="icon-btn" id="notifyBtn"><i class="fas fa-bell"></i><span class="notification-badge">3</span></button>
+            <div class="user-avatar">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=008b8b&color=fff&bold=true&size=40" alt="Admin">
+                <div class="user-dropdown">
+                    <span>Alex Morgan</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="filter-nav">
+        <div class="btn-group">
+            <button class="filter-primary active" data-tab="overview">Overview</button>
+            <button class="filter-primary" data-tab="hub">Hub Performance</button>
+            <button class="filter-primary" data-tab="user">User Insights</button>
+            <button class="filter-primary" data-tab="batch">Batch Reports</button>
+        </div>
+        <div class="pill-group">
+            <span class="pill active" data-range="all">All Data</span>
+            <span class="pill" data-range="7d">Last 7 Days</span>
+            <span class="pill" data-range="30d">Last 30 Days</span>
+            <span class="pill" data-hub="dhanmondi">Dhanmondi Hub</span>
+            <span class="pill" data-type="police">Police GD</span>
+        </div>
+        <div class="filter-controls">
+            <button class="filter-main-btn" id="advancedFilter"><i class="fas fa-sliders-h"></i> Filter</button>
+            <div class="hub-tools">
+                <strong>Analytical Hub Tools</strong>
+                <p>Real-time Intelligence</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-grid">
+        
+        <div class="col-left">
+            <div class="card stats-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-pie"></i> Operational & Financial Stats</h3>
+                    <span class="live-badge"><span class="pulse-dot"></span> Live</span>
+                </div>
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <p class="metric-label">Total Users</p>
+                        <h2 class="metric-value" id="totalUsers">30,000</h2>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +12%</span>
+                    </div>
+                    <div class="metric-card">
+                        <p class="metric-label">Match Rate</p>
+                        <h2 class="metric-value" id="matchRate">71%</h2>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +5%</span>
+                    </div>
+                    <div class="metric-card">
+                        <p class="metric-label">Item Listings</p>
+                        <h2 class="metric-value" id="itemListings">110,000</h2>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +8%</span>
+                    </div>
+                </div>
+                <div class="mini-graph-row">
+                    <div class="graph-item">
+                        <p><i class="fas fa-users"></i> User Growth</p>
+                        <canvas id="userGrowthChart" width="100" height="40"></canvas>
+                    </div>
+                    <div class="graph-item">
+                        <p><i class="fas fa-box"></i> Items Trend</p>
+                        <canvas id="itemsTrendChart" width="100" height="40"></canvas>
+                    </div>
+                    <div class="graph-item">
+                        <p><i class="fas fa-percent"></i> Match Rate</p>
+                        <canvas id="matchTrendChart" width="100" height="40"></canvas>
+                    </div>
+                </div>
+
+                <div class="op-reports">
+                    <h4>Operational Reports</h4>
+                    <ul class="op-list" id="opList">
+                        <li>Active Live Tracks <span id="activeTracks">8</span></li>
+                        <li>Pending Reviews <span id="pendingReviews">12</span></li>
+                        <li>Resolved Cases <span id="resolvedCases">145</span></li>
+                    </ul>
+                </div>
+
+                <div class="financial-summary">
+                    <h4>Financial Summary</h4>
+                    <div class="fin-stats" style="display: flex; gap: 10px; margin: 10px 0;">
+                        <div class="fin-card" style="background:#f0fdf4; padding:10px; border-radius:12px; flex:1;">
+                            <small>Processed Bounties</small>
+                            <strong>20,000 BDT</strong>
+                        </div>
+                        <div class="fin-card" style="background:#f0fdf4; padding:10px; border-radius:12px; flex:1;">
+                            <small>Revenue Share</small>
+                            <strong>3,000 BDT</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-mid">
+            <div class="map-container">
+                <div id="bangladeshMap" class="real-map" style="height: 550px; width: 100%;"></div>
+                <div class="top-loss-overlay">
+                    <h4><i class="fas fa-fire"></i> Top Loss Locations</h4>
+                    <ul>
+                        <li><i class="fas fa-utensils"></i> Dhanmondi - <span class="loss-count">280</span></li>
+                        <li><i class="fas fa-book"></i> Gulshan - <span class="loss-count">195</span></li>
+                        <li><i class="fas fa-bed"></i> Uttara - <span class="loss-count">142</span></li>
+                        <li><i class="fas fa-door-open"></i> Motijheel - <span class="loss-count">98</span></li>
+                    </ul>
+                </div>
+                <div class="heatmap-legend">
+                    <div><span class="box high"></span> High</div>
+                    <div><span class="box medium"></span> Medium</div>
+                    <div><span class="box low"></span> Low</div>
+                </div>
+                <div class="map-stats-overlay">
+                    <div class="stat-chip"><i class="fas fa-chart-line"></i> 8 Divisions Active</div>
+                    <div class="stat-chip"><i class="fas fa-clock"></i> Peak: 2PM-6PM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-right">
+            <div class="card feed-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-broadcast-tower"></i> Live Item Feed</h3>
+                    <span class="feed-counter" id="feedCounter">6 items</span>
+                </div>
+                <div class="category-tabs" id="categoryTabs">
+                    <span class="cat-tab active" data-cat="all">All</span>
+                    <span class="cat-tab" data-cat="electronics">Electronics</span>
+                    <span class="cat-tab" data-cat="wallets">Wallets</span>
+                    <span class="cat-tab" data-cat="ids">IDs</span>
+                </div>
+                <div class="feed-scroll" id="liveFeed">
+                    <div class="feed-box" data-category="electronics">
+                        <i class="fas fa-mobile-alt feed-icon"></i>
+                        <div class="feed-desc">
+                            <strong>iPhone 14 Pro Max</strong>
+                            <p>Lost at Dhanmondi • 5 mins ago</p>
+                            <span class="badge urgent">Urgent</span>
+                        </div>
+                    </div>
+                    <div class="feed-box" data-category="wallets">
+                        <i class="fas fa-wallet feed-icon"></i>
+                        <div class="feed-desc">
+                            <strong>Brown Leather Wallet</strong>
+                            <p>Found at Gulshan • 15 mins ago</p>
+                            <span class="badge found">Found</span>
+                        </div>
+                    </div>
+                    <div class="feed-box" data-category="ids">
+                        <i class="fas fa-id-card feed-icon"></i>
+                        <div class="feed-desc">
+                            <strong>National ID Card</strong>
+                            <p>Lost at Uttara • 30 mins ago</p>
+                            <span class="badge urgent">Urgent</span>
+                        </div>
+                    </div>
+                    <div class="feed-box" data-category="electronics">
+                        <i class="fas fa-laptop feed-icon"></i>
+                        <div class="feed-desc">
+                            <strong>Dell XPS Laptop</strong>
+                            <p>Lost at Motijheel • 2 hours ago</p>
+                            <span class="badge urgent">Urgent</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="load-more-feed" id="loadMoreFeed">Load More</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="action-label">
+        <i class="fas fa-bolt"></i> Operational Actions
+    </div>
+    <footer class="action-footer">
+        <div class="action-item">
+            <i class="fas fa-file-medical-alt"></i>
+            <div><h4>View Detailed Reports</h4><p>Comprehensive history</p></div>
+        </div>
+        <div class="action-item">
+            <i class="fas fa-balance-scale"></i>
+            <div><h4>Compare Hubs</h4><p>Metric comparison</p></div>
+        </div>
+        <div class="action-item">
+            <i class="fas fa-file-invoice"></i>
+            <div><h4>Generate Report</h4><p>PDF analytics</p></div>
+        </div>
+        <div class="action-item">
+            <i class="fas fa-download"></i>
+            <div><h4>Export Data</h4><p>CSV/JSON</p></div>
+        </div>
+    </footer>
+
+    <div id="toastMessage" class="toast-message"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="Analytics dashboard(admin panel).js"></script>
+</body>
+</html>

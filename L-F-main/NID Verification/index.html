@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NID Verification | Lost & Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="nid-shell">
+    <button class="nav-back" id="nav-back" aria-label="Back"><span>←</span></button>
+
+    <!-- Step 0: initial form (NID + DOB) -->
+    <section id="step-0" class="nid-step initial">
+      <div class="nid-media icon-block">
+        <img src="https://i.pravatar.cc/260?img=68" alt="avatar placeholder">
+      </div>
+      <div class="nid-instruction">
+        <h2>Let's verify your identity</h2>
+        <p>Enter your National ID number and date of birth to begin.</p>
+      </div>
+
+      <form class="nid-form">
+        <label class="pill">
+          <span class="label">NID NUMBER</span>
+          <input type="text" name="nid" placeholder="88189845764387238">
+        </label>
+
+        <label class="pill">
+          <span class="label">DATE OF BIRTH</span>
+          <input type="text" name="dob" placeholder="05/05/1990">
+        </label>
+
+        <div class="nid-actions">
+          <button class="btn primary large" type="button" data-action="start">Take Selfie</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Step 1: capture (camera UI / instruction) -->
+    <section id="step-1" class="nid-step hidden">
+      <div class="nid-media circle">
+        <img id="capture-preview" src="https://i.pravatar.cc/300?img=66" alt="capture placeholder">
+      </div>
+      <div class="nid-instruction">
+        <h3>Capture Selfie</h3>
+        <p>Don't move your head — keep your eyes open and face centered.</p>
+      </div>
+
+      <div class="nid-actions">
+        <button class="btn primary" type="button" data-action="take">Take</button>
+      </div>
+    </section>
+
+    <!-- Step 2: review (preview + retake/submit) -->
+    <section id="step-2" class="nid-step hidden">
+      <div class="nid-media rect">
+        <img id="review-preview" src="https://i.pravatar.cc/600?img=65" alt="review preview">
+      </div>
+      <div class="nid-instruction">
+        <h3>Review Photo</h3>
+        <p>Check the photo. If it's clear, submit. Otherwise retake.</p>
+      </div>
+
+      <div class="nid-actions column">
+        <button class="btn primary large" type="button" data-action="retake">Re-Take</button>
+        <button class="btn primary large" type="button" data-action="submit">Submit</button>
+      </div>
+    </section>
+
+    <nav class="nid-footer">
+      <div class="pager">
+        <button class="dot active" data-step="0" aria-label="Step 0"></button>
+        <button class="dot" data-step="1" aria-label="Step 1"></button>
+        <button class="dot" data-step="2" aria-label="Step 2"></button>
+      </div>
+    </nav>
+  </main>
+
+  <script>
+    // Step controller: 0 = initial form, 1 = capture, 2 = review
+    let currentStep = 0;
+    const steps = [0,1,2];
+
+    function showStep(n){
+      if(typeof n !== 'number') n = Number(n);
+      if(!steps.includes(n)) return;
+      currentStep = n;
+      // hide all steps
+      document.querySelectorAll('.nid-step').forEach(s=> s.classList.add('hidden'));
+      const el = document.getElementById('step-'+n);
+      if(el) el.classList.remove('hidden');
+      // update pager
+      document.querySelectorAll('.dot').forEach(d=> d.classList.toggle('active', Number(d.dataset.step)===n));
+    }
+
+    // attach listeners to selector (many elements may match)
+    function onSel(selector, ev, fn){
+      document.querySelectorAll(selector).forEach(el=> el.addEventListener(ev, fn));
+    }
+
+    // start button (from form) -> go to capture
+    onSel('[data-action="start"]', 'click', ()=> showStep(1));
+
+    // take (capture) -> go to review
+    onSel('[data-action="take"]', 'click', ()=> showStep(2));
+
+    // retake -> go back to capture
+    onSel('[data-action="retake"]', 'click', ()=> showStep(1));
+
+    // submit -> placeholder
+    onSel('[data-action="submit"]', 'click', ()=> {
+      alert('Submitted — replace with real submit logic');
+    });
+
+    // pager dots
+    document.querySelectorAll('.dot').forEach(d=> d.addEventListener('click', ()=> showStep(Number(d.dataset.step))));
+
+    // back button: go to previous step, otherwise history.back()
+    const navBack = document.getElementById('nav-back');
+    if(navBack){
+      navBack.addEventListener('click', ()=>{
+        if(currentStep > 0) showStep(currentStep - 1);
+        else history.back();
+      });
+    }
+
+    // show initial
+    showStep(0);
+  </script>
+</body>
+</html>

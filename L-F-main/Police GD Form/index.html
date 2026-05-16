@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit General Diary | Official Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="mobile-app-theme">
+
+    <div class="app-shell">
+        <!-- Navigation Header -->
+        <header class="app-header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>GD Form</h1>
+        </header>
+
+        <main class="form-content">
+            <!-- User Profile Summary Card -->
+            <section class="info-card">
+                <div class="card-header">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Submit ONLINE GD</span>
+                </div>
+                <div class="card-body profile-data">
+                    <div class="data-row"><strong>Full Name:</strong> <span>Khorsed Alam</span></div>
+                    <div class="data-row"><strong>NID:</strong> <span>xxxxxxxxxxxxx</span></div>
+                    <div class="data-row"><strong>Phone:</strong> <span>013000000000</span></div>
+                </div>
+            </section>
+
+            <!-- Main Incident Details Form -->
+            <section class="info-card">
+                <div class="card-header teal-variant">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>INCIDENT DETAILS</span>
+                </div>
+                
+                <form class="card-body input-area">
+                    <div class="field-container">
+                        <label>Type Of GD</label>
+                        <select class="rounded-input">
+                            <option>Lost Item</option>
+                            <option>Security Threat</option>
+                            <option>Missing Person</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field-container side-icon">
+                            <i class="fas fa-calendar-alt label-icon"></i>
+                            <label>Date:</label>
+                            <input type="date" class="rounded-input">
+                        </div>
+                        <div class="field-container">
+                            <label>Time:</label>
+                            <input type="time" class="rounded-input">
+                        </div>
+                    </div>
+
+                    <div class="field-container side-icon">
+                        <i class="fas fa-location-dot label-icon"></i>
+                        <label>Location:</label>
+                        <input type="text" placeholder="Enter incident location" class="rounded-input">
+                    </div>
+
+                    <div class="field-container side-icon">
+                        <i class="fas fa-pen label-icon"></i>
+                        <label>Description:</label>
+                        <textarea rows="4" placeholder="Briefly describe the incident..." class="rounded-input"></textarea>
+                    </div>
+
+                    <div class="field-container side-icon">
+                        <i class="fas fa-paperclip label-icon"></i>
+                        <label>Attached Document:</label>
+                        <div class="upload-box rounded-input">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Final Submission -->
+            <footer class="form-actions">
+                <button class="btn-save">Save & Continue</button>
+            </footer>
+        </main>
+    </div>
+
+</body>
+</html>

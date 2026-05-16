@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>System Overview | Admin Panel</title>
+    <link rel="stylesheet" href="Admin panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-shield-hooded"></i>
+            </div>
+            <div class="logo-text">
+                <h1>SYSTEM OVERVIEW</h1>
+                <span>Admin Control Center</span>
+            </div>
+        </div>
+        <nav class="top-nav">
+            <div class="nav-item">
+                <i class="fas fa-th-large"></i>
+                <span>Main Dashboard</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Full Analytics</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Panel Settings</span>
+            </div>
+            <div class="admin-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=00cfe8&color=fff&bold=true&size=40" alt="Admin">
+                <div class="profile-dropdown">
+                    <span>Alex Chen</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="sub-nav">
+        <div class="menu-tabs">
+            <span class="active-tab"><i class="fas fa-comments"></i> Moderation</span>
+            <span><i class="fas fa-hubspot"></i> Hub Management</span>
+            <span><i class="fas fa-users-cog"></i> User Analytics</span>
+            <span><i class="fas fa-file-alt"></i> Reports Center</span>
+        </div>
+        <div class="filter-bar">
+            <button class="filter-btn active">All Data</button>
+            <button class="filter-btn">Flags</button>
+            <button class="filter-btn">Pending Reviews</button>
+            <button class="filter-btn">Fraud Alerts</button>
+            <button class="filter-btn">Advanced Filters <i class="fas fa-sliders-h"></i></button>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <i class="fas fa-search"></i>
+        <input type="text" id="globalSearch" placeholder="Search Users, Items, Reports, or Transactions...">
+        <kbd class="search-shortcut">⌘ + /</kbd>
+    </div>
+
+    <main class="dashboard-grid">
+        
+        <!-- Key Metrics Card -->
+        <section class="card key-metrics">
+            <div class="card-header">
+                <h3><i class="fas fa-chart-simple"></i> Key Metrics</h3>
+                <span class="badge">Live</span>
+            </div>
+            <div class="metric-row">
+                <div class="metric-text">
+                    <div class="metric-item">
+                        <p>Total Users</p>
+                        <h2 id="totalUsers">25,000</h2>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +12%</span>
+                    </div>
+                    <div class="metric-item">
+                        <p>Total Items</p>
+                        <h2 id="totalItems">75,000</h2>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +8%</span>
+                    </div>
+                    <div class="metric-item">
+                        <p>Match Rate</p>
+                        <h2>68<span style="font-size:1rem;">%</span></h2>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +5%</span>
+                    </div>
+                </div>
+                <div class="metric-graph">
+                    <div class="wave-container">
+                        <canvas id="waveChart" width="200" height="120"></canvas>
+                    </div>
+                    <div class="processed-box">
+                        <i class="fas fa-wallet"></i>
+                        <div>
+                            <p>Processed Amount</p>
+                            <h3>5,000 BDT</h3>
+                            <span>Last 30 Days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bar-chart-placeholder">
+                <div class="bar" data-value="40"><span>Mon</span></div>
+                <div class="bar" data-value="60"><span>Tue</span></div>
+                <div class="bar" data-value="35"><span>Wed</span></div>
+                <div class="bar" data-value="80"><span>Thu</span></div>
+                <div class="bar" data-value="50"><span>Fri</span></div>
+                <div class="bar" data-value="90"><span>Sat</span></div>
+                <div class="bar" data-value="70"><span>Sun</span></div>
+            </div>
+        </section>
+
+        <!-- System Intelligence Card -->
+        <section class="card intelligence">
+            <div class="card-header">
+                <h3><i class="fas fa-brain"></i> System Intelligence</h3>
+                <i class="fas fa-robot"></i>
+            </div>
+            <p class="sub-title"><i class="fas fa-fire"></i> Top Loss Hotspots</p>
+            <div class="hotspot-chart" id="hotspotChart">
+                <div class="h-bar" data-value="80"><span>#1 UIU Cafeteria</span><div class="bar-fill" style="height: 80%;"></div></div>
+                <div class="h-bar" data-value="60"><span>#2 Library</span><div class="bar-fill" style="height: 60%;"></div></div>
+                <div class="h-bar" data-value="45"><span>#3 Main Gate</span><div class="bar-fill" style="height: 45%;"></div></div>
+                <div class="h-bar" data-value="30"><span>#4 Dormitory</span><div class="bar-fill" style="height: 30%;"></div></div>
+                <div class="h-bar" data-value="25"><span>#5 Sports Field</span><div class="bar-fill" style="height: 25%;"></div></div>
+            </div>
+            <hr>
+            <h3><i class="fas fa-location-dot"></i> Active Live Tracks</h3>
+            <div class="live-track-content">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <div class="pulse-marker"></div>
+                </div>
+                <table class="track-table">
+                    <thead>
+                        <tr><th>User</th><th>ETA</th><th>Status</th><th>Tracking</th></tr>
+                    </thead>
+                    <tbody id="liveTracks">
+                        <tr><td>Ahmed H.</td><td>02:15</td><td><span class="status-badge green">Active</span></td><td><i class="fas fa-eye"></i></td></tr>
+                        <tr><td>Fatema K.</td><td>03:28</td><td><span class="status-badge blue">New</span></td><td><i class="fas fa-eye"></i></td></tr>
+                        <tr><td>Rakib M.</td><td>02:46</td><td><span class="status-badge orange">Open</span></td><td><i class="fas fa-eye"></i></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="right-col">
+            <!-- Recent Flags Card -->
+            <section class="card flags">
+                <div class="card-header">
+                    <h3><i class="fas fa-flag-checkered"></i> Recent Flags (NID & Police GD)</h3>
+                    <span class="alert-count">3</span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="flag-table">
+                        <thead>
+                            <tr><th>User</th><th>Flag Type</th><th>Status</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="flagsTable">
+                            <tr><td><i class="fas fa-user-circle"></i> @ahmed_bd</td><td>NID Verification</td><td><span class="status-badge success">Verified</span></td><td><button class="btn-sm view-action">Review</button></td></tr>
+                            <tr><td><i class="fas fa-user-circle"></i> @sarah_w</td><td>Police GD</td><td><span class="status-badge warning">Pending</span></td><td><button class="btn-sm view-action">Direct</button></td></tr>
+                            <tr><td><i class="fas fa-user-circle"></i> @mike_r</td><td>Identity Fraud</td><td><span class="status-badge danger">Flagged</span></td><td><button class="btn-sm active-btn">Action</button></td></tr>
+                            <tr><td><i class="fas fa-user-circle"></i> @lina_t</td><td>Document Mismatch</td><td><span class="status-badge info">Review</span></td><td><button class="btn-sm">Check</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- bKash Payments Card -->
+            <section class="card payments">
+                <div class="card-header">
+                    <h3><i class="fas fa-mobile-alt"></i> bKash Payments</h3>
+                    <div class="bkash-badge">bKash <i class="fas fa-check-circle"></i></div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="pay-table">
+                        <thead>
+                            <tr><th>Date</th><th>User ID</th><th>Amount</th><th>Status</th></tr>
+                        </thead>
+                        <tbody id="paymentsTable">
+                            <tr><td>June 15, 2024</td><td>@ahmed1</td><td>5,000 BDT</td><td><span class="status-badge success">Processed</span></td></tr>
+                            <tr><td>June 14, 2024</td><td>@fatema2</td><td>3,500 BDT</td><td><span class="status-badge success">Processed</span></td></tr>
+                            <tr><td>June 13, 2024</td><td>@rakib3</td><td>7,200 BDT</td><td><span class="status-badge warning">Pending</span></td></tr>
+                            <tr><td>June 12, 2024</td><td>@sadia4</td><td>2,800 BDT</td><td><span class="status-badge success">Processed</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mini-line-chart">
+                    <canvas id="paymentTrend" width="100%" height="40" style="height:40px"></canvas>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <div class="quick-actions-title">
+        <i class="fas fa-bolt"></i> Quick Actions
+    </div>
+    <footer class="quick-actions">
+        <div class="action-btn">
+            <i class="fas fa-file-medical-alt"></i>
+            <div>
+                <h4>View Detailed Reports</h4>
+                <p>Access all case files</p>
+            </div>
+        </div>
+        <div class="action-btn">
+            <i class="fas fa-bullhorn"></i>
+            <div>
+                <h4>Moderate Flagged Items</h4>
+                <p>Review pending actions</p>
+            </div>
+        </div>
+        <div class="action-btn">
+            <i class="fas fa-project-diagram"></i>
+            <div>
+                <h4>Create New Hub</h4>
+                <p>Add campus canteen or library</p>
+            </div>
+        </div>
+        <div class="action-btn">
+            <i class="fas fa-file-pdf"></i>
+            <div>
+                <h4>Generate Weekly Report</h4>
+                <p>Create PDF analytics</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="footer-bottom">
+        <span><i class="fas fa-home"></i> Dashboard Home</span>
+        <span><i class="fas fa-database"></i> Browse All Data</span>
+        <span><i class="fas fa-flag"></i> Post a Report</span>
+        <span><i class="fas fa-user-shield"></i> User Profile (Admin)</span>
+        <span><i class="fas fa-server"></i> System Status</span>
+        <span><i class="fas fa-balance-scale"></i> Legal Info</span>
+    </div>
+
+    <div id="toastMessage" class="toast-message"></div>
+
+    <script src="Admin panel.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Payment | L&F Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="payment-theme">
+
+    <div class="payment-shell">
+        <!-- Header -->
+        <header class="payment-header">
+            <button class="back-circle" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Reward Payment</h1>
+        </header>
+
+        <main class="payment-content">
+            <!-- Hero Reward Card -->
+            <section class="hero-reward-card">
+                <div class="money-bag-icon">
+                    <i class="fas fa-money-bill-transfer"></i>
+                </div>
+                <h2>Reward Payment</h2>
+                <p>Send a reward to the person who found your item as a token of appreciation.</p>
+            </section>
+
+            <!-- Payment Selector Card -->
+            <section class="method-selector-card">
+                <h3>Select Payment Method</h3>
+                
+                <div class="payment-grid">
+                    <!-- bKash -->
+                    <button class="method-tile" onclick="selectMethod('bkash')">
+                        <div class="logo-wrapper">
+                            <!-- Placeholder for bKash logo -->
+                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8b/Bkash_logo.svg/1200px-Bkash_logo.svg.png" alt="bKash">
+                        </div>
+                        <span>bKash</span>
+                    </button>
+
+                    <!-- Nagad -->
+                    <button class="method-tile" onclick="selectMethod('nagad')">
+                        <div class="logo-wrapper">
+                            <!-- Placeholder for Nagad logo -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Nagad_logo.svg/1200px-Nagad_logo.svg.png" alt="Nagad">
+                        </div>
+                        <span>Nagad</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Amount Input (Bonus Feature for Professionalism) -->
+            <div class="amount-container">
+                <label>Enter Reward Amount (BDT)</label>
+                <div class="amount-input-wrap">
+                    <span>৳</span>
+                    <input type="number" placeholder="500" id="rewardAmount">
+                </div>
+            </div>
+        </main>
+
+        <footer class="payment-footer">
+            <button class="btn-confirm-payment">
+                Proceed to Secure Payment
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        function selectMethod(method) {
+            document.querySelectorAll('.method-tile').forEach(t => t.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

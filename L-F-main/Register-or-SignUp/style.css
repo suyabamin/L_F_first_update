@@ -1,0 +1,136 @@
+:root {
+    --primary-blue: #536FFE;
+    --bg-light: #F4F7FE;
+    --form-teal: #B2E5E7;
+    --btn-teal: #1299A6;
+    --text-dark: #1A1A1A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+/* 16:9 Dashboard Container */
+.window {
+    width: 100vw;
+    height: 56.25vw;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.flex { display: flex; }
+.flex-column { display: flex; flex-direction: column; }
+.center { align-items: center; justify-content: center; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.padding { padding: 30px; }
+.gap-10 { gap: 10px; }
+.gap-15 { gap: 15px; }
+.gap-5 { gap: 5px; }
+
+/* Sidebar */
+.sidebar { width: 250px; background: var(--primary-blue); color: white; }
+.logo { font-size: 1.5rem; font-weight: 900; margin-bottom: 40px; }
+.nav-item { padding: 12px 20px; border-radius: 10px; cursor: pointer; opacity: 0.8; transition: 0.3s; }
+.nav-item.active { background: rgba(255,255,255,0.2); opacity: 1; font-weight: 600; }
+
+/* Main Content Area */
+.main-body { flex: 1; background: var(--bg-light); overflow-y: auto; }
+
+/* PORTRAIT FORM LOGIC */
+.portrait-container {
+    width: 440px; /* Fixed width to maintain portrait aspect ratio */
+    margin: 40px auto;
+}
+
+.form-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--text-dark);
+}
+
+.form-card {
+    background: var(--form-teal);
+    padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Consistent spacing to prevent overlapping */
+}
+
+/* Input Styling */
+.input-block label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.white-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 10px;
+    background: white;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+/* Choices & Dates */
+.selection-group label { font-size: 0.9rem; font-weight: 600; }
+
+.choice-btn {
+    border: none;
+    padding: 8px 25px;
+    border-radius: 15px;
+    background: #FFF5F7; /* Soft white/pink from image */
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+.date-box {
+    width: 60px;
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+    background: #FFF5F7;
+    text-align: center;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.terms-text {
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+/* Create Button */
+.create-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--btn-teal);
+    color: white;
+    border: 2px solid #0D7A85;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.create-btn:hover {
+    background: #0D7A85;
+    transform: translateY(-2px);
+}
+
+/* Utilities */
+.border-radius { border-radius: 20px; }
+.shadow { box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+.shadow-sm { box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.white-text { color: white; }
+.color2 { background: var(--bg-light); }
+.color3 { background: var(--primary-blue); }
+.color1 { background: var(--form-teal); }

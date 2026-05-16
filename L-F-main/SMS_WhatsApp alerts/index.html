@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Management Center</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <nav class="nav-menu">
+                <div class="nav-item"><i class="fas fa-th-large"></i> DASHBOARD</div>
+                <div class="nav-item active"><i class="fas fa-bell"></i> NOTIFICATIONS</div>
+                <div class="nav-item"><i class="fas fa-user-circle"></i> ACCOUNT</div>
+                <div class="nav-item"><i class="fas fa-envelope"></i> MESSAGES</div>
+                <div class="nav-item"><i class="fas fa-cog"></i> ADMIN</div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="page-header">
+                <h1>ALERT MANAGEMENT CENTER</h1>
+                <div class="tabs">
+                    <button class="tab active">SMS / WhatsApp Alerts</button>
+                    <button class="tab">Email Alerts</button>
+                    <button class="tab">Nearby Maps</button>
+                </div>
+            </header>
+
+            <section class="alerts-container">
+                <div class="alert-card animate-slide-up">
+                    <div class="card-icon blue-bg">
+                        <i class="fas fa-user-magnifying-glass"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title-row">
+                            <h3>AI Match Detected: Lost Key</h3>
+                            <span class="ai-tag">Ai Match?</span>
+                        </div>
+                        <p>A finder has reported a possible match for your lost keys. Contact them via WhatsApp.</p>
+                        <div class="card-footer">
+                            <span class="timestamp">2 mins ago</span>
+                            <button class="btn btn-details">VIEW DETAILS</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-card animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="card-icon teal-bg">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title-row">
+                            <h3>SMS / Map Alert: Red Bag</h3>
+                            <span class="ai-tag">Ai Match?</span>
+                        </div>
+                        <p>New lost post: "Red Bag near UIU Cafeteria". Is this yours?</p>
+                        <div class="card-footer">
+                            <span class="timestamp">2 mins ago</span>
+                            <div class="button-group">
+                                <button class="btn btn-details">VIEW DETAILS</button>
+                                <button class="btn btn-map">VIEW ON MAP</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-card animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="card-icon avatar-bg">
+                        <i class="fas fa-user-circle"></i>
+                        <i class="fab fa-whatsapp whatsapp-small"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Chat Invitation: MD. Rakib Hasan (Finder)</h3>
+                        <div class="card-footer" style="margin-top: 15px;">
+                            <span class="timestamp">2 mins ago</span>
+                            <button class="btn btn-chat">OPEN CHAT</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="settings-panel">
+            <h2>ACCOUNT SETTINGS</h2>
+            
+            <div class="settings-group">
+                <label class="group-label">Notification Preferences</label>
+                <div class="setting-row">
+                    <span>Enable WhatsApp Notifications</span>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div class="verified-box">
+                    <p>Primary Verified Number</p>
+                    <strong>+88017.......</strong>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <label class="group-label">Verified Number Details</label>
+                <div class="details-text">
+                    <p>Details: 888017</p>
+                    <p>Details: Fluter</p>
+                    <p>Change Number:</p>
+                </div>
+                <button class="btn-change">CHANGE NUMBER</button>
+            </div>
+
+            <div class="settings-group">
+                <label class="group-label">Notification Methods</label>
+                <div class="setting-row"><span>Push</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                <div class="setting-row"><span>Email</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                <div class="setting-row"><span>WhatsApp</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+            </div>
+
+            <div class="setting-row">
+                <span>Institutional Hub Sync</span>
+                <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+            </div>
+
+            <div class="settings-group">
+                <label class="group-label">ALERT FREQUENCY</label>
+                <select class="frequency-select">
+                    <option>Select Frequency</option>
+                </select>
+            </div>
+        </aside>
+    </div>
+
+</body>
+</html>

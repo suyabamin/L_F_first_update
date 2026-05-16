@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Bag Category | Lost & Found Platform</title>
+    <link rel="stylesheet" href="Bag Category.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-shield-heart"></i>
+            </div>
+            <div class="logo-text">
+                <span>Lost</span>
+                <span>& Found</span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+                <div class="nav-indicator"></div>
+            </li>
+            <li class="nav-item">
+                <i class="fas fa-search"></i>
+                <span>Browse</span>
+            </li>
+            <li class="nav-item">
+                <i class="fas fa-plus-square"></i>
+                <span>Post</span>
+            </li>
+            <li class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=User&background=00cfe8&color=fff&bold=true&size=40" alt="User">
+                <div>
+                    <p>Sarah Johnson</p>
+                    <span>Active Now</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search for lost bags, wallets, backpacks...">
+                <kbd class="search-shortcut">⌘ + K</kbd>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" id="notifyBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot">3</span>
+                </button>
+                <button class="icon-btn" id="messageBtn">
+                    <i class="fas fa-envelope"></i>
+                </button>
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name=SJ&background=008b8b&color=fff&bold=true&size=40" alt="Avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <h1>Bag Category</h1>
+                <p>Find or report lost bags, wallets, backpacks, and luggage</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalItems">24</span>
+                        <span class="stat-label">Total Items</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="lostCount">16</span>
+                        <span class="stat-label">Lost</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="foundCount">8</span>
+                        <span class="stat-label">Found</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-decoration">
+                <i class="fas fa-briefcase"></i>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-th-large"></i> Browse by Category</h2>
+                <a href="#" class="view-all">View All Categories <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="category-grid">
+                <div class="category-card" data-category="bag">
+                    <div class="icon-box"><i class="fas fa-briefcase"></i></div>
+                    <p>Bags</p>
+                    <span class="item-count">24 items</span>
+                </div>
+                <div class="category-card" data-category="electronics">
+                    <div class="icon-box"><i class="fas fa-laptop"></i></div>
+                    <p>Electronics</p>
+                    <span class="item-count">18 items</span>
+                </div>
+                <div class="category-card" data-category="pets">
+                    <div class="icon-box"><i class="fas fa-paw"></i></div>
+                    <p>Pets</p>
+                    <span class="item-count">12 items</span>
+                </div>
+                <div class="category-card" data-category="keys">
+                    <div class="icon-box"><i class="fas fa-key"></i></div>
+                    <p>Keys</p>
+                    <span class="item-count">9 items</span>
+                </div>
+                <div class="category-card" data-category="documents">
+                    <div class="icon-box"><i class="fas fa-file-alt"></i></div>
+                    <p>Documents</p>
+                    <span class="item-count">15 items</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Posts Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> Recent Posts</h2>
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="lost">Lost</button>
+                    <button class="filter-btn" data-filter="found">Found</button>
+                </div>
+            </div>
+
+            <div class="posts-grid" id="postsGrid">
+                <!-- Bag Items -->
+                <div class="post-card" data-status="lost" data-category="bag" data-title="Lost Wallet">
+                    <div class="card-image">
+                        <div class="img-placeholder wallet-bg">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Lost Leather Wallet</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Dhanmondi, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bag</span>
+                            <span class="time"><i class="far fa-clock"></i> 2 hours ago</span>
+                        </div>
+                        <div class="reward-badge">Reward: 500 BDT</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="bag" data-title="Found Backpack">
+                    <div class="card-image">
+                        <div class="img-placeholder backpack-bg">
+                            <i class="fas fa-backpack"></i>
+                        </div>
+                        <span class="status-badge status-found">Found</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Found North Face Backpack</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Gulshan, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bag</span>
+                            <span class="time"><i class="far fa-clock"></i> 3 hours ago</span>
+                        </div>
+                        <div class="claimed-badge">Waiting for Owner</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="bag" data-title="Missing Suitcase">
+                    <div class="card-image">
+                        <div class="img-placeholder suitcase-bg">
+                            <i class="fas fa-suitcase"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Missing Suitcase at Airport</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Hazrat Shahjalal Airport</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bag</span>
+                            <span class="time"><i class="far fa-clock"></i> 5 hours ago</span>
+                        </div>
+                        <div class="reward-badge">Urgent! Reward Available</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="bag" data-title="Found Handbag">
+                    <div class="card-image">
+                        <div class="img-placeholder handbag-bg">
+                            <i class="fas fa-bag-shopping"></i>
+                        </div>
+                        <span class="status-badge status-found">Found</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Found Designer Handbag</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Uttara, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bag</span>
+                            <span class="time"><i class="far fa-clock"></i> 1 hour ago</span>
+                        </div>
+                        <div class="claimed-badge">Verified Found</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="bag" data-title="Lost School Bag">
+                    <div class="card-image">
+                        <div class="img-placeholder schoolbag-bg">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Lost School Bag with Books</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Mirpur, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bag</span>
+                            <span class="time"><i class="far fa-clock"></i> 6 hours ago</span>
+                        </div>
+                        <div class="reward-badge">Important Documents Inside</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="bag" data-title="Found Laptop Bag">
+                    <div class="card-image">
+                        <div class="img-placeholder laptopbag-bg">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <span class="status-badge status-found">Found</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Found Laptop Bag with Accessories</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Banani, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bag</span>
+                            <span class="time"><i class="far fa-clock"></i> 30 mins ago</span>
+                        </div>
+                        <div class="claimed-badge">At Security Office</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="load-more" id="loadMoreBtn">
+                <i class="fas fa-sync-alt"></i> Load More
+            </button>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="Bag Category.js"></script>
+</body>
+</html>

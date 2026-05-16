@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - Notifications</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-item"><i class="fa-solid fa-table-columns"></i> Dashboard</div>
+            <div class="sidebar-item active">
+                <i class="fa-solid fa-bell"></i> Notifications 
+                <span class="badge">New</span>
+            </div>
+            <div class="sidebar-item"><i class="fa-solid fa-shield-halved"></i> Claims</div>
+            <div class="sidebar-item"><i class="fa-solid fa-comment-dots"></i> Messaging</div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>LOST & FOUND - NOTIFICATIONS</h1>
+                <div class="header-user">
+                    <img src="https://i.pravatar.cc/150?u=uiu" alt="User Profile" class="avatar">
+                    <button class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <section class="notifications-area">
+                    <div class="filter-tabs">
+                        <button class="tab active">All</button>
+                        <button class="tab">Unread</button>
+                        <button class="tab">Settings</button>
+                    </div>
+
+                    <div class="notification-grid">
+                        <div class="notif-card animate-in">
+                            <div class="card-icon blue-bg"><i class="fa-solid fa-bullhorn"></i></div>
+                            <div class="card-info">
+                                <h3>AI Match Found!</h3>
+                                <p>An item matching your "Black Wallet" description has been posted near UIU Cafeteria.</p>
+                                <span class="time">2 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="btn-primary">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notif-card animate-in">
+                            <div class="card-icon yellow-bg"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="card-info">
+                                <h3>Nearby Alert</h3>
+                                <p>Keys found near your current GPS location. location.</p>
+                                <span class="time">2 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="btn-primary">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notif-card animate-in">
+                            <div class="card-icon chat-bg"><i class="fa-solid fa-comment-dots"></i></div>
+                            <div class="card-info">
+                                <h3>Nearby Alert</h3>
+                                <p>Notify me when UIU, Airport or local City Hub messages.</p>
+                                <span class="time">2 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="btn-primary">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notif-card animate-in">
+                            <div class="card-icon msg-bg"><i class="fa-solid fa-envelope-open-text"></i></div>
+                            <div class="card-info">
+                                <h3>New Message & Notify me when a finder.</h3>
+                                <p>2 mins ago</p>
+                                <div class="card-actions">
+                                    <button class="btn-primary">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notif-card animate-in">
+                            <div class="card-icon blue-bg"><i class="fa-solid fa-bullhorn"></i></div>
+                            <div class="card-info">
+                                <h3>Nearby Alert</h3>
+                                <p>Keys found near fround.</p>
+                                <span class="time">2 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="btn-primary">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="footer-note">UIU campus map</p>
+                </section>
+
+                <aside class="settings-panel">
+                    <div class="settings-box">
+                        <div class="settings-header">PUSH NOTIFICATION SETTINGS</div>
+                        <div class="settings-list">
+                            <div class="setting-item">
+                                <div>
+                                    <strong>AI Match Found!</strong>
+                                    <p>Notify me when AI finds a matching lost or found item.</p>
+                                </div>
+                                <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="setting-item">
+                                <div>
+                                    <strong>AI Match Found!</strong>
+                                    <p>Notify me when an item is lost or found near my cu</p>
+                                </div>
+                                <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="setting-item">
+                                <div>
+                                    <strong>AI Match Found!</strong>
+                                    <p>Notify me when AI finds a matching lost or found item.</p>
+                                </div>
+                                <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="setting-item">
+                                <div>
+                                    <strong>AI Match Found!</strong>
+                                    <p>Notify me when an item is lost or found near my cu</p>
+                                </div>
+                                <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                            </div>
+                            <div class="setting-item">
+                                <div>
+                                    <strong>New Message & Chat</strong>
+                                    <p>Notify me when a finder or owner messages me.</p>
+                                </div>
+                                <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loss Hotspots Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        <header class="main-header">
+            <h1 class="logo-text">LOSS HOTSPOTS</h1>
+            <div class="search-container">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" placeholder="Search Institutional Hubs (e.g., UIU canteen)">
+            </div>
+            <nav class="header-actions">
+                <div class="nav-links-desktop">
+                    <span>Dashboard</span>
+                    <span>Reports</span>
+                    <span>Activity</span>
+                </div>
+                <div class="icon-group">
+                    <i data-lucide="user"></i>
+                    <i data-lucide="bell"></i>
+                    <i data-lucide="settings"></i>
+                </div>
+            </nav>
+        </header>
+
+        <nav class="filters-bar">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <button class="filter-btn">Last 24h</button>
+                    <button class="filter-btn active">Last 7 Days</button>
+                    <button class="filter-btn">Last 30 Days</button>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn">All items</button>
+                    <button class="filter-btn">Electronics</button>
+                    <button class="filter-btn">Wallets</button>
+                    <button class="filter-btn">IDs</button>
+                    <button class="filter-btn">Keys</button>
+                    <button class="filter-btn outline">Advanced Filters <i data-lucide="sliders-horizontal"></i></button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="map-container">
+            <div class="heatmap-canvas">
+                <div class="map-labels">
+                    <span class="map-label" style="top: 30%; left: 15%;">UIU Admin</span>
+                    <span class="map-label" style="top: 35%; left: 30%;">Gate</span>
+                    <span class="map-label" style="top: 45%; left: 45%;">UIU Campus, Dhaka</span>
+                    <span class="map-label" style="top: 38%; left: 55%;">UIU Cafeteria</span>
+                </div>
+                
+                <div class="heat-spot spot-red" style="top: 38%; left: 55%;"></div>
+                <div class="heat-spot spot-yellow" style="top: 35%; left: 40%;"></div>
+                
+                <div class="map-controls">
+                    <button class="ctrl-btn"><i data-lucide="zoom-in"></i></button>
+                    <button class="ctrl-btn"><i data-lucide="maximize"></i></button>
+                </div>
+
+                <div class="map-legend">
+                    <strong>Heat Frequency</strong>
+                    <div class="legend-gradient"></div>
+                    <div class="legend-labels">
+                        <span>High</span>
+                        <span>Low</span>
+                    </div>
+                </div>
+
+                <button class="recenter-btn">
+                    <i data-lucide="compass"></i> Recenter on Hub
+                </button>
+            </div>
+        </main>
+
+        <section class="insights-section">
+            <h2 class="section-title">Institutional Insight Cards</h2>
+            <div class="cards-grid">
+                <div class="insight-card">
+                    <div class="card-icon teal"><i data-lucide="utensils"></i></div>
+                    <div class="card-content">
+                        <small>Hotspot 1</small>
+                        <h3>Top Hotspot: UIU Cafeteria</h3>
+                        <p>25 reports this week</p>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="card-icon teal"><i data-lucide="key"></i></div>
+                    <div class="card-content">
+                        <small>Analysis 1</small>
+                        <h3>Common Item: Keys</h3>
+                        <p>45% of campus losses.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="card-icon teal"><i data-lucide="clock"></i></div>
+                    <div class="card-content">
+                        <small>Trending 1</small>
+                        <h3>Peak Time: 12:00 PM</h3>
+                        <p>Lunch hour activity.</p>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <div class="card-icon teal"><i data-lucide="shield-check"></i></div>
+                    <div class="card-content">
+                        <small>Prevention</small>
+                        <h3>Security Tip</h3>
+                        <p>Secure gate lockers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bottom-nav">
+            <div class="nav-item">Home</div>
+            <div class="nav-item">Browse All Data</div>
+            <div class="nav-item">Post a Loss</div>
+            <div class="nav-item">User Profile</div>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

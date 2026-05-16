@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim Item | Lost & Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../flow.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="../index.html"><i class="fa-solid fa-location-crosshairs"></i> Lost & Found</a>
+      <nav class="nav-list">
+        <a href="../DashBoard/index.html">Dashboard</a>
+        <a href="../Post Details/index.html">Item Details</a>
+        <a href="../Chat/index.html">Chat</a>
+        <a class="active" href="../Claim Item/index.html">Claim Item</a>
+        <a href="../Profile Page/index.html">Profile</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topline">
+        <div>
+          <p class="eyebrow">Claim</p>
+          <h1>Claim item request</h1>
+        </div>
+        <a class="btn" href="../Police GD Form/index.html"><i class="fa-solid fa-file-shield"></i> Police GD Form</a>
+      </header>
+
+      <section class="card">
+        <form class="form-grid" action="../Chat/index.html">
+          <div class="form-field">
+            <label for="claim-name">Full Name</label>
+            <input id="claim-name" type="text" placeholder="Your name">
+          </div>
+          <div class="form-field">
+            <label for="claim-phone">Phone</label>
+            <input id="claim-phone" type="tel" placeholder="Your phone number">
+          </div>
+          <div class="form-field full">
+            <label for="claim-proof">Ownership Proof</label>
+            <textarea id="claim-proof" rows="6" placeholder="Describe details only the real owner would know"></textarea>
+          </div>
+          <div class="form-field full card-actions">
+            <button class="btn primary" type="submit"><i class="fa-solid fa-check"></i> Submit Claim</button>
+            <a class="btn" href="../Post Details/index.html">Back to Item</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

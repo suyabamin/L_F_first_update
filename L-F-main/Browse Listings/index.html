@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Listings | Lost & Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../flow.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="../index.html"><i class="fa-solid fa-location-crosshairs"></i> Lost & Found</a>
+      <nav class="nav-list">
+        <a href="../DashBoard/index.html">Dashboard</a>
+        <a class="active" href="../Browse Listings/index.html">Browse Listings</a>
+        <a href="../Create Post/index.html">Post Item</a>
+        <a href="../Map View/index.html">Map View</a>
+        <a href="../Profile Page/index.html">Profile</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topline">
+        <div>
+          <p class="eyebrow">Browse Listings</p>
+          <h1>Recent lost and found items</h1>
+        </div>
+        <div class="top-actions">
+          <a class="btn" href="../Search Results/index.html"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+          <a class="btn primary" href="../Create Post/index.html"><i class="fa-solid fa-plus"></i> Post Item</a>
+        </div>
+      </header>
+
+      <section class="grid">
+        <article class="card">
+          <div class="meta"><span class="pill lost">Lost</span><span class="pill">Bag</span></div>
+          <h2>Lost Wallet</h2>
+          <p>Brown wallet reported near the bus stop with important cards inside.</p>
+          <div class="card-actions">
+            <a class="btn primary" href="../Post Details/index.html">Item Details</a>
+            <a class="btn" href="../Map View/index.html">Map View</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="meta"><span class="pill found">Found</span><span class="pill">Electronics</span></div>
+          <h2>Found iPhone 13</h2>
+          <p>Phone found around Dhanmondi. Owner must confirm lock screen details.</p>
+          <div class="card-actions">
+            <a class="btn primary" href="../Post Details/index.html">Item Details</a>
+            <a class="btn" href="../Chat/index.html">Chat</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="meta"><span class="pill lost">Lost</span><span class="pill">Pets</span></div>
+          <h2>Lost Cat</h2>
+          <p>White and orange cat missing from the neighborhood since morning.</p>
+          <div class="card-actions">
+            <a class="btn primary" href="../Post Details/index.html">Item Details</a>
+            <a class="btn" href="../Claim Item/index.html">Claim</a>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* Base Styles & Resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Your Specific Color Palette */
+.color1 {
+    background-color: #AFE7E9; /* Exact teal-wash from Login Page.png */
+}
+
+.white-text {
+    color: white;
+}
+
+/* Layout Utilities */
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+/* 16:9 Window Constraint */
+.window {
+    width: 100vw;
+    height: 56.25vw; /* Maintain 16:9 ratio */
+    max-height: 100vh;
+    background-color: #F0F9FA; /* Light background from Login Page.png */
+    overflow: hidden;
+}
+
+/* Login Container */
+.login-container {
+    width: 320px;
+}
+
+/* Robot Illustration (CSS Drawing) */
+.robot-section {
+    margin-bottom: -20px; /* Overlap effect */
+    z-index: 2;
+}
+
+.robot-circle {
+    width: 150px;
+    height: 150px;
+    background-color: #EBEBEB;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.robot-head {
+    width: 80px;
+    height: 60px;
+    background-color: #FEBD57; /* color7 from your palette */
+    border-radius: 20px;
+    position: relative;
+    border: 3px solid #333;
+}
+
+/* Form Styling */
+.form-body {
+    width: 100%;
+    padding: 40px 25px 25px 25px;
+    z-index: 1;
+}
+
+.border-radius {
+    border-radius: 15px;
+}
+
+.shadow {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: white;
+    outline: none;
+}
+
+/* Specific Teal Button from Login Page.png */
+.signin-btn {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    background-color: #1299A6; 
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.signin-btn:hover {
+    background-color: #0e7e8a;
+}
+
+.form-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.forgot-text {
+    font-size: 13px;
+    color: #333;
+    text-decoration: underline;
+}

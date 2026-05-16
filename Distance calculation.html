@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>RouteMaster | Real Map Navigation & Distance Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS (Real Map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="Distance calculation.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Premium Header -->
+        <header class="header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="logo-text">Route<span>Master</span></div>
+            </div>
+            <div class="header-links">
+                <span class="active">Dashboard</span>
+                <span>My Trips</span>
+                <span>Support</span>
+                <span>History</span>
+            </div>
+            <div class="header-profile">
+                <div class="profile-badge">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Alex Morgan</span>
+                </div>
+                <div class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Map Section with Real Map -->
+            <section class="map-section">
+                <div class="transport-tabs" id="transportTabs">
+                    <button class="tab active" data-mode="car" data-speed="50">
+                        <i class="fas fa-car"></i> By Car
+                    </button>
+                    <button class="tab" data-mode="transit" data-speed="25">
+                        <i class="fas fa-bus"></i> Public Transit
+                    </button>
+                    <button class="tab" data-mode="walk" data-speed="5">
+                        <i class="fas fa-walking"></i> Walking
+                    </button>
+                    <button class="tab" data-mode="bike" data-speed="15">
+                        <i class="fas fa-bicycle"></i> By Bicycle
+                    </button>
+                </div>
+                
+                <!-- Real Map Container -->
+                <div class="map-canvas" id="mapCanvas">
+                    <div id="realMap" style="width: 100%; height: 100%; border-radius: 20px;"></div>
+                    <div class="map-controls">
+                        <button id="zoomInBtn" title="Zoom In"><i class="fas fa-plus"></i></button>
+                        <button id="zoomOutBtn" title="Zoom Out"><i class="fas fa-minus"></i></button>
+                        <button id="resetViewBtn" title="Reset View"><i class="fas fa-expand"></i></button>
+                        <button id="locateBtn" title="My Location"><i class="fas fa-location-dot"></i></button>
+                        <button id="swapPointsBtn" title="Swap A and B"><i class="fas fa-arrow-up-down"></i></button>
+                    </div>
+                    <div class="live-traffic-badge">
+                        <i class="fas fa-traffic-light"></i> Live Traffic
+                    </div>
+                    <div class="distance-badge" id="distanceBadge">
+                        <i class="fas fa-arrows-alt-h"></i>
+                        <span id="liveDistance">0</span> km
+                    </div>
+                </div>
+            </section>
+
+            <!-- Details Panel - Enhanced -->
+            <section class="details-panel">
+                <div class="card summary-card">
+                    <h3>Route Summary <i class="fas fa-info-circle" id="infoIcon"></i></h3>
+                    <div class="main-stats">
+                        <span class="dist" id="distanceValue">4.2</span>
+                        <span class="unit">km</span>
+                        <span class="divider">|</span>
+                        <span class="time" id="timeValue">12</span>
+                        <span class="unit">min</span>
+                    </div>
+                    <p id="routeDescription">Via Mirpur Road & Panthapath (with current traffic)</p>
+                    <div class="traffic-status">
+                        <i class="fas fa-chart-line"></i>
+                        <span id="trafficText">Fastest Route. Real-time traffic data.</span>
+                    </div>
+                    <div class="eta-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Estimated arrival: <strong id="etaTime">10:42 AM</strong></span>
+                    </div>
+                </div>
+
+                <div class="card stops-card">
+                    <h3>Stop Locations <i class="fas fa-map-pin"></i></h3>
+                    <div class="location-item" id="startLocationItem">
+                        <span class="dot a">A</span>
+                        <div class="location-details">
+                            <strong>From:</strong>
+                            <p id="startAddress">Dhanmondi, Dhaka</p>
+                            <input type="text" id="startInput" class="location-input" placeholder="Search or enter address..." value="Dhanmondi, Dhaka">
+                        </div>
+                    </div>
+                    <div class="location-item" id="endLocationItem">
+                        <span class="dot b">B</span>
+                        <div class="location-details">
+                            <strong>To:</strong>
+                            <p id="endAddress">UIU Hub, Dhaka</p>
+                            <input type="text" id="endInput" class="location-input" placeholder="Search or enter address..." value="UIU Hub, Dhaka">
+                        </div>
+                    </div>
+                    <button class="update-route-btn" id="updateRouteBtn">
+                        <i class="fas fa-route"></i> Update Route
+                    </button>
+                </div>
+
+                <div class="card alt-card" id="altCard">
+                    <div class="alt-header">
+                        <h3>Alternatives</h3>
+                        <div class="alt-icons">
+                            <i class="fas fa-route"></i>
+                            <i class="fas fa-car"></i>
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="alt-content" id="alternativeContent">
+                        Suggested alternative routes
+                    </div>
+                    <div class="alt-options" id="altOptions">
+                        <div class="alt-option" data-dist="5.1" data-time="15" data-lat="23.8103" data-lng="90.4125">
+                            <span class="alt-route-name">Via Satmasjid Rd</span>
+                            <span class="alt-stats">5.1 km • 15 min</span>
+                        </div>
+                        <div class="alt-option" data-dist="4.8" data-time="14" data-lat="23.7900" data-lng="90.4050">
+                            <span class="alt-route-name">Via Green Road</span>
+                            <span class="alt-stats">4.8 km • 14 min</span>
+                        </div>
+                        <div class="alt-option" data-dist="6.2" data-time="18" data-lat="23.8200" data-lng="90.4300">
+                            <span class="alt-route-name">Via Bijoy Sarani</span>
+                            <span class="alt-stats">6.2 km • 18 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" id="startNavBtn">
+                    Start Navigation <i class="fas fa-location-arrow"></i>
+                </button>
+
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <strong>User Profile</strong>
+                        <p>Change User / Route Preferences</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Route updated!</span>
+    </div>
+
+    <!-- Leaflet JS (Real Map) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="Distance calculation.js"></script>
+</body>
+</html>

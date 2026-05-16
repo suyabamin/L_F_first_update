@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages | Lost & Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="messages-app">
+    <section class="shell">
+      <aside class="conversation-panel">
+        <div class="panel-header">
+          <a class="back-link" href="../Conversations/index.html" aria-label="Back to conversations">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <div>
+            <p class="eyebrow">Messages</p>
+            <h1>Desktop chat</h1>
+          </div>
+        </div>
+
+        <div class="item-card">
+          <p class="meta">Item in discussion</p>
+          <div class="item-title">
+            <div>
+              <h2>Silver watch</h2>
+              <p>Found near the campus gate</p>
+            </div>
+            <span class="status-pill">Open</span>
+          </div>
+          <div class="item-stats">
+            <span><i class="fa-solid fa-location-dot"></i> North entrance</span>
+            <span><i class="fa-solid fa-clock"></i> 2 min ago</span>
+          </div>
+          <div class="item-actions">
+            <a class="ghost-btn" href="../Post Details/index.html">View item</a>
+            <a class="primary-btn" href="../Claim Item/index.html">Claim item</a>
+          </div>
+        </div>
+
+        <div class="contact-list">
+          <p class="section-label">Recent chats</p>
+          <article class="contact active">
+            <img src="https://i.pravatar.cc/120?img=32" alt="Maya avatar">
+            <div>
+              <div class="contact-row">
+                <h3>Maya</h3>
+                <span>9:41</span>
+              </div>
+              <p>Yes, my watch. Please hold it for me.</p>
+            </div>
+          </article>
+          <article class="contact">
+            <img src="https://i.pravatar.cc/120?img=47" alt="Amin avatar">
+            <div>
+              <div class="contact-row">
+                <h3>Amin</h3>
+                <span>Yesterday</span>
+              </div>
+              <p>I found a black wallet by the parking lot.</p>
+            </div>
+          </article>
+          <article class="contact">
+            <img src="https://i.pravatar.cc/120?img=12" alt="Rita avatar">
+            <div>
+              <div class="contact-row">
+                <h3>Rita</h3>
+                <span>Mon</span>
+              </div>
+              <p>Could you confirm the serial number?</p>
+            </div>
+          </article>
+        </div>
+      </aside>
+
+      <section class="chat-panel">
+        <header class="chat-header">
+          <div class="chat-peer">
+            <img src="https://i.pravatar.cc/120?img=32" alt="Maya avatar">
+            <div>
+              <h2>Maya Johnson</h2>
+              <p>Online now · verifying ownership</p>
+            </div>
+          </div>
+
+          <div class="chat-actions">
+            <button type="button" aria-label="Call"><i class="fa-solid fa-phone"></i></button>
+            <button type="button" aria-label="More options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+        </header>
+
+        <div class="chat-body">
+          <div class="day-divider">Today</div>
+
+          <div class="bubble-row other">
+            <img src="https://i.pravatar.cc/120?img=32" alt="Maya avatar">
+            <div class="bubble">
+              <p>Hi, have you found something? I think I lost my watch near the campus gate.</p>
+              <span>9:28</span>
+            </div>
+          </div>
+
+          <div class="bubble-row me">
+            <div class="bubble">
+              <p>Yes, I found a silver watch. Can you describe it so I can verify it is yours?</p>
+              <span>9:30</span>
+            </div>
+            <img src="https://i.pravatar.cc/120?img=16" alt="Your avatar">
+          </div>
+
+          <div class="bubble-row other">
+            <img src="https://i.pravatar.cc/120?img=32" alt="Maya avatar">
+            <div class="bubble">
+              <p>It has a black leather strap and a small scratch on the side.</p>
+              <span>9:33</span>
+            </div>
+          </div>
+
+          <div class="bubble-row me">
+            <div class="bubble">
+              <p>That matches the item. I can hand it over after you confirm the pickup location.</p>
+              <span>9:34</span>
+            </div>
+            <img src="https://i.pravatar.cc/120?img=16" alt="Your avatar">
+          </div>
+
+          <div class="bubble-row other">
+            <img src="https://i.pravatar.cc/120?img=32" alt="Maya avatar">
+            <div class="bubble">
+              <p>Perfect. Meet me at the front office at 10:00.</p>
+              <span>9:38</span>
+            </div>
+          </div>
+
+          <div class="bubble-row me">
+            <div class="bubble">
+              <p>Done. I will bring it there.</p>
+              <span>9:40</span>
+            </div>
+            <img src="https://i.pravatar.cc/120?img=16" alt="Your avatar">
+          </div>
+        </div>
+
+        <form class="composer" action="../Conversations/index.html">
+          <button type="button" class="icon-btn" aria-label="Attach file"><i class="fa-solid fa-paperclip"></i></button>
+          <label class="sr-only" for="message-input">Type a message</label>
+          <input id="message-input" type="text" placeholder="Type a message...">
+          <button class="send-btn" type="submit">Send <i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </section>
+    </section>
+</body>
+</html>

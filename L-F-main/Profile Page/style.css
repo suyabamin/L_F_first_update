@@ -1,0 +1,116 @@
+/* --- CORE STYLES --- */
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.flex { display: flex; }
+.flex-column { display: flex; flex-direction: column; }
+.flex-1 { flex: 1; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.center { justify-content: center; align-items: center; }
+.padding { padding: 25px; }
+.padding-x { padding: 0 40px; }
+.gap-10 { gap: 10px; }
+.gap-20 { gap: 20px; }
+
+/* Colors */
+.color1 { background: #AFE7E9; }
+.color2 { background: #F4F7FE; }
+.color3 { background: #536FFE; }
+.white { background: #FFFFFF; }
+.white-text { color: #FFFFFF; }
+.border-radius { border-radius: 20px; }
+.shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+/* --- 16:9 WINDOW --- */
+.window {
+    width: 100vw;
+    height: 56.25vw;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+/* --- SIDEBAR (Fixed Width) --- */
+.sidebar {
+    width: 260px;
+    height: 100%;
+}
+
+.logo-area { font-size: 1.5rem; font-weight: 800; margin-bottom: 40px; }
+
+.nav-item {
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    opacity: 0.7;
+}
+
+.nav-item.active { background: rgba(255,255,255,0.2); opacity: 1; }
+
+/* --- MAIN BODY (Scrolling Content) --- */
+.main-body {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 50px; /* Space at bottom */
+}
+
+.top-bar { height: 80px; }
+
+/* --- BANNER --- */
+.banner-section {
+    margin: 0 40px;
+    height: 180px;
+    background: linear-gradient(135deg, #AFE7E9 0%, #536FFE 100%);
+    overflow: hidden;
+}
+
+.banner-overlay { height: 100%; color: white; }
+
+.avatar-main {
+    width: 80px; height: 80px;
+    background: #fff; border-radius: 50%;
+    border: 4px solid white; margin-bottom: 10px;
+}
+
+/* --- CONTENT GRID (Fixes the overlapping) --- */
+.content-grid {
+    margin: 20px 20px 0;
+    gap: 30px;
+    align-items: flex-start; /* Prevents stretching */
+}
+
+.card-large { flex: 2; min-width: 400px; }
+.card-small { flex: 1; min-width: 250px; }
+
+.card-title { margin-bottom: 20px; font-size: 1.1rem; color: #2B3674; }
+
+/* --- INPUTS & BUTTONS --- */
+.input-group { margin-bottom: 15px; }
+.input-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: #707EAE; }
+
+.styled-input {
+    width: 100%; padding: 12px;
+    border: 1px solid #E0E5F2; border-radius: 12px;
+    background: #F8FAFF; outline: none;
+}
+
+.save-btn {
+    width: 100%; padding: 14px;
+    border: none; border-radius: 12px;
+    font-weight: 700; cursor: pointer;
+    margin-top: 10px;
+}
+
+/* --- MENU UI --- */
+.menu-row { padding: 15px 0; border-bottom: 1px solid #F4F7FE; font-size: 0.9rem; }
+.badge { background: #E9EDF7; padding: 4px 10px; border-radius: 10px; font-size: 0.75rem; color: #536FFE; }
+
+.toggle-switch { width: 34px; height: 18px; background: #CBD5E0; border-radius: 20px; }
+
+/* Custom Scrollbar */
+.scrollable::-webkit-scrollbar { width: 8px; }
+.scrollable::-webkit-scrollbar-thumb { background: #D1D9E2; border-radius: 10px; }

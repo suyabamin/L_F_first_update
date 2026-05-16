@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Browse Lost Items | Lost & Found Platform</title>
+    <link rel="stylesheet" href="Browse By Lost Status.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-shield-heart"></i>
+            </div>
+            <div class="logo-text">
+                <span>Lost</span>
+                <span>& Found</span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </li>
+            <li class="nav-item active">
+                <i class="fas fa-search"></i>
+                <span>Browse</span>
+                <div class="nav-indicator"></div>
+            </li>
+            <li class="nav-item">
+                <i class="fas fa-plus-square"></i>
+                <span>Post</span>
+            </li>
+            <li class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=User&background=ff5c5c&color=fff&bold=true&size=40" alt="User">
+                <div>
+                    <p>Sarah Johnson</p>
+                    <span><i class="fas fa-circle"></i> Active</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search lost items by title, category, or location...">
+                <kbd class="search-shortcut">⌘ + K</kbd>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" id="notifyBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </button>
+                <button class="icon-btn" id="messageBtn">
+                    <i class="fas fa-envelope"></i>
+                </button>
+                <div class="user-dropdown">
+                    <img src="https://ui-avatars.com/api/?name=SJ&background=ff5c5c&color=fff&bold=true&size=40" alt="Avatar">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-frown"></i> Lost Items
+                </div>
+                <h1>Browse Lost Items</h1>
+                <p>Help reunite lost belongings with their owners</p>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <span class="stat-value" id="totalLost">24</span>
+                        <span class="stat-label">Total Lost</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="urgentCount">8</span>
+                        <span class="stat-label">Urgent</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="rewardCount">12</span>
+                        <span class="stat-label">With Reward</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-decoration">
+                <i class="fas fa-heart-broken"></i>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-th-large"></i> Browse by Category</h2>
+                <a href="#" class="view-all" id="viewAllCategories">View All Categories <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="category-grid">
+                <div class="category-card" data-category="electronics">
+                    <div class="icon-box"><i class="fas fa-laptop"></i></div>
+                    <p>Electronics</p>
+                    <span class="item-count">9 items</span>
+                </div>
+                <div class="category-card" data-category="bags">
+                    <div class="icon-box"><i class="fas fa-briefcase"></i></div>
+                    <p>Bags</p>
+                    <span class="item-count">6 items</span>
+                </div>
+                <div class="category-card" data-category="keys">
+                    <div class="icon-box"><i class="fas fa-key"></i></div>
+                    <p>Keys</p>
+                    <span class="item-count">3 items</span>
+                </div>
+                <div class="category-card" data-category="documents">
+                    <div class="icon-box"><i class="fas fa-id-card"></i></div>
+                    <p>Documents</p>
+                    <span class="item-count">4 items</span>
+                </div>
+                <div class="category-card" data-category="pets">
+                    <div class="icon-box"><i class="fas fa-paw"></i></div>
+                    <p>Pets</p>
+                    <span class="item-count">2 items</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lost Items Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> Recently Lost Items</h2>
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All Lost</button>
+                    <button class="filter-btn" data-filter="urgent">Urgent</button>
+                    <button class="filter-btn" data-filter="reward">With Reward</button>
+                </div>
+            </div>
+
+            <div class="posts-grid" id="postsGrid">
+                <!-- Lost Item 1 - Urgent -->
+                <div class="post-card" data-status="lost" data-category="electronics" data-urgency="urgent" data-reward="true">
+                    <div class="card-image">
+                        <div class="img-placeholder electronics-bg">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <span class="urgency-badge">Urgent</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>iPhone 14 Pro Max</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Dhanmondi, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Electronics</span>
+                            <span class="time"><i class="far fa-clock"></i> 2 hours ago</span>
+                        </div>
+                        <div class="reward-badge"><i class="fas fa-taka-sign"></i> Reward: 5,000 BDT</div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Last seen: Near UIU Campus</div>
+                    </div>
+                </div>
+
+                <!-- Lost Item 2 -->
+                <div class="post-card" data-status="lost" data-category="bags" data-urgency="normal" data-reward="false">
+                    <div class="card-image">
+                        <div class="img-placeholder bag-bg">
+                            <i class="fas fa-bag-shopping"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Brown Leather Handbag</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Gulshan, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bags</span>
+                            <span class="time"><i class="far fa-clock"></i> 3 hours ago</span>
+                        </div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Contains wallet and keys</div>
+                    </div>
+                </div>
+
+                <!-- Lost Item 3 - Urgent with Reward -->
+                <div class="post-card" data-status="lost" data-category="electronics" data-urgency="urgent" data-reward="true">
+                    <div class="card-image">
+                        <div class="img-placeholder electronics-bg">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <span class="urgency-badge">Urgent</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>MacBook Pro</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Banani, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Electronics</span>
+                            <span class="time"><i class="far fa-clock"></i> 5 hours ago</span>
+                        </div>
+                        <div class="reward-badge"><i class="fas fa-taka-sign"></i> Reward: 10,000 BDT</div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Contains work documents</div>
+                    </div>
+                </div>
+
+                <!-- Lost Item 4 -->
+                <div class="post-card" data-status="lost" data-category="keys" data-urgency="normal" data-reward="true">
+                    <div class="card-image">
+                        <div class="img-placeholder keys-bg">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Car Key Set</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Mirpur, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Keys</span>
+                            <span class="time"><i class="far fa-clock"></i> 1 hour ago</span>
+                        </div>
+                        <div class="reward-badge"><i class="fas fa-taka-sign"></i> Reward: 2,000 BDT</div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Honda CR-V keys</div>
+                    </div>
+                </div>
+
+                <!-- Lost Item 5 - Urgent -->
+                <div class="post-card" data-status="lost" data-category="documents" data-urgency="urgent" data-reward="false">
+                    <div class="card-image">
+                        <div class="img-placeholder docs-bg">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <span class="urgency-badge">Urgent</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>National ID Card</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Uttara, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Documents</span>
+                            <span class="time"><i class="far fa-clock"></i> 6 hours ago</span>
+                        </div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Name: Ahmed Hossain</div>
+                    </div>
+                </div>
+
+                <!-- Lost Item 6 -->
+                <div class="post-card" data-status="lost" data-category="pets" data-urgency="urgent" data-reward="true">
+                    <div class="card-image">
+                        <div class="img-placeholder pets-bg">
+                            <i class="fas fa-dog"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <span class="urgency-badge">Urgent</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Golden Retriever - "Max"</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Baridhara, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Pets</span>
+                            <span class="time"><i class="far fa-clock"></i> 4 hours ago</span>
+                        </div>
+                        <div class="reward-badge"><i class="fas fa-taka-sign"></i> Reward: 15,000 BDT</div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Wearing blue collar</div>
+                    </div>
+                </div>
+
+                <!-- Lost Item 7 -->
+                <div class="post-card" data-status="lost" data-category="bags" data-urgency="normal" data-reward="false">
+                    <div class="card-image">
+                        <div class="img-placeholder bag-bg">
+                            <i class="fas fa-backpack"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>North Face Backpack</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Mohakhali, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Bags</span>
+                            <span class="time"><i class="far fa-clock"></i> 30 mins ago</span>
+                        </div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Contains books and laptop</div>
+                    </div>
+                </div>
+
+                <!-- Lost Item 8 - With Reward -->
+                <div class="post-card" data-status="lost" data-category="electronics" data-urgency="normal" data-reward="true">
+                    <div class="card-image">
+                        <div class="img-placeholder electronics-bg">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Sony WH-1000XM4 Headphones</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Bashundhara, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Electronics</span>
+                            <span class="time"><i class="far fa-clock"></i> 2 hours ago</span>
+                        </div>
+                        <div class="reward-badge"><i class="fas fa-taka-sign"></i> Reward: 3,000 BDT</div>
+                        <div class="contact-hint"><i class="fas fa-info-circle"></i> Black color, in carrying case</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="load-more" id="loadMoreBtn">
+                <i class="fas fa-sync-alt"></i> Load More Lost Items
+            </button>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="Browse By Lost Status.js"></script>
+</body>
+</html>

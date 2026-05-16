@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Item Tracker - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-bar">
+            <h1 class="app-title">Live Item Tracker</h1>
+            <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Search tracked items (e.g., UIU Keys)">
+            </div>
+            <div class="header-user-icons">
+                <i data-lucide="user-circle"></i>
+                <i data-lucide="bell"></i>
+                <i data-lucide="settings"></i>
+            </div>
+        </header>
+
+        <nav class="filter-nav">
+            <div class="filter-row primary-filters">
+                <button class="btn-pill active">My Items</button>
+                <button class="btn-pill">Items I'm Returning</button>
+                <button class="btn-pill">Settings</button>
+            </div>
+            <div class="filter-row category-filters">
+                <button class="btn-outline active">All</button>
+                <button class="btn-outline">Electronics</button>
+                <button class="btn-outline">Wallets</button>
+                <button class="btn-outline">IDs</button>
+                <button class="btn-outline">Keys</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <section class="map-view">
+                <div class="map-placeholder">
+                    <div class="active-tracks-label">Active Tracks</div>
+                    
+                    <div class="marker user-marker pulse-blue" style="top: 30%; left: 35%;">
+                        <span class="label">You</span>
+                    </div>
+
+                    <div class="tracking-popup" style="top: 25%; left: 55%;">
+                        <div class="popup-icon"><i data-lucide="key"></i></div>
+                        <div class="popup-text">
+                            <strong>UIU Keys</strong>
+                            <p>Status: Moving | 1 min away</p>
+                        </div>
+                    </div>
+
+                    <div class="marker item-marker pulse-gold" style="top: 45%; left: 60%;"></div>
+
+                    <div class="map-tools">
+                        <button><i data-lucide="zoom-in"></i></button>
+                        <button><i data-lucide="crosshair"></i></button>
+                        <button><i data-lucide="layers"></i></button>
+                        <button><i data-lucide="maximize"></i></button>
+                    </div>
+
+                    <div class="map-legend">
+                        <div class="legend-item"><span class="dot blue"></span> Pulsing Blue: User Location</div>
+                        <div class="legend-item"><span class="dot gold"></span> Pulsing Key: Lost Keys</div>
+                        <div class="legend-item"><span class="line orange"></span> Orange Line: Live Movement</div>
+                    </div>
+
+                    <button class="recenter-btn">
+                        <i data-lucide="compass"></i> Recenter on Keys
+                    </button>
+                </div>
+            </section>
+
+            <section class="status-section">
+                <h2 class="section-heading">Tracking Status</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="card-header">
+                            <h3>Approx Distance</h3>
+                            <i data-lucide="map-pin"></i>
+                        </div>
+                        <div class="card-body">
+                            <span class="big-stat">150m</span>
+                            <p>Moving toward Auditorium.</p>
+                            <div class="progress-bar"><div class="fill" style="width: 65%;"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="status-card">
+                        <div class="card-header">
+                            <h3>Last Update</h3>
+                            <i data-lucide="clock"></i>
+                        </div>
+                        <div class="card-body">
+                            <span class="big-stat">Just now</span>
+                            <p>Keys were near Cafeteria.</p>
+                        </div>
+                    </div>
+
+                    <div class="status-card">
+                        <div class="card-header">
+                            <h3>Contact Finder</h3>
+                            <i data-lucide="message-square"></i>
+                        </div>
+                        <div class="card-body">
+                            <span class="big-stat">Ahmed</span>
+                            <button class="action-btn">Message again</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer-nav">
+            <div class="footer-item active"><i data-lucide="home"></i> Home</div>
+            <div class="footer-item"><i data-lucide="search"></i> Browse</div>
+            <div class="footer-item"><i data-lucide="plus-square"></i> Post</div>
+            <div class="footer-item"><i data-lucide="user"></i> Profile</div>
+            <div class="footer-legal">
+                <span>About</span>
+                <span>Contact Support</span>
+                <span>Legal</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form - Portrait Mode</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="window flex">
+        <!-- SIDEBAR -->
+        <aside class="sidebar color3 white-text flex-column">
+            <div class="padding">
+                <div class="logo">💎 PRODASH</div>
+                <nav class="nav-menu flex-column gap-15">
+                    <div class="nav-item">Dashboard</div>
+                    <div class="nav-item active">Register</div>
+                    <div class="nav-item">Analytics</div>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- MAIN BODY -->
+        <main class="main-body color2 flex center scrollable">
+            <!-- PORTRAIT FORM CONTAINER -->
+            <div class="portrait-container">
+                <h1 class="form-title">Register Form</h1>
+                
+                <div class="form-card color1 border-radius shadow">
+                    <!-- Standard Inputs -->
+                    <div class="input-block">
+                        <label>User Name</label>
+                        <input type="text" placeholder="Value" class="white-input">
+                    </div>
+                    <div class="input-block">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Value" class="white-input">
+                    </div>
+                    <div class="input-block">
+                        <label>Email</label>
+                        <input type="email" placeholder="Value" class="white-input">
+                    </div>
+                    <div class="input-block">
+                        <label>Country</label>
+                        <input type="text" placeholder="Value" class="white-input">
+                    </div>
+                    <div class="input-block">
+                        <label>Password</label>
+                        <input type="password" placeholder="Value" class="white-input">
+                    </div>
+
+                    <!-- Gender Selection -->
+                    <div class="selection-group flex justify-between align-center">
+                        <label>Gender</label>
+                        <div class="flex gap-10">
+                            <button class="choice-btn shadow-sm">Male</button>
+                            <button class="choice-btn shadow-sm">Female</button>
+                        </div>
+                    </div>
+
+                    <!-- Date Selection -->
+                    <div class="selection-group flex justify-between align-center">
+                        <label>Date of Birth:</label>
+                        <div class="flex gap-5">
+                            <input type="text" placeholder="Day" class="date-box shadow-sm">
+                            <input type="text" placeholder="MM" class="date-box shadow-sm">
+                            <input type="text" placeholder="YYY" class="date-box shadow-sm">
+                        </div>
+                    </div>
+
+                    <p class="terms-text">Agree with Terms & condition?</p>
+
+                    <!-- Main Action -->
+                    <button class="create-btn" onclick="location.href='../DashBoard/index.html'">Create Account</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
