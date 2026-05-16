@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Loss Hotspots Dashboard | Heatmap Intelligence</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Heatmap.css">
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="logo-area">
+            <i class="fas fa-fire"></i>
+            <h1 class="logo-text">LOSS HOTSPOTS</h1>
+        </div>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search institutional hubs (e.g., UIU Campus, Dhanmondi)...">
+            <kbd class="search-hint">⌘ + K</kbd>
+        </div>
+        <nav class="header-actions">
+            <div class="nav-links-desktop">
+                <span class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</span>
+                <span class="nav-link"><i class="fas fa-file-alt"></i> Reports</span>
+                <span class="nav-link"><i class="fas fa-chart-pie"></i> Analytics</span>
+            </div>
+            <div class="icon-group">
+                <i class="fas fa-user-circle"></i>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-cog"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Filters Bar -->
+    <nav class="filters-bar">
+        <div class="filter-row">
+            <div class="filter-group">
+                <button class="filter-btn" data-time="24h">Last 24h</button>
+                <button class="filter-btn active" data-time="7d">Last 7 Days</button>
+                <button class="filter-btn" data-time="30d">Last 30 Days</button>
+                <button class="filter-btn" data-time="90d">Last 90 Days</button>
+            </div>
+            <div class="filter-group">
+                <button class="filter-btn" data-category="all">All Items</button>
+                <button class="filter-btn" data-category="electronics">Electronics</button>
+                <button class="filter-btn" data-category="wallets">Wallets</button>
+                <button class="filter-btn" data-category="ids">IDs</button>
+                <button class="filter-btn" data-category="keys">Keys</button>
+                <button class="filter-btn outline" id="advancedFilterBtn">
+                    <i class="fas fa-sliders-h"></i> Advanced Filters
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Container with Real Leaflet Map -->
+    <main class="map-container">
+        <div id="heatmapMap" class="heatmap-canvas"></div>
+        <div class="map-controls">
+            <button class="ctrl-btn" id="zoomInBtn" title="Zoom In"><i class="fas fa-plus"></i></button>
+            <button class="ctrl-btn" id="zoomOutBtn" title="Zoom Out"><i class="fas fa-minus"></i></button>
+            <button class="ctrl-btn" id="fullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+            <button class="ctrl-btn" id="locateBtn" title="My Location"><i class="fas fa-location-dot"></i></button>
+        </div>
+        <div class="map-legend">
+            <strong><i class="fas fa-chart-line"></i> Heat Frequency</strong>
+            <div class="legend-gradient">
+                <span style="background:#4ECDC4;"></span>
+                <span style="background:#FFD233;"></span>
+                <span style="background:#FF6B6B;"></span>
+                <span style="background:#8B0000;"></span>
+            </div>
+            <div class="legend-labels">
+                <span>Low</span>
+                <span>Medium</span>
+                <span>High</span>
+                <span>Very High</span>
+            </div>
+        </div>
+        <button class="recenter-btn" id="recenterBtn">
+            <i class="fas fa-compass"></i> Recenter on Bangladesh
+        </button>
+        <div class="map-stats" id="mapStats">
+            <span><i class="fas fa-chart-line"></i> Active Hotspots: <strong id="hotspotCount">24</strong></span>
+            <span><i class="fas fa-fire"></i> Peak Intensity: <strong id="peakIntensity">92%</strong></span>
+        </div>
+    </main>
+
+    <!-- Insight Cards -->
+    <section class="insights-section">
+        <h2 class="section-title"><i class="fas fa-chart-pie"></i> Institutional Insight Cards</h2>
+        <div class="cards-grid" id="insightCards">
+            <div class="insight-card">
+                <div class="card-icon teal"><i class="fas fa-utensils"></i></div>
+                <div class="card-content">
+                    <small>Hotspot #1</small>
+                    <h3>UIU Cafeteria</h3>
+                    <p>25 reports this week</p>
+                    <span class="trend up"><i class="fas fa-arrow-up"></i> +12%</span>
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="card-icon teal"><i class="fas fa-key"></i></div>
+                <div class="card-content">
+                    <small>Analysis</small>
+                    <h3>Common Item: Keys</h3>
+                    <p>45% of campus losses</p>
+                    <span class="trend"><i class="fas fa-chart-line"></i> High frequency</span>
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="card-icon teal"><i class="fas fa-clock"></i></div>
+                <div class="card-content">
+                    <small>Trending</small>
+                    <h3>Peak Time: 12:00 PM</h3>
+                    <p>Lunch hour activity surge</p>
+                    <span class="trend up"><i class="fas fa-arrow-up"></i> +8%</span>
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="card-icon teal"><i class="fas fa-shield-alt"></i></div>
+                <div class="card-content">
+                    <small>Prevention Tip</small>
+                    <h3>Secure Gate Lockers</h3>
+                    <p>Install monitored storage</p>
+                    <span class="trend down"><i class="fas fa-arrow-down"></i> -5% incidents</span>
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="card-icon teal"><i class="fas fa-laptop"></i></div>
+                <div class="card-content">
+                    <small>Hotspot #2</small>
+                    <h3>Central Library</h3>
+                    <p>18 reports this week</p>
+                    <span class="trend up"><i class="fas fa-arrow-up"></i> +6%</span>
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="card-icon teal"><i class="fas fa-wallet"></i></div>
+                <div class="card-content">
+                    <small>Analysis</small>
+                    <h3>Wallets: 32% of losses</h3>
+                    <p>Second most common item</p>
+                    <span class="trend"><i class="fas fa-chart-line"></i> Stable</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <footer class="bottom-nav">
+        <div class="nav-item"><i class="fas fa-home"></i> Home</div>
+        <div class="nav-item"><i class="fas fa-database"></i> Browse All Data</div>
+        <div class="nav-item"><i class="fas fa-plus-circle"></i> Post a Loss</div>
+        <div class="nav-item"><i class="fas fa-user"></i> User Profile</div>
+        <div class="nav-item"><i class="fas fa-chart-line"></i> Analytics</div>
+    </footer>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+<script src="Heatmap.js"></script>
+</body>
+</html>
