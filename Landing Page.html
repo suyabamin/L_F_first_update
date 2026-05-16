@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Lost & Found | Reconnect What Matters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+
+    <!-- Animated Background Elements -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-heart"></i>
+                </div>
+                <div class="logo-text">
+                    <span>Lost</span>
+                    <span>& Found</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">How it Works</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-login" onclick="location.href='../Login/index.html'">Login</button>
+                <button class="btn-signup" onclick="location.href='../Register-or-SignUp/index.html'">Sign Up</button>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-heart"></i>
+                </div>
+                <div class="logo-text">
+                    <span>Lost</span>
+                    <span>& Found</span>
+                </div>
+            </div>
+            <button class="close-menu" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">How it Works</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="mobile-nav-buttons">
+            <button class="btn-login" onclick="location.href='../Login/index.html'">Login</button>
+            <button class="btn-signup" onclick="location.href='../Register-or-SignUp/index.html'">Sign Up</button>
+        </div>
+    </div>
+
+    <!-- Main Hero Section -->
+    <main class="hero-section">
+        <div class="hero-content">
+            <div class="badge">
+                <i class="fas fa-heart"></i>
+                <span>Connecting Communities</span>
+            </div>
+            <h1 class="hero-title">
+                Find What's Lost,
+                <span class="gradient-text">Return What Matters</span>
+            </h1>
+            <p class="hero-description">
+                Join thousands of users who are reuniting lost items with their owners.
+                Post found items, search for lost belongings, and make someone's day.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" id="statItems">10K+</span>
+                    <span class="stat-label">Items Reunited</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="statUsers">25K+</span>
+                    <span class="stat-label">Active Users</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="statMatches">78%</span>
+                    <span class="stat-label">Match Rate</span>
+                </div>
+            </div>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="location.href='../Login/index.html'">
+                    Get Started
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="btn-secondary" onclick="location.href='../How It Works/index.html'">
+                    How It Works
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card card-1">
+                <i class="fas fa-mobile-alt"></i>
+                <span>iPhone 14 Pro</span>
+                <div class="badge-found">Found</div>
+            </div>
+            <div class="floating-card card-2">
+                <i class="fas fa-wallet"></i>
+                <span>Leather Wallet</span>
+                <div class="badge-lost">Lost</div>
+            </div>
+            <div class="floating-card card-3">
+                <i class="fas fa-key"></i>
+                <span>Key Set</span>
+                <div class="badge-found">Found</div>
+            </div>
+            <div class="floating-card card-4">
+                <i class="fas fa-paw"></i>
+                <span>Golden Retriever</span>
+                <div class="badge-lost">Lost</div>
+            </div>
+            <div class="hero-illustration">
+                <i class="fas fa-hand-holding-heart"></i>
+            </div>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Why Choose Us</span>
+                <h2>Smart & Simple Way to Reconnect</h2>
+                <p>Our platform makes it easy to report lost items and help others find theirs</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magnifying-glass-chart"></i>
+                    </div>
+                    <h3>AI-Powered Matching</h3>
+                    <p>Our intelligent system automatically matches lost and found items based on descriptions and categories.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+                    <h3>Location-Based Alerts</h3>
+                    <p>Get notified when items are reported in your area, increasing chances of recovery.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Secure Chat System</h3>
+                    <p>Communicate safely with finders or owners through our encrypted messaging platform.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Verified Claims</h3>
+                    <p>We verify ownership claims to ensure items go back to the right person.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Simple Process</span>
+                <h2>How It Works</h2>
+                <p>Three easy steps to reunite lost items with their owners</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-pen-alt"></i>
+                    </div>
+                    <h3>Report Item</h3>
+                    <p>Post details about lost or found item with photos and location</p>
+                </div>
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Matching</h3>
+                    <p>Our system finds potential matches automatically</p>
+                </div>
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Reunite</h3>
+                    <p>Connect and arrange for item return securely</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Success Stories</span>
+                <h2>What Our Community Says</h2>
+                <p>Real stories from people who found their lost items</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p>I lost my wallet with all my important cards. Within 24 hours, someone had posted it and I got it back thanks to this platform!</p>
+                    <div class="testimonial-author">
+                        <img src="https://ui-avatars.com/api/?name=Sarah+M&background=00cfe8&color=fff&bold=true&size=50" alt="Sarah">
+                        <div>
+                            <h4>Sarah M.</h4>
+                            <span>Dhaka, Bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p>Found someone's iPhone and was able to return it within hours. The feeling of helping someone is priceless!</p>
+                    <div class="testimonial-author">
+                        <img src="https://ui-avatars.com/api/?name=Rakib+H&background=00b894&color=fff&bold=true&size=50" alt="Rakib">
+                        <div>
+                            <h4>Rakib H.</h4>
+                            <span>Chittagong, Bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p>The AI matching system is incredible! It suggested a match I would have never found on my own.</p>
+                    <div class="testimonial-author">
+                        <img src="https://ui-avatars.com/api/?name=Nabila+K&background=ff5c5c&color=fff&bold=true&size=50" alt="Nabila">
+                        <div>
+                            <h4>Nabila K.</h4>
+                            <span>Sylhet, Bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Join our community today and help make lost items find their way home</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="location.href='../Register-or-SignUp/index.html'">
+                        Sign Up Now
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn-outline" onclick="location.href='../Browse Listings/index.html'">
+                        Browse Listings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-shield-heart"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span>Lost</span>
+                            <span>& Found</span>
+                        </div>
+                    </div>
+                    <p>Connecting communities to reunite lost belongings with their owners.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Safety Tips</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Stay Updated</h4>
+                    <p>Get the latest updates and news</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lost & Found. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="Landing Page.js"></script>
+</body>
+</html>

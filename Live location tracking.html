@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Live Item Tracker | Real-time Global Location Tracking</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Live location tracking.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header -->
+    <header class="app-bar">
+        <div class="logo-area">
+            <i class="fas fa-location-dot"></i>
+            <h1 class="app-title">Live Item Tracker</h1>
+        </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search tracked items globally (e.g., UIU Keys, iPhone, Wallet)...">
+            <kbd class="search-hint">⌘ + K</kbd>
+        </div>
+        <div class="header-user-icons">
+            <i class="fas fa-user-circle"></i>
+            <i class="fas fa-bell"></i>
+            <i class="fas fa-cog"></i>
+        </div>
+    </header>
+
+    <!-- Filter Navigation -->
+    <nav class="filter-nav">
+        <div class="filter-row primary-filters">
+            <button class="btn-pill active" data-filter="my-items">My Items</button>
+            <button class="btn-pill" data-filter="returning">Items I'm Returning</button>
+            <button class="btn-pill" data-filter="settings">Settings</button>
+        </div>
+        <div class="filter-row category-filters">
+            <button class="btn-outline active" data-category="all">All</button>
+            <button class="btn-outline" data-category="electronics">Electronics</button>
+            <button class="btn-outline" data-category="wallets">Wallets</button>
+            <button class="btn-outline" data-category="ids">IDs</button>
+            <button class="btn-outline" data-category="keys">Keys</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Map Section -->
+        <section class="map-view">
+            <div id="liveMap" class="live-map"></div>
+            <div class="map-tools">
+                <button id="zoomInBtn" title="Zoom In"><i class="fas fa-plus"></i></button>
+                <button id="zoomOutBtn" title="Zoom Out"><i class="fas fa-minus"></i></button>
+                <button id="locateBtn" title="My Location"><i class="fas fa-crosshairs"></i></button>
+                <button id="worldViewBtn" title="World View"><i class="fas fa-globe"></i></button>
+                <button id="fullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+            </div>
+            <div class="map-legend">
+                <div class="legend-item"><span class="dot blue"></span> Your Location</div>
+                <div class="legend-item"><span class="dot gold"></span> Tracked Item</div>
+                <div class="legend-item"><span class="dot green"></span> Found Item</div>
+                <div class="legend-item"><span class="line orange"></span> Movement Path</div>
+                <div class="legend-item"><span class="dot purple"></span> Global Hubs</div>
+            </div>
+            <button class="recenter-btn" id="recenterBtn">
+                <i class="fas fa-compass"></i> Recenter on Tracked Item
+            </button>
+            <div class="tracking-status" id="trackingStatus">
+                <span><i class="fas fa-sync-alt fa-spin"></i> Live Global Tracking Active</span>
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section class="status-section">
+            <h2 class="section-heading"><i class="fas fa-chart-line"></i> Tracking Status</h2>
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-road"></i> Approx Distance</h3>
+                        <i class="fas fa-map-pin"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="big-stat" id="distanceValue">150</span>
+                        <span class="unit">meters</span>
+                        <p id="directionText">Moving toward Auditorium, UIU Campus</p>
+                        <div class="progress-bar"><div class="fill" id="distanceFill" style="width: 65%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-clock"></i> Last Update</h3>
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="big-stat" id="lastUpdateTime">Just now</span>
+                        <p id="lastLocationText">Keys were near UIU Cafeteria, Dhaka</p>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-user"></i> Contact Finder</h3>
+                        <i class="fas fa-message"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="big-stat" id="finderName">Ahmed</span>
+                        <button class="action-btn" id="messageBtn"><i class="fas fa-comment"></i> Message now</button>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-simple"></i> Movement Speed</h3>
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="big-stat" id="speedValue">2.5</span>
+                        <span class="unit">km/h</span>
+                        <p id="speedStatus">Walking pace</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <footer class="footer-nav">
+        <div class="footer-item active"><i class="fas fa-home"></i> Home</div>
+        <div class="footer-item"><i class="fas fa-search"></i> Browse</div>
+        <div class="footer-item"><i class="fas fa-plus-square"></i> Post</div>
+        <div class="footer-item"><i class="fas fa-user"></i> Profile</div>
+    </footer>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+<script src="Live location tracking.js"></script>
+</body>
+</html>
