@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Key Category | Lost & Found Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Key Category.css">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fas fa-shield-heart"></i>
+            </div>
+            <div class="logo-text">
+                <span>Lost</span>
+                <span>& Found</span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </li>
+            <li class="nav-item active">
+                <i class="fas fa-search"></i>
+                <span>Browse</span>
+                <div class="nav-indicator"></div>
+            </li>
+            <li class="nav-item">
+                <i class="fas fa-plus-square"></i>
+                <span>Post</span>
+            </li>
+            <li class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=User&background=00cfe8&color=fff&bold=true&size=40" alt="User">
+                <div>
+                    <p>Sarah Johnson</p>
+                    <span><i class="fas fa-circle"></i> Active</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search for keys, keychains, car keys, house keys...">
+                <kbd class="search-shortcut">⌘ + K</kbd>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" id="notifyBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot">2</span>
+                </button>
+                <button class="icon-btn" id="messageBtn">
+                    <i class="fas fa-envelope"></i>
+                </button>
+                <div class="user-avatar">
+                    <img src="https://ui-avatars.com/api/?name=SJ&background=ffd233&color=fff&bold=true&size=40" alt="Avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="hero-content">
+                <h1><i class="fas fa-key"></i> Key Category</h1>
+                <p>Find or report lost keys, keychains, car keys, house keys, and office keys</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="totalItems">12</span>
+                        <span class="stat-label">Total Items</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="lostCount">7</span>
+                        <span class="stat-label">Lost</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="foundCount">5</span>
+                        <span class="stat-label">Found</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-decoration">
+                <i class="fas fa-key"></i>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-th-large"></i> Browse by Category</h2>
+                <a href="#" class="view-all" id="viewAllCategories">View All Categories <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="category-grid">
+                <div class="category-card" data-category="key">
+                    <div class="icon-box"><i class="fas fa-key"></i></div>
+                    <p>Keys</p>
+                    <span class="item-count">12 items</span>
+                </div>
+                <div class="category-card" data-category="electronics">
+                    <div class="icon-box"><i class="fas fa-laptop"></i></div>
+                    <p>Electronics</p>
+                    <span class="item-count">18 items</span>
+                </div>
+                <div class="category-card" data-category="bags">
+                    <div class="icon-box"><i class="fas fa-briefcase"></i></div>
+                    <p>Bags</p>
+                    <span class="item-count">14 items</span>
+                </div>
+                <div class="category-card" data-category="pets">
+                    <div class="icon-box"><i class="fas fa-paw"></i></div>
+                    <p>Pets</p>
+                    <span class="item-count">8 items</span>
+                </div>
+                <div class="category-card" data-category="documents">
+                    <div class="icon-box"><i class="fas fa-file-alt"></i></div>
+                    <p>Documents</p>
+                    <span class="item-count">10 items</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Posts Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> Recent Posts</h2>
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="lost">Lost</button>
+                    <button class="filter-btn" data-filter="found">Found</button>
+                </div>
+            </div>
+
+            <div class="posts-grid" id="postsGrid">
+                <!-- Key Items -->
+                <div class="post-card" data-status="lost" data-category="key" data-title="Lost Car Keys">
+                    <div class="card-image">
+                        <div class="img-placeholder car-key-bg">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Lost Car Keys - Honda CR-V</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Dhanmondi, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Keys</span>
+                            <span class="time"><i class="far fa-clock"></i> 2 hours ago</span>
+                        </div>
+                        <div class="reward-badge">Reward: 3,000 BDT</div>
+                        <div class="key-feature"><i class="fas fa-key"></i> Keychain: Black leather</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="key" data-title="Found Key Set">
+                    <div class="card-image">
+                        <div class="img-placeholder key-bg">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <span class="status-badge status-found">Found</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Found House Keys with Keychain</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Gulshan, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Keys</span>
+                            <span class="time"><i class="far fa-clock"></i> 3 hours ago</span>
+                        </div>
+                        <div class="claimed-badge">Waiting for Owner</div>
+                        <div class="key-feature"><i class="fas fa-tag"></i> Found near lake</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="key" data-title="Lost Office Keys">
+                    <div class="card-image">
+                        <div class="img-placeholder office-key-bg">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Lost Office Keys - 5 Keys Set</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Motijheel, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Keys</span>
+                            <span class="time"><i class="far fa-clock"></i> 5 hours ago</span>
+                        </div>
+                        <div class="reward-badge">Urgent! Office Access</div>
+                        <div class="key-feature"><i class="fas fa-id-card"></i> ID tag attached</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="key" data-title="Found Motorcycle Key">
+                    <div class="card-image">
+                        <div class="img-placeholder bike-key-bg">
+                            <i class="fas fa-motorcycle"></i>
+                        </div>
+                        <span class="status-badge status-found">Found</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Found Motorcycle Key</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Banani, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Keys</span>
+                            <span class="time"><i class="far fa-clock"></i> 1 hour ago</span>
+                        </div>
+                        <div class="claimed-badge">Verified Found</div>
+                        <div class="key-feature"><i class="fas fa-motorcycle"></i> Honda key with remote</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="lost" data-category="key" data-title="Lost Keychain">
+                    <div class="card-image">
+                        <div class="img-placeholder keychain-bg">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <span class="status-badge status-lost">Lost</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Lost Keychain with Mini Flash Drive</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Uttara, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Keys</span>
+                            <span class="time"><i class="far fa-clock"></i> 6 hours ago</span>
+                        </div>
+                        <div class="reward-badge">Contains Important Data</div>
+                        <div class="key-feature"><i class="fas fa-usb"></i> 64GB flash drive attached</div>
+                    </div>
+                </div>
+
+                <div class="post-card" data-status="found" data-category="key" data-title="Found Key Set">
+                    <div class="card-image">
+                        <div class="img-placeholder keys-bg">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <span class="status-badge status-found">Found</span>
+                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="post-info">
+                        <h3>Found 3 Keys with Red Keychain</h3>
+                        <p class="location"><i class="fas fa-map-marker-alt"></i> Mirpur, Dhaka</p>
+                        <div class="post-meta">
+                            <span class="category-tag"><i class="fas fa-tag"></i> Keys</span>
+                            <span class="time"><i class="far fa-clock"></i> 30 mins ago</span>
+                        </div>
+                        <div class="claimed-badge">At Security Office</div>
+                        <div class="key-feature"><i class="fas fa-tag"></i> Red silicone keychain</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="load-more" id="loadMoreBtn">
+                <i class="fas fa-sync-alt"></i> Load More Key Items
+            </button>
+        </section>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="Key Category.js"></script>
+</body>
+</html>
