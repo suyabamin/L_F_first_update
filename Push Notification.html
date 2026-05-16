@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Notification Center | Lost & Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Push Notification.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-search-location"></i>
+                <span>Lost<span class="highlight">Found</span></span>
+            </div>
+            <div class="sidebar-nav">
+                <a href="../DashBoard/index.html" class="sidebar-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-item active">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="badge" id="unreadBadge">3</span>
+                </a>
+                <a href="../Browse Listings/index.html" class="sidebar-item">
+                    <i class="fas fa-search"></i>
+                    <span>Browse</span>
+                </a>
+                <a href="../Claim Item/index.html" class="sidebar-item">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Claims</span>
+                </a>
+                <a href="../Chat/index.html" class="sidebar-item">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="../Profile Page/index.html" class="sidebar-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Profile</span>
+                </a>
+            </div>
+            <div class="sidebar-footer">
+                <div class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1><i class="fas fa-bell"></i> Notification Center</h1>
+                    <p>Stay updated with your lost & found activities</p>
+                </div>
+                <div class="header-user">
+                    <button class="mark-all-btn" id="markAllBtn">
+                        <i class="fas fa-check-double"></i> Mark all as read
+                    </button>
+                    <img src="https://ui-avatars.com/api/?background=00A9B5&color=fff&size=40&name=John+Doe" alt="User Profile" class="avatar">
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <section class="notifications-area">
+                    <div class="filter-tabs">
+                        <button class="tab active" data-filter="all">All Notifications</button>
+                        <button class="tab" data-filter="unread">Unread <span id="unreadCount">3</span></button>
+                        <button class="tab" data-filter="read">Read</button>
+                    </div>
+
+                    <div class="notification-grid" id="notificationGrid">
+                        <!-- Notifications will be dynamically injected -->
+                    </div>
+
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fas fa-bell-slash"></i>
+                        <h3>No notifications</h3>
+                        <p>You're all caught up! New notifications will appear here.</p>
+                    </div>
+                </section>
+
+                <aside class="settings-panel">
+                    <div class="settings-box">
+                        <div class="settings-header">
+                            <i class="fas fa-sliders-h"></i> Notification Preferences
+                        </div>
+                        <div class="settings-list" id="settingsList">
+                            <div class="setting-item" data-setting="ai_match">
+                                <div class="setting-info">
+                                    <i class="fas fa-robot"></i>
+                                    <div>
+                                        <strong>AI Match Alerts</strong>
+                                        <p>Notify when AI finds matching lost/found items</p>
+                                    </div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" class="setting-checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item" data-setting="nearby">
+                                <div class="setting-info">
+                                    <i class="fas fa-location-dot"></i>
+                                    <div>
+                                        <strong>Nearby Alerts</strong>
+                                        <p>Items lost/found within your area</p>
+                                    </div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" class="setting-checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item" data-setting="messages">
+                                <div class="setting-info">
+                                    <i class="fas fa-comment-dots"></i>
+                                    <div>
+                                        <strong>Message Alerts</strong>
+                                        <p>When someone sends you a message</p>
+                                    </div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" class="setting-checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item" data-setting="claims">
+                                <div class="setting-info">
+                                    <i class="fas fa-hand-holding-heart"></i>
+                                    <div>
+                                        <strong>Claim Updates</strong>
+                                        <p>Status updates on your claims</p>
+                                    </div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" class="setting-checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item" data-setting="promotions">
+                                <div class="setting-info">
+                                    <i class="fas fa-megaphone"></i>
+                                    <div>
+                                        <strong>Promotional Alerts</strong>
+                                        <p>Tips, updates, and community news</p>
+                                    </div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" class="setting-checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="settings-footer">
+                            <button class="save-settings-btn" id="saveSettingsBtn">
+                                <i class="fas fa-save"></i> Save Preferences
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <i class="fas fa-chart-simple"></i> Notification Stats
+                        </div>
+                        <div class="stats-body">
+                            <div class="stat-row">
+                                <span>Total Received</span>
+                                <strong id="totalStats">8</strong>
+                            </div>
+                            <div class="stat-row">
+                                <span>Unread</span>
+                                <strong id="unreadStats">3</strong>
+                            </div>
+                            <div class="stat-row">
+                                <span>This Week</span>
+                                <strong id="weekStats">5</strong>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="Push Notification.js"></script>
+</body>
+</html>

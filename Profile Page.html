@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Profile Dashboard | Lost & Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Profile Page.css">
+</head>
+<body>
+    <div class="window flex">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="logo-area">
+                    <i class="fas fa-search-location"></i>
+                    <span>Lost<span class="logo-highlight">Found</span></span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="../DashBoard/index.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="../Browse Listings/index.html" class="nav-item">
+                        <i class="fas fa-search"></i>
+                        <span>Browse</span>
+                    </a>
+                    <a href="../Create Post/index.html" class="nav-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Post Item</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-footer">
+                <div class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-body">
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="breadcrumb">
+                    <a href="../DashBoard/index.html">Dashboard</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Edit Profile</span>
+                </div>
+                <div class="user-pill" id="userPill">
+                    <div class="mini-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span id="userNameDisplay">John Doe</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <!-- PROFILE BANNER -->
+            <div class="banner-section">
+                <div class="banner-overlay">
+                    <div class="avatar-main" id="avatarMain">
+                        <img src="https://ui-avatars.com/api/?background=536FFE&color=fff&size=80&name=John+Doe" alt="Profile" id="avatarImg">
+                        <div class="avatar-edit" id="avatarEditBtn">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <h2 id="profileName">John Doe</h2>
+                    <p class="user-role"><i class="fas fa-badge-check"></i> Verified Member</p>
+                </div>
+                <div class="banner-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="statPosts">24</span>
+                        <span class="stat-label">Listings</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="statFavorites">12</span>
+                        <span class="stat-label">Favorites</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="statClaims">8</span>
+                        <span class="stat-label">Claims</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="statJoined">2024</span>
+                        <span class="stat-label">Joined</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT GRID -->
+            <div class="content-grid">
+                <!-- FORM SECTION -->
+                <div class="card-large">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-user-edit"></i> Personal Information</h3>
+                        <div class="card-badge">Edit your details</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label><i class="fas fa-at"></i> Username</label>
+                                <input type="text" id="username" placeholder="@username" class="styled-input" value="@johndoe">
+                            </div>
+                            <div class="input-group">
+                                <label><i class="fas fa-user"></i> Full Name</label>
+                                <input type="text" id="fullName" placeholder="Full Name" class="styled-input" value="John Doe">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" id="email" placeholder="Email" class="styled-input" value="john.doe@example.com">
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Phone Number" class="styled-input" value="+880 1XXX-XXXXXX">
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                            <input type="text" id="location" placeholder="City, Country" class="styled-input" value="Dhaka, Bangladesh">
+                        </div>
+                        <button class="save-btn" id="saveProfileBtn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PREFERENCES SECTION -->
+                <div class="card-small">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-sliders-h"></i> Preferences</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-list">
+                            <div class="menu-row">
+                                <div class="menu-left">
+                                    <i class="fas fa-globe"></i>
+                                    <span>Language</span>
+                                </div>
+                                <div class="menu-right">
+                                    <select class="language-select" id="languageSelect">
+                                        <option value="en">English (EN)</option>
+                                        <option value="bn">বাংলা (BN)</option>
+                                        <option value="ar">العربية (AR)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="menu-row">
+                                <div class="menu-left">
+                                    <i class="fas fa-moon"></i>
+                                    <span>Dark Mode</span>
+                                </div>
+                                <div class="menu-right">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="darkModeToggle">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="menu-row">
+                                <div class="menu-left">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Email Notifications</span>
+                                </div>
+                                <div class="menu-right">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notifToggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="menu-row">
+                                <div class="menu-left">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Two-Factor Auth</span>
+                                </div>
+                                <div class="menu-right">
+                                    <span class="badge" id="twoFactorBadge">Disabled</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RECENT ACTIVITY SECTION -->
+                <div class="card-wide">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-history"></i> Recent Activity</h3>
+                        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-item">
+                                <div class="activity-icon"><i class="fas fa-plus-circle"></i></div>
+                                <div class="activity-content">
+                                    <p>You posted a new listing: <strong>Found iPhone 13</strong></p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon"><i class="fas fa-heart"></i></div>
+                                <div class="activity-content">
+                                    <p>You favorited <strong>Lost Wallet</strong></p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon"><i class="fas fa-comment"></i></div>
+                                <div class="activity-content">
+                                    <p>New message about <strong>Lost Cat</strong></p>
+                                    <span class="activity-time">2 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Avatar Upload Modal -->
+    <div class="modal-overlay" id="avatarModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-camera"></i> Update Profile Picture</h3>
+                <button class="modal-close" id="closeAvatarModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="avatar-preview">
+                    <img src="https://ui-avatars.com/api/?background=536FFE&color=fff&size=120&name=John+Doe" alt="Preview" id="avatarPreview">
+                </div>
+                <div class="upload-options">
+                    <button class="upload-btn" id="uploadBtn">
+                        <i class="fas fa-upload"></i> Upload New Image
+                    </button>
+                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    <button class="remove-btn" id="removeAvatarBtn">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelAvatarBtn">Cancel</button>
+                <button class="btn-primary" id="saveAvatarBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="Profile Page.js"></script>
+</body>
+</html>
