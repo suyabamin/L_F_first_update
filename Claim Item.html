@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Claim Item | Lost & Found Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Claim Item.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <a class="brand" href="../index.html">
+        <div class="logo-icon">
+          <i class="fa-solid fa-shield-heart"></i>
+        </div>
+        <div class="logo-text">
+          <span>Lost</span>
+          <span>& Found</span>
+        </div>
+      </a>
+      <nav class="nav-list">
+        <a href="../DashBoard/index.html">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="../Post Details/index.html">
+          <i class="fa-solid fa-box"></i>
+          <span>Item Details</span>
+        </a>
+        <a href="../Chat/index.html">
+          <i class="fa-solid fa-message"></i>
+          <span>Chat</span>
+        </a>
+        <a class="active" href="../Claim Item/index.html">
+          <i class="fa-solid fa-hand-holding-hand"></i>
+          <span>Claim Item</span>
+          <div class="nav-indicator"></div>
+        </a>
+        <a href="../Profile Page/index.html">
+          <i class="fa-solid fa-user-circle"></i>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <img src="https://ui-avatars.com/api/?name=Alex+M&background=00cfe8&color=fff&bold=true&size=40" alt="User">
+          <div>
+            <p>Alex Morgan</p>
+            <span><i class="fas fa-circle"></i> Active</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Header -->
+      <header class="topline">
+        <div class="header-left">
+          <p class="eyebrow"><i class="fa-solid fa-gavel"></i> Claim Process</p>
+          <h1>Claim item request</h1>
+          <p class="subtitle">Submit your claim with proof of ownership to get your lost item back</p>
+        </div>
+        <div class="header-actions">
+          <a class="btn btn-outline" href="../Police GD Form/index.html">
+            <i class="fa-solid fa-file-shield"></i> Police GD Form
+          </a>
+          <a class="btn btn-secondary" href="../Help Center/index.html">
+            <i class="fa-solid fa-circle-question"></i> Help
+          </a>
+        </div>
+      </header>
+
+      <!-- Item Summary Card -->
+      <div class="item-summary">
+        <div class="item-image">
+          <div class="image-placeholder">
+            <i class="fa-solid fa-briefcase"></i>
+          </div>
+        </div>
+        <div class="item-details">
+          <span class="item-badge found">Found</span>
+          <h2>Brown Leather Wallet</h2>
+          <div class="item-meta">
+            <span><i class="fa-solid fa-location-dot"></i> Dhanmondi, Dhaka</span>
+            <span><i class="fa-solid fa-clock"></i> Reported 2 days ago</span>
+            <span><i class="fa-solid fa-user"></i> Finder: Sarah Ahmed</span>
+          </div>
+          <div class="item-description">
+            <p>Brown leather wallet found near Dhanmondi Lake. Contains ID cards, credit cards, and some cash. Owner must provide accurate description of contents to verify ownership.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Claim Form Card -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fa-solid fa-file-signature"></i> Claim Request Form</h3>
+          <span class="required-badge">* Required fields</span>
+        </div>
+        
+        <form class="form-grid" id="claimForm">
+          <div class="form-field">
+            <label for="fullName">
+              <i class="fa-solid fa-user"></i> Full Name <span class="required">*</span>
+            </label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" autocomplete="name">
+            <div class="error-message" id="nameError"></div>
+          </div>
+          
+          <div class="form-field">
+            <label for="email">
+              <i class="fa-solid fa-envelope"></i> Email Address <span class="required">*</span>
+            </label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email">
+            <div class="error-message" id="emailError"></div>
+          </div>
+          
+          <div class="form-field">
+            <label for="phone">
+              <i class="fa-solid fa-phone"></i> Phone Number <span class="required">*</span>
+            </label>
+            <input type="tel" id="phone" name="phone" placeholder="+880 1XXX-XXXXXX" autocomplete="tel">
+            <div class="error-message" id="phoneError"></div>
+          </div>
+          
+          <div class="form-field">
+            <label for="nid">
+              <i class="fa-solid fa-id-card"></i> NID / Passport Number
+            </label>
+            <input type="text" id="nid" name="nid" placeholder="Optional for verification">
+          </div>
+          
+          <div class="form-field full">
+            <label for="proofDetails">
+              <i class="fa-solid fa-circle-check"></i> Ownership Proof Details <span class="required">*</span>
+            </label>
+            <textarea id="proofDetails" name="proofDetails" rows="5" placeholder="Describe specific details only the real owner would know (e.g., brand, color, contents, unique marks, serial numbers, etc.)"></textarea>
+            <div class="hint-text">
+              <i class="fa-solid fa-lightbulb"></i> Tip: Include as many specific details as possible to help verify your claim
+            </div>
+            <div class="error-message" id="proofError"></div>
+          </div>
+          
+          <div class="form-field full">
+            <label for="additionalInfo">
+              <i class="fa-solid fa-pen"></i> Additional Information
+            </label>
+            <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other relevant information that might help identify you as the owner..."></textarea>
+          </div>
+          
+          <div class="form-field full checkbox-field">
+            <label class="checkbox-label">
+              <input type="checkbox" id="confirmCheck">
+              <span class="checkmark"></span>
+              I confirm that the information provided is accurate and I am the rightful owner of this item. <span class="required">*</span>
+            </label>
+            <div class="error-message" id="confirmError"></div>
+          </div>
+          
+          <div class="form-field full card-actions">
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-paper-plane"></i> Submit Claim Request
+            </button>
+            <button type="button" class="btn-secondary" id="cancelBtn">
+              <i class="fa-solid fa-times"></i> Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Claim Process Steps -->
+      <div class="process-steps">
+        <h4><i class="fa-solid fa-chart-simple"></i> How Claim Process Works</h4>
+        <div class="steps-grid">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h5>Submit Claim</h5>
+              <p>Fill out the form with your details and proof of ownership</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h5>Verification</h5>
+              <p>Our team reviews your claim within 24-48 hours</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h5>Contact</h5>
+              <p>You will be contacted via phone or email for confirmation</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h5>Pickup/Return</h5>
+              <p>Arrange pickup with the finder or claim at designated location</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h3>Claim Submitted Successfully!</h3>
+      <p>Your claim request has been received. Our team will review your submission and contact you within 24-48 hours.</p>
+      <div class="modal-details">
+        <p><strong>Reference ID:</strong> <span id="refId">CLM-2024-XXXX</span></p>
+        <p><strong>Submitted:</strong> <span id="submitDate"></span></p>
+      </div>
+      <button class="btn-primary" id="closeModalBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="Claim Item.js"></script>
+</body>
+</html>
