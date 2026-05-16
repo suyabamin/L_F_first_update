@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Police GD Portal | Official Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Police GD.css">
+</head>
+<body class="professional-theme">
+
+    <div class="glass-background"></div>
+    <div class="floating-shields" id="floatingShields"></div>
+
+    <main class="portal-card">
+        <!-- Minimalist Header -->
+        <header class="portal-header">
+            <button class="icon-btn-back" id="backBtn" aria-label="Go back">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="header-content">
+                <span class="sub-label"><i class="fas fa-badge-police"></i> Public Safety Division</span>
+                <h1>Police Support</h1>
+            </div>
+            <div class="status-badge">
+                <span class="pulse"></span> Online
+                <span class="status-text">24/7</span>
+            </div>
+        </header>
+
+        <!-- Premium Mascot Visual with Animation -->
+        <section class="visual-hub">
+            <div class="mascot-container">
+                <div class="glow-ring animate-glow"></div>
+                <div class="mascot-wrapper">
+                    <i class="fas fa-robot animated-robot"></i>
+                    <div class="official-shield">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                </div>
+                <div class="badge-verified">
+                    <i class="fas fa-check-circle"></i> Govt. Authorized
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Identity Card -->
+        <section class="service-identity">
+            <div class="identity-icon">
+                <i class="fas fa-building-shield"></i>
+            </div>
+            <div class="identity-text">
+                <h3>Police GD Support</h3>
+                <p>Official General Diary documentation for property recovery & legal aid</p>
+            </div>
+        </section>
+
+        <!-- Procedural Info with Live Clock -->
+        <div class="procedural-callout" id="proceduralCallout">
+            <div class="callout-indicator"></div>
+            <div class="callout-content">
+                <i class="fas fa-gavel"></i>
+                <p><strong>Legal Notice:</strong> Filing a GD establishes an official legal timeline for your missing assets, mandatory for insurance claims and police recovery efforts.</p>
+            </div>
+            <div class="live-clock" id="liveClock">
+                <i class="far fa-clock"></i>
+                <span id="clockTime">--:-- --</span>
+            </div>
+        </div>
+
+        <!-- Interactive Action Matrix -->
+        <div class="action-matrix">
+            <a href="#" class="matrix-item primary" id="fileGDBtn">
+                <div class="matrix-icon"><i class="fas fa-file-signature"></i></div>
+                <div class="matrix-label">
+                    <span>File Online GD</span>
+                    <small>Instant Submission • E-Sign Ready</small>
+                </div>
+                <i class="fas fa-arrow-right-long arrow"></i>
+            </a>
+
+            <a href="#" class="matrix-item" id="guideBtn">
+                <div class="matrix-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+                <div class="matrix-label">
+                    <span>Procedure Guide</span>
+                    <small>Required Documents & Steps</small>
+                </div>
+                <i class="fas fa-arrow-right-long arrow"></i>
+            </a>
+
+            <a href="#" class="matrix-item" id="trackBtn">
+                <div class="matrix-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="matrix-label">
+                    <span>Track Application</span>
+                    <small>Real-time GD Status</small>
+                </div>
+                <i class="fas fa-arrow-right-long arrow"></i>
+            </a>
+        </div>
+
+        <!-- Emergency Contact Section -->
+        <footer class="portal-footer">
+            <button class="emergency-action" id="emergencyBtn">
+                <span class="btn-icon"><i class="fas fa-phone-volume"></i></span>
+                <span class="btn-text">Emergency Dispatch • 100</span>
+                <span class="btn-badge">24x7</span>
+            </button>
+            <div class="footer-note">
+                <i class="fas fa-lock"></i> Secure & Encrypted | <i class="fas fa-database"></i> National Data Vault
+            </div>
+        </footer>
+    </main>
+
+    <!-- Modal for Form Simulation -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-alt"></i> File General Diary</h3>
+                <button class="modal-close" id="modalCloseBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> Aadhaar / ID Proof</label>
+                    <input type="text" id="idProof" placeholder="Last 4 digits / Reference">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Incident Location</label>
+                    <input type="text" id="location" placeholder="City / Police Station">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-file-text"></i> Brief Description</label>
+                    <textarea id="description" rows="3" placeholder="Describe lost property / incident..."></textarea>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="consentCheck">
+                    <label>I confirm that the information provided is true to the best of my knowledge.</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelModalBtn">Cancel</button>
+                <button class="btn-primary" id="submitGDBtn">Submit GD <i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="Police GD.js"></script>
+</body>
+</html>
