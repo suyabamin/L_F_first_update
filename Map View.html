@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Map View | Lost & Found Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="Map View.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <a class="brand" href="../index.html">
+        <div class="logo-icon">
+          <i class="fa-solid fa-shield-heart"></i>
+        </div>
+        <div class="logo-text">
+          <span>Lost</span>
+          <span>& Found</span>
+        </div>
+      </a>
+      <nav class="nav-list">
+        <a href="../DashBoard/index.html">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="../Browse Listings/index.html">
+          <i class="fa-solid fa-list-ul"></i>
+          <span>Browse Listings</span>
+        </a>
+        <a class="active" href="../Map View/index.html">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Map View</span>
+          <div class="nav-indicator"></div>
+        </a>
+        <a href="../Create Post/index.html">
+          <i class="fa-solid fa-plus-circle"></i>
+          <span>Post Item</span>
+        </a>
+        <a href="../Profile Page/index.html">
+          <i class="fa-solid fa-user-circle"></i>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <img src="https://ui-avatars.com/api/?name=Alex+M&background=00cfe8&color=fff&bold=true&size=40" alt="User">
+          <div>
+            <p>Alex Morgan</p>
+            <span><i class="fas fa-circle"></i> Active</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Header -->
+      <header class="topline">
+        <div class="header-left">
+          <p class="eyebrow"><i class="fa-solid fa-map-location-dot"></i> Map View</p>
+          <h1>Items near you</h1>
+          <p class="subtitle">Discover lost and found items across Bangladesh and the world</p>
+        </div>
+        <div class="header-actions">
+          <a class="btn btn-outline" href="../Browse Listings/index.html">
+            <i class="fa-solid fa-list"></i> Browse Listings
+          </a>
+          <button class="btn-primary" id="refreshBtn">
+            <i class="fa-solid fa-rotate-right"></i> Refresh
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats Summary -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <i class="fa-solid fa-map-marker-alt"></i>
+          <div>
+            <span class="stat-value" id="totalMarkers">24</span>
+            <span class="stat-label">Active Locations</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-flag"></i>
+          <div>
+            <span class="stat-value" id="lostCount">16</span>
+            <span class="stat-label">Lost Items</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-check-circle"></i>
+          <div>
+            <span class="stat-value" id="foundCount">8</span>
+            <span class="stat-label">Found Items</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-globe"></i>
+          <div>
+            <span class="stat-value" id="countryCount">12</span>
+            <span class="stat-label">Countries</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map Section -->
+      <section class="map-section">
+        <div class="map-toolbar">
+          <div class="tool-group">
+            <button class="map-tool-btn" id="zoomInBtn"><i class="fa-solid fa-plus"></i> Zoom In</button>
+            <button class="map-tool-btn" id="zoomOutBtn"><i class="fa-solid fa-minus"></i> Zoom Out</button>
+            <button class="map-tool-btn" id="resetViewBtn"><i class="fa-solid fa-home"></i> Reset to Bangladesh</button>
+            <button class="map-tool-btn" id="worldViewBtn"><i class="fa-solid fa-globe"></i> World View</button>
+          </div>
+          <div class="filter-group">
+            <select id="filterSelect" class="filter-select">
+              <option value="all">All Items</option>
+              <option value="lost">Lost Items Only</option>
+              <option value="found">Found Items Only</option>
+            </select>
+            <select id="countryFilter" class="filter-select">
+              <option value="all">All Countries</option>
+              <option value="Bangladesh">Bangladesh</option>
+              <option value="USA">USA</option>
+              <option value="UK">UK</option>
+              <option value="UAE">UAE</option>
+              <option value="Japan">Japan</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Australia">Australia</option>
+              <option value="Canada">Canada</option>
+              <option value="India">India</option>
+              <option value="Germany">Germany</option>
+              <option value="France">France</option>
+            </select>
+          </div>
+        </div>
+        <div id="interactiveMap" class="map-container"></div>
+        <div class="map-legend">
+          <span><i class="fa-solid fa-circle" style="color:#ef4444;"></i> Lost Items</span>
+          <span><i class="fa-solid fa-circle" style="color:#10b981;"></i> Found Items</span>
+          <span><i class="fa-solid fa-circle" style="color:#00cfe8;"></i> Hub Location</span>
+          <span><i class="fa-solid fa-location-dot"></i> Click markers for details</span>
+        </div>
+      </section>
+
+      <!-- Recent Activity Feed -->
+      <section class="activity-feed">
+        <div class="feed-header">
+          <h3><i class="fa-solid fa-clock"></i> Recent Activity</h3>
+          <span class="feed-badge">Live Updates</span>
+        </div>
+        <div class="feed-container" id="activityFeed">
+          <div class="feed-item">
+            <div class="feed-icon lost"><i class="fa-solid fa-mobile-alt"></i></div>
+            <div class="feed-content">
+              <p><strong>iPhone 14 Pro</strong> reported lost at <strong>Dhanmondi, Dhaka</strong></p>
+              <span class="feed-time">2 minutes ago</span>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon found"><i class="fa-solid fa-wallet"></i></div>
+            <div class="feed-content">
+              <p><strong>Brown Wallet</strong> found at <strong>Gulshan, Dhaka</strong></p>
+              <span class="feed-time">5 minutes ago</span>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon lost"><i class="fa-solid fa-key"></i></div>
+            <div class="feed-content">
+              <p><strong>Key Set</strong> reported lost at <strong>Uttara, Dhaka</strong></p>
+              <span class="feed-time">12 minutes ago</span>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon found"><i class="fa-solid fa-laptop"></i></div>
+            <div class="feed-content">
+              <p><strong>MacBook Pro</strong> found at <strong>Banani, Dhaka</strong></p>
+              <span class="feed-time">20 minutes ago</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="Map View.js"></script>
+</body>
+</html>
