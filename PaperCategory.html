@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Paper Vault | Lost & Found Documents</title>
+    <!-- Google Fonts & Font Awesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="PaperCategory.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Premium Sidebar -->
+        <aside class="glass-sidebar">
+            <div class="brand">
+                <div class="brand-icon"><i class="fas fa-certificate"></i></div>
+                <div class="brand-text">Paper<span>Trace</span></div>
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="nav-link active"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+                <a href="#" class="nav-link"><i class="fas fa-search-location"></i><span>Discover</span></a>
+                <a href="#" class="nav-link"><i class="fas fa-plus-circle"></i><span>Post Report</span></a>
+                <a href="#" class="nav-link"><i class="fas fa-id-card"></i><span>My Papers</span></a>
+            </nav>
+            <div class="sidebar-badge">
+                <i class="fas fa-shield-alt"></i> Verified hub
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-panel">
+            <!-- Header with search & notif -->
+            <header class="premium-header">
+                <div class="search-wrapper">
+                    <div class="search-input-group">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="smartSearch" placeholder="Search by document type, certificate, ID number...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-icon">
+                        <i class="far fa-bell"></i>
+                        <span class="pulse-dot"></span>
+                    </div>
+                    <div class="profile-avatar">
+                        <span>PA</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Animated Stats Strip -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <i class="fas fa-file-contract"></i>
+                    <div class="stat-info"><span class="stat-number" id="totalPaperCount">0</span><span>paper items</span></div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-hand-peace"></i>
+                    <div class="stat-info"><span class="stat-number" id="recoveryStat">94</span><span>% reunion rate</span></div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-info"><span>active community</span><span>+1.2k</span></div>
+                </div>
+            </div>
+
+            <!-- Categories + Paper Focus (Interactive chips) -->
+            <div class="category-zone">
+                <div class="category-header">
+                    <h3><i class="fas fa-tag"></i> Quick filter by category</h3>
+                    <span class="pill-info"><i class="fas fa-file-alt"></i> Paper focus active</span>
+                </div>
+                <div class="chip-container" id="categoryChipsContainer">
+                    <div class="filter-chip" data-category="all"><i class="fas fa-border-all"></i> All</div>
+                    <div class="filter-chip active-chip" data-category="paper"><i class="fas fa-newspaper"></i> Paper & Docs</div>
+                    <div class="filter-chip" data-category="electronics"><i class="fas fa-mobile-alt"></i> Electronics</div>
+                    <div class="filter-chip" data-category="pets"><i class="fas fa-paw"></i> Pets</div>
+                    <div class="filter-chip" data-category="bag"><i class="fas fa-briefcase"></i> Bags</div>
+                    <div class="filter-chip" data-category="key"><i class="fas fa-key"></i> Keys</div>
+                </div>
+            </div>
+
+            <!-- Status Tabs + Sort -->
+            <div class="action-bar">
+                <div class="status-toggle-group" id="statusTabs">
+                    <button class="status-btn active-status" data-status="all">📋 All reports</button>
+                    <button class="status-btn" data-status="lost">⚠️ Lost documents</button>
+                    <button class="status-btn" data-status="found">✅ Found documents</button>
+                </div>
+                <div class="sort-control">
+                    <i class="fas fa-sort-amount-down-alt"></i>
+                    <select id="sortByDate">
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Dynamic Grid for Posts -->
+            <div class="posts-grid" id="postsDynamicGrid"></div>
+
+            <!-- Empty State (hidden by default) -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon"><i class="fas fa-folder-open"></i></div>
+                <h4>No matching paper documents</h4>
+                <p>Adjust your filters or explore other categories</p>
+                <button id="resetFiltersBtn" class="ghost-btn">⟳ Reset filters</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="PaperCategory.js"></script>
+</body>
+</html>
