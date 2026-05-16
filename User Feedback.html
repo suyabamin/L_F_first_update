@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>User Feedback | Lost & Found Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="User Feedback.css">
+</head>
+<body>
+  <main class="page-shell">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="ambient ambient-three"></div>
+
+    <section class="page-frame">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <a class="back-button" href="../DashBoard/index.html" aria-label="Back to dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+          <div>
+            <p class="eyebrow eyebrow-left"><i class="fa-regular fa-star"></i> customer feedback</p>
+            <h1>What people say about Lost &amp; Found</h1>
+            <p class="subtitle">Track satisfaction, read recent reviews, and share your experience with our community.</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <a class="top-link ghost" href="../Conversations/index.html"><i class="fa-regular fa-message"></i> View conversations</a>
+          <a class="top-link solid" href="../Create Post/index.html"><i class="fa-solid fa-plus"></i> Create post</a>
+        </div>
+      </header>
+
+      <section class="hero-grid" aria-label="Feedback summary">
+        <article class="hero-panel overview-card animate-up">
+          <p class="eyebrow">overall rating</p>
+          <div class="score-row">
+            <div class="score" id="overallScore">4.24</div>
+            <div class="score-note">
+              <i class="fa-solid fa-star"></i>
+              <span>based on <span id="totalReviews">20</span> reviews</span>
+            </div>
+          </div>
+
+          <div class="hero-metrics">
+            <div>
+              <strong id="positivePercent">87%</strong>
+              <span>positive feedback</span>
+            </div>
+            <div>
+              <strong id="avgResponse">12 min</strong>
+              <span>average response</span>
+            </div>
+            <div>
+              <strong id="topScore">4.8</strong>
+              <span>top reviewer score</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="hero-panel chart-card animate-up" style="animation-delay: 0.1s;">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow eyebrow-left">rating breakdown</p>
+              <h2>Feedback distribution</h2>
+            </div>
+            <span class="chip"><i class="fa-solid fa-chart-simple"></i> Live</span>
+          </div>
+          <div class="rating-bars" id="ratingBars">
+            <div class="rating-line">
+              <span><i class="fa-regular fa-face-smile"></i> Excellent</span>
+              <div class="bar"><span class="bar-fill" data-percent="82" style="width: 82%"></span></div>
+            </div>
+            <div class="rating-line">
+              <span><i class="fa-regular fa-face-meh"></i> Average</span>
+              <div class="bar"><span class="bar-fill" data-percent="61" style="width: 61%"></span></div>
+            </div>
+            <div class="rating-line">
+              <span><i class="fa-regular fa-face-frown"></i> Poor</span>
+              <div class="bar"><span class="bar-fill" data-percent="36" style="width: 36%"></span></div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <div class="main-column">
+          <section class="stats-row" aria-label="Quick statistics">
+            <article class="stat-tile animate-up" style="animation-delay: 0.2s;">
+              <span class="stat-icon"><i class="fa-solid fa-comment-dots"></i></span>
+              <strong id="newReviews">20</strong>
+              <span>new reviews</span>
+            </article>
+            <article class="stat-tile animate-up" style="animation-delay: 0.25s;">
+              <span class="stat-icon"><i class="fa-solid fa-heart"></i></span>
+              <strong id="happyUsers">15</strong>
+              <span>happy users</span>
+            </article>
+            <article class="stat-tile animate-up" style="animation-delay: 0.3s;">
+              <span class="stat-icon"><i class="fa-solid fa-shield-heart"></i></span>
+              <strong id="trustScore">98%</strong>
+              <span>trust score</span>
+            </article>
+          </section>
+
+          <section class="review-section">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow eyebrow-left">recent reviews</p>
+                <h2>What users are saying</h2>
+              </div>
+              <div class="filter-row" aria-label="Review filters">
+                <button type="button" class="filter-chip active" data-filter="all">All</button>
+                <button type="button" class="filter-chip" data-filter="positive">Positive</button>
+                <button type="button" class="filter-chip" data-filter="needs">Needs help</button>
+              </div>
+            </div>
+
+            <div id="reviewsContainer">
+              <!-- Reviews will be dynamically inserted -->
+            </div>
+          </section>
+        </div>
+
+        <aside class="side-column">
+          <section class="composer-card animate-up" style="animation-delay: 0.35s;">
+            <div class="composer-hero">
+              <p class="eyebrow eyebrow-left">write feedback</p>
+              <h2>Share your experience</h2>
+              <p>Tell us how the app worked for you, what felt smooth, and where the flow can improve.</p>
+              <div class="composer-tags" aria-label="Feedback topics">
+                <span><i class="fa-regular fa-clock"></i> Fast response</span>
+                <span><i class="fa-regular fa-circle-check"></i> Item matching</span>
+                <span><i class="fa-regular fa-handshake"></i> Claim support</span>
+              </div>
+            </div>
+
+            <form class="review-form" id="reviewForm">
+              <div class="review-grid">
+                <label>
+                  <span><i class="fa-regular fa-user"></i> Your name</span>
+                  <input type="text" id="reviewerName" placeholder="Enter your name" required>
+                </label>
+
+                <label>
+                  <span><i class="fa-regular fa-star"></i> Your rating</span>
+                  <div class="star-input" id="starInput">
+                    <button type="button" data-rating="1" class="star-btn"><i class="fa-regular fa-star"></i></button>
+                    <button type="button" data-rating="2" class="star-btn"><i class="fa-regular fa-star"></i></button>
+                    <button type="button" data-rating="3" class="star-btn"><i class="fa-regular fa-star"></i></button>
+                    <button type="button" data-rating="4" class="star-btn"><i class="fa-regular fa-star"></i></button>
+                    <button type="button" data-rating="5" class="star-btn"><i class="fa-regular fa-star"></i></button>
+                  </div>
+                  <input type="hidden" id="ratingValue" value="0">
+                </label>
+              </div>
+
+              <label>
+                <span><i class="fa-regular fa-pen-to-square"></i> Your review</span>
+                <textarea id="reviewText" rows="5" placeholder="Tell us what worked well and what can improve..." required></textarea>
+              </label>
+
+              <div class="review-footer-row">
+                <p><i class="fa-regular fa-lightbulb"></i> Be specific. A short story helps other users trust the platform.</p>
+                <button class="review-button" type="submit"><i class="fa-regular fa-paper-plane"></i> Submit review</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="tip-card animate-up" style="animation-delay: 0.4s;">
+            <p class="eyebrow eyebrow-left">tips</p>
+            <h2>Make your feedback useful</h2>
+            <ul>
+              <li><i class="fa-regular fa-bolt"></i> Describe how fast the response was.</li>
+              <li><i class="fa-regular fa-magnifying-glass"></i> Mention item matching, pickup, or claim flow.</li>
+              <li><i class="fa-regular fa-chart-line"></i> Add one thing that can improve the experience.</li>
+            </ul>
+          </section>
+        </aside>
+      </section>
+    </section>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="User Feedback.js"></script>
+</body>
+</html>
