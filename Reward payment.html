@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Reward Payment | Lost & Found Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Reward payment.css">
+</head>
+<body class="payment-theme">
+
+    <div class="payment-shell">
+        <!-- Header -->
+        <header class="payment-header">
+            <button class="back-circle" id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Reward Payment</h1>
+            <div class="header-shield">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+        </header>
+
+        <main class="payment-content">
+            <!-- Hero Reward Card -->
+            <section class="hero-reward-card animate-up">
+                <div class="money-bag-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <div class="reward-badge">✨</div>
+                </div>
+                <h2>Express Gratitude</h2>
+                <p>Send a reward to the kind soul who found your lost item as a token of appreciation.</p>
+                <div class="hero-stats">
+                    <div class="stat"><i class="fas fa-users"></i> 1,284+ Rewards Sent</div>
+                    <div class="stat"><i class="fas fa-star"></i> 98% Satisfaction</div>
+                </div>
+            </section>
+
+            <!-- Item Summary Card -->
+            <section class="item-summary-card animate-up" style="animation-delay: 0.05s;">
+                <div class="item-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="item-details">
+                    <h3>Found iPhone 13 Pro</h3>
+                    <p>Found by <strong>Ahmed Hossain</strong> • Dhanmondi, Dhaka</p>
+                    <span class="found-date"><i class="far fa-calendar-alt"></i> Found on May 15, 2026</span>
+                </div>
+            </section>
+
+            <!-- Payment Method Card -->
+            <section class="method-selector-card animate-up" style="animation-delay: 0.1s;">
+                <div class="card-header">
+                    <h3><i class="fas fa-credit-card"></i> Select Payment Method</h3>
+                    <span class="secure-badge"><i class="fas fa-lock"></i> Secure</span>
+                </div>
+                
+                <div class="payment-grid" id="paymentGrid">
+                    <!-- bKash -->
+                    <button class="method-tile" data-method="bkash">
+                        <div class="logo-wrapper">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8b/Bkash_logo.svg/1200px-Bkash_logo.svg.png" alt="bKash" onerror="this.src='https://via.placeholder.com/80x40?text=bKash'">
+                        </div>
+                        <span>bKash</span>
+                        <div class="check-indicator"><i class="fas fa-check-circle"></i></div>
+                    </button>
+
+                    <!-- Nagad -->
+                    <button class="method-tile" data-method="nagad">
+                        <div class="logo-wrapper">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Nagad_logo.svg/1200px-Nagad_logo.svg.png" alt="Nagad" onerror="this.src='https://via.placeholder.com/80x40?text=Nagad'">
+                        </div>
+                        <span>Nagad</span>
+                        <div class="check-indicator"><i class="fas fa-check-circle"></i></div>
+                    </button>
+
+                    <!-- Rocket -->
+                    <button class="method-tile" data-method="rocket">
+                        <div class="logo-wrapper">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Rocket_%28mobile_financial_service%29_Logo.svg/1200px-Rocket_%28mobile_financial_service%29_Logo.svg.png" alt="Rocket" onerror="this.src='https://via.placeholder.com/80x40?text=Rocket'">
+                        </div>
+                        <span>Rocket</span>
+                        <div class="check-indicator"><i class="fas fa-check-circle"></i></div>
+                    </button>
+
+                    <!-- Credit Card -->
+                    <button class="method-tile" data-method="card">
+                        <div class="logo-wrapper">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <span>Credit Card</span>
+                        <div class="check-indicator"><i class="fas fa-check-circle"></i></div>
+                    </button>
+                </div>
+
+                <!-- Mobile Number Input (for mobile payments) -->
+                <div class="mobile-number-container" id="mobileNumberContainer" style="display: none;">
+                    <label><i class="fas fa-mobile-alt"></i> Mobile Number</label>
+                    <div class="input-wrapper">
+                        <span class="country-code">+880</span>
+                        <input type="tel" id="mobileNumber" placeholder="1XXXXXXXXX" maxlength="10">
+                    </div>
+                    <span class="input-hint">Enter the mobile number registered with your payment method</span>
+                </div>
+            </section>
+
+            <!-- Amount Input Section -->
+            <section class="amount-container animate-up" style="animation-delay: 0.15s;">
+                <div class="amount-header">
+                    <label><i class="fas fa-taka-sign"></i> Enter Reward Amount</label>
+                    <span class="suggested">Suggested: 500 - 2000 BDT</span>
+                </div>
+                <div class="amount-input-wrap">
+                    <span class="currency">৳</span>
+                    <input type="number" id="rewardAmount" placeholder="Enter amount" value="500">
+                    <button class="clear-amount" id="clearAmountBtn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="quick-amounts">
+                    <button class="quick-amount" data-amount="200">200 ৳</button>
+                    <button class="quick-amount" data-amount="500">500 ৳</button>
+                    <button class="quick-amount" data-amount="1000">1,000 ৳</button>
+                    <button class="quick-amount" data-amount="2000">2,000 ৳</button>
+                    <button class="quick-amount" data-amount="5000">5,000 ৳</button>
+                </div>
+            </section>
+
+            <!-- Transaction Summary -->
+            <section class="summary-card animate-up" style="animation-delay: 0.2s;">
+                <h4><i class="fas fa-receipt"></i> Transaction Summary</h4>
+                <div class="summary-row">
+                    <span>Reward Amount</span>
+                    <strong id="summaryAmount">৳ 500</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Platform Fee</span>
+                    <strong>৳ 0 <small>(Free)</small></strong>
+                </div>
+                <div class="summary-row total">
+                    <span>Total to Pay</span>
+                    <strong id="totalAmount">৳ 500</strong>
+                </div>
+            </section>
+        </main>
+
+        <footer class="payment-footer">
+            <button class="btn-confirm-payment" id="confirmPaymentBtn">
+                <i class="fas fa-shield-heart"></i> Proceed to Secure Payment
+            </button>
+            <p class="secure-note"><i class="fas fa-shield-alt"></i> Your transaction is encrypted & secure</p>
+        </footer>
+    </div>
+
+    <!-- Payment Processing Modal -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-container">
+            <div class="modal-icon">
+                <i class="fas fa-spinner fa-pulse"></i>
+            </div>
+            <h3 id="modalTitle">Processing Payment</h3>
+            <p id="modalMessage">Please wait while we securely process your transaction...</p>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-container success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Payment Successful!</h3>
+            <p>Your reward has been sent successfully. The finder will be notified.</p>
+            <div class="transaction-id" id="transactionId">TRX-8H2K9M4N</div>
+            <button class="btn-primary" id="closeSuccessBtn">Continue</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="Reward payment.js"></script>
+</body>
+</html>
