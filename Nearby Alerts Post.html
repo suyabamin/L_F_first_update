@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Nearby Alerts | Lost & Found Hub - Global</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="Nearby Alerts Post.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>LOST & FOUND HUB</span>
+            </div>
+            <nav class="menu">
+                <div class="menu-item active" data-tab="all">
+                    <i class="fa-solid fa-bell"></i> All Alerts
+                </div>
+                <div class="menu-item" data-tab="lost">
+                    <i class="fa-solid fa-briefcase"></i> Lost Items
+                </div>
+                <div class="menu-item" data-tab="found">
+                    <i class="fa-solid fa-circle-check"></i> Found Items
+                </div>
+                <div class="menu-item" data-tab="hub">
+                    <i class="fa-solid fa-shield-halved"></i> Hub Alerts
+                </div>
+                <hr>
+                <div class="menu-item" data-tab="account">
+                    <i class="fa-solid fa-user"></i> My Account
+                </div>
+                <div class="menu-item logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="navbar">
+                <div class="nav-links">
+                    <span class="nav-link active">Home</span>
+                    <span class="nav-link">Maps</span>
+                    <span class="nav-link">My Listings</span>
+                    <span class="nav-link">Verify Status</span>
+                    <span class="nav-link">Messages</span>
+                    <span class="nav-link">Contact</span>
+                </div>
+                <div class="nav-profile">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="location-tag"><i class="fa-solid fa-location-dot"></i> Dhanmondi, Dhaka</span>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Map Section -->
+                <section class="map-section animate-fade">
+                    <div class="section-header">
+                        <h2><i class="fa-solid fa-globe"></i> Global Alerts Map</h2>
+                        <div class="filter-pills" id="filterPills">
+                            <button class="pill active" data-filter="all">All</button>
+                            <button class="pill" data-filter="lost">Lost Items</button>
+                            <button class="pill" data-filter="found">Found Items</button>
+                            <button class="pill" data-filter="hub">Hub Alerts</button>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <div id="worldwideMap" class="real-map"></div>
+                        <div class="map-tools">
+                            <button id="zoomInBtn" title="Zoom In"><i class="fa-solid fa-plus"></i></button>
+                            <button id="zoomOutBtn" title="Zoom Out"><i class="fa-solid fa-minus"></i></button>
+                            <button id="worldViewBtn" title="World View"><i class="fa-solid fa-globe"></i></button>
+                            <button id="locateBtn" title="My Location"><i class="fa-solid fa-location-crosshairs"></i></button>
+                            <button id="fullscreenBtn" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+                        </div>
+                        <div class="map-key">
+                            <h3><i class="fa-solid fa-map"></i> Map Key</h3>
+                            <ul>
+                                <li><i class="fa-solid fa-circle lost-icon"></i> Lost Items</li>
+                                <li><i class="fa-solid fa-circle found-icon"></i> Found Items</li>
+                                <li><i class="fa-solid fa-circle hub-icon"></i> Hub Locations</li>
+                                <li><i class="fa-solid fa-location-dot you-icon"></i> Your Location</li>
+                            </ul>
+                            <div class="summary-stats">
+                                <h3>Global Summary</h3>
+                                <p><strong>Lost Items:</strong> <span id="lostSummary">24</span> Active</p>
+                                <p><strong>Found Items:</strong> <span id="foundSummary">18</span> Verified</p>
+                                <p><strong>Hub Alerts:</strong> <span id="hubSummary">12</span> New</p>
+                                <p><strong>Countries:</strong> <span id="countryCount">15</span> Worldwide</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Alerts Feed Section -->
+                <section class="feed-section animate-slide">
+                    <div class="feed-header">
+                        <h2><i class="fa-solid fa-bell"></i> Global Alerts Feed</h2>
+                        <div class="search-sort">
+                            <div class="search-wrapper">
+                                <i class="fa-solid fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="Search alerts worldwide...">
+                            </div>
+                            <button id="sortBtn"><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</button>
+                        </div>
+                    </div>
+
+                    <div class="scroll-area" id="alertsContainer">
+                        <!-- Bangladesh Alerts -->
+                        <div class="card card-found" data-type="found" data-title="Maroon Leather Wallet" data-country="Bangladesh">
+                            <div class="card-icon"><i class="fa-solid fa-user-check"></i></div>
+                            <div class="card-body">
+                                <h4>found: Maroon Leather Wallet <span class="country-badge">🇧🇩 Bangladesh</span></h4>
+                                <p>Found at Dhanmondi 27, Dhaka. Verified bounty offered via bKash</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 2 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                    <button class="claim-btn">Claim</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card card-lost" data-type="lost" data-title="iPhone 13 Pro" data-country="Bangladesh">
+                            <div class="card-icon"><i class="fa-solid fa-circle-dot"></i></div>
+                            <div class="card-body">
+                                <h4>lost: iPhone 13 Pro (Blue) <span class="country-badge">🇧🇩 Bangladesh</span> <span class="badge ai">AI Match 85%</span></h4>
+                                <p>Lost near Star Kabab, Satmasjid Road, Dhaka. 85% AI Match Probability</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 2 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                    <button class="track-btn">Track</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card card-hub" data-type="hub" data-title="UIU Hub Alert" data-country="Bangladesh">
+                            <div class="card-icon"><i class="fa-solid fa-building-shield"></i></div>
+                            <div class="card-body">
+                                <h4>UIU Hub Alert: 15 New Items <span class="country-badge">🇧🇩 Bangladesh</span></h4>
+                                <p>Found items synchronized from UIU Security today. View inventory.</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 2 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                    <button class="inventory-btn">View Inventory</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- USA Alerts -->
+                        <div class="card card-lost" data-type="lost" data-title="MacBook Pro" data-country="USA">
+                            <div class="card-icon"><i class="fa-solid fa-circle-dot"></i></div>
+                            <div class="card-body">
+                                <h4>lost: MacBook Pro 16" <span class="country-badge">🇺🇸 USA</span> <span class="badge ai">AI Match 92%</span></h4>
+                                <p>Lost at Times Square, New York. Reward offered for return.</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 15 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                    <button class="track-btn">Track</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- UK Alerts -->
+                        <div class="card card-found" data-type="found" data-title="Passport" data-country="UK">
+                            <div class="card-icon"><i class="fa-solid fa-user-check"></i></div>
+                            <div class="card-body">
+                                <h4>found: UK Passport <span class="country-badge">🇬🇧 UK</span></h4>
+                                <p>Found near London Eye. Contact to claim.</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 25 mins ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                    <button class="claim-btn">Claim</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- UAE Alerts -->
+                        <div class="card card-lost" data-type="lost" data-title="Rolex Watch" data-country="UAE">
+                            <div class="card-icon"><i class="fa-solidfa-circle-dot"></i></div>
+                            <div class="card-body">
+                                <h4>lost: Rolex Submariner <span class="country-badge">🇦🇪 UAE</span> <span class="badge ai">AI Match 78%</span></h4>
+                                <p>Lost at Burj Khalifa, Dubai. High reward for return.</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 1 hour ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                    <button class="track-btn">Track</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Japan Alerts -->
+                        <div class="card card-found" data-type="found" data-title="Camera" data-country="Japan">
+                            <div class="card-icon"><i class="fa-solid fa-user-check"></i></div>
+                            <div class="card-body">
+                                <h4>found: Sony Camera <span class="country-badge">🇯🇵 Japan</span></h4>
+                                <p>Found at Shibuya Crossing, Tokyo. Describe to claim.</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 2 hours ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                    <button class="claim-btn">Claim</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Singapore Alerts -->
+                        <div class="card card-hub" data-type="hub" data-title="Singapore Hub" data-country="Singapore">
+                            <div class="card-icon"><i class="fa-solid fa-building-shield"></i></div>
+                            <div class="card-body">
+                                <h4>Singapore Hub: 8 New Items <span class="country-badge">🇸🇬 Singapore</span></h4>
+                                <p>New lost and found reports at Marina Bay Sands area.</p>
+                                <span class="time"><i class="fa-regular fa-clock"></i> 3 hours ago</span>
+                                <div class="card-actions">
+                                    <button class="details-btn">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="footer-caption">Global Lost & Found Network | Data sync from 15+ countries</p>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="Nearby Alerts Post.js"></script>
+</body>
+</html>

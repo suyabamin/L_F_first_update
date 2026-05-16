@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Radius Search | Lost & Found Global</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="Radius search.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-shield-heart"></i>
+                    <span>Lost & Found</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <div class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="badge">New</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Claims</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>Messaging</span>
+                </div>
+            </div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Alex+M&background=00A9B5&color=fff&bold=true&size=45" alt="User">
+                <div class="user-info">
+                    <h4>Alex Morgan</h4>
+                    <p>Premium Member</p>
+                </div>
+                <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>RADIUS SEARCH</h1>
+                    <p>Find lost items within your selected area</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="globalSearch" placeholder="Search items, locations...">
+                    </div>
+                    <button class="header-icon" id="notifyBtn"><i class="fas fa-bell"></i><span class="dot">3</span></button>
+                </div>
+            </header>
+
+            <div class="content-grid">
+                <!-- Map Section -->
+                <section class="map-section">
+                    <div class="map-header">
+                        <h3><i class="fas fa-map-marked-alt"></i> Interactive Radius Map</h3>
+                        <div class="map-stats" id="mapStats">
+                            <span><i class="fas fa-location-dot"></i> <span id="itemCount">24</span> items found</span>
+                        </div>
+                    </div>
+                    <div id="radiusMap" class="radius-map"></div>
+                    <div class="map-controls">
+                        <button id="zoomInBtn" title="Zoom In"><i class="fas fa-plus"></i></button>
+                        <button id="zoomOutBtn" title="Zoom Out"><i class="fas fa-minus"></i></button>
+                        <button id="worldViewBtn" title="World View"><i class="fas fa-globe"></i></button>
+                        <button id="locateBtn" title="My Location"><i class="fas fa-location-crosshairs"></i></button>
+                        <button id="fullscreenBtn" title="Fullscreen"><i class="fas fa-expand"></i></button>
+                    </div>
+                    <div class="radius-indicator" id="radiusIndicator">
+                        <i class="fas fa-draw-polygon"></i> Radius: <span id="radiusValue">2.5</span> km
+                    </div>
+                </section>
+
+                <!-- Controls Section -->
+                <section class="controls-section">
+                    <h3><i class="fas fa-sliders-h"></i> Radius Search Controls</h3>
+                    <div class="input-group">
+                        <label><i class="fas fa-map-pin"></i> Enter Location</label>
+                        <input type="text" id="locationInput" placeholder="e.g., Dhanmondi, Dhaka, Bangladesh" value="Dhanmondi, Dhaka">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-expand-alt"></i> Define Radius</label>
+                        <input type="range" id="radiusSlider" min="0.5" max="10" step="0.5" value="2.5">
+                        <div class="range-labels">
+                            <span>0.5km</span>
+                            <span>2.5km</span>
+                            <span>5km</span>
+                            <span>7.5km</span>
+                            <span>10km</span>
+                        </div>
+                    </div>
+                    <div class="toggle-group">
+                        <span><i class="fas fa-clock"></i> Real-time Updates</span>
+                        <label class="switch">
+                            <input type="checkbox" id="realtimeToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <button class="secondary-btn" id="filterBtn"><i class="fas fa-filter"></i> Filter by Time/Category</button>
+                    <button class="secondary-btn" id="searchAgainBtn"><i class="fas fa-search"></i> Search Again</button>
+                    <button class="primary-btn" id="saveSearchBtn"><i class="fas fa-bookmark"></i> Save Search</button>
+                </section>
+
+                <!-- Feed Section -->
+                <section class="feed-section">
+                    <div class="feed-header">
+                        <h3><i class="fas fa-list"></i> Matched Listings Feed</h3>
+                        <p>Recent & Nearby Items (Matching Dhanmondi Zone)</p>
+                    </div>
+                    
+                    <div class="feed-scroll" id="feedScroll">
+                        <div class="feed-card" data-type="found" data-distance="0.3">
+                            <div class="card-icon wallet"><i class="fas fa-wallet"></i></div>
+                            <div class="card-info">
+                                <h4>found: Maroon Leather Wallet <span class="country-badge">🇧🇩 Dhaka</span></h4>
+                                <p>Dhanmondi 27. Verified bounty offered via bKash</p>
+                                <span class="time"><i class="far fa-clock"></i> 2 mins ago</span>
+                                <span class="distance"><i class="fas fa-location-arrow"></i> 0.3 km away</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+
+                        <div class="feed-card" data-type="lost" data-distance="1.2">
+                            <div class="card-icon phone"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="card-info">
+                                <h4>lost: iPhone 13 Pro (Blue) <span class="country-badge">🇧🇩 Dhaka</span> <span class="ai-tag">AI Match 85%</span></h4>
+                                <p>Lost near Star Kabab, Satmasjid Rd</p>
+                                <span class="time"><i class="far fa-clock"></i> 2 mins ago</span>
+                                <span class="distance"><i class="fas fa-location-arrow"></i> 1.2 km away</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+
+                        <div class="feed-card" data-type="found" data-distance="2.1">
+                            <div class="card-icon keys"><i class="fas fa-key"></i></div>
+                            <div class="card-info">
+                                <h4>found: Car Keys <span class="country-badge">🇧🇩 Dhaka</span></h4>
+                                <p>Found at Dhanmondi. Verified bounty via bKash</p>
+                                <span class="time"><i class="far fa-clock"></i> 2 mins ago</span>
+                                <span class="distance"><i class="fas fa-location-arrow"></i> 2.1 km away</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+
+                        <div class="feed-card" data-type="lost" data-distance="3.5">
+                            <div class="card-icon laptop"><i class="fas fa-laptop"></i></div>
+                            <div class="card-info">
+                                <h4>lost: MacBook Pro <span class="country-badge">🇺🇸 New York</span> <span class="ai-tag">AI Match 92%</span></h4>
+                                <p>Lost near Times Square, NYC</p>
+                                <span class="time"><i class="far fa-clock"></i> 15 mins ago</span>
+                                <span class="distance"><i class="fas fa-location-arrow"></i> 3.5 km away</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+
+                        <div class="feed-card" data-type="found" data-distance="4.8">
+                            <div class="card-icon passport"><i class="fas fa-passport"></i></div>
+                            <div class="card-info">
+                                <h4>found: UK Passport <span class="country-badge">🇬🇧 London</span></h4>
+                                <p>Found near London Eye. Contact to claim.</p>
+                                <span class="time"><i class="far fa-clock"></i> 25 mins ago</span>
+                                <span class="distance"><i class="fas fa-location-arrow"></i> 4.8 km away</span>
+                            </div>
+                            <button class="view-btn">View Details</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="bottom-nav">
+                <div class="nav-links-left">
+                    <span><i class="fas fa-home"></i> Home</span>
+                    <span><i class="fas fa-chart-bar"></i> Utility</span>
+                    <span><i class="fas fa-columns"></i> Dashboard</span>
+                    <span><i class="fas fa-envelope"></i> Contact</span>
+                </div>
+                <div class="nav-links-right">
+                    <span><i class="fas fa-history"></i> Travestory</span>
+                    <span><i class="fas fa-chart-line"></i> Liog</span>
+                    <span><i class="fas fa-info-circle"></i> About</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="Radius search.js"></script>
+</body>
+</html>
