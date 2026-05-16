@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Precision Compare | L&F Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="Compare Two.css">
+</head>
+<body class="compare-page">
+
+  <div class="glow-bg"></div>
+  <div class="particle-canvas" id="particleCanvas"></div>
+
+  <main class="compare-wrapper">
+    <!-- Sophisticated Navigation Header -->
+    <header class="glass-nav">
+      <div class="nav-left">
+        <button class="round-btn" id="backBtn" aria-label="Go back"><i class="fas fa-chevron-left"></i></button>
+        <div class="nav-text">
+          <span class="breadcrumb"><i class="fas fa-brain"></i> Intelligence / Duplicate Auditor</span>
+          <h1>Compare Records</h1>
+        </div>
+      </div>
+
+      <div class="match-analytics" id="matchAnalytics">
+        <div class="ai-status">
+          <i class="fas fa-microchip fa-fw"></i>
+          <span>AI Neural Scan</span>
+          <span class="pulse-dot"></span>
+        </div>
+        <div class="match-percentage" id="matchPercentContainer">
+          <svg class="progress-ring" width="68" height="68" viewBox="0 0 68 68">
+            <circle class="progress-ring__background" stroke="#e2e8f0" stroke-width="4.5" fill="transparent" r="30" cx="34" cy="34"/>
+            <circle class="progress-ring__circle" stroke="url(#paint0_linear)" stroke-width="4.5" stroke-linecap="round" fill="transparent" r="30" cx="34" cy="34" stroke-dasharray="188.4" stroke-dashoffset="11.3"/>
+            <defs>
+                <linearGradient id="paint0_linear" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00cfe8" />
+                  <stop offset="50%" stop-color="#7c3aed" />
+                  <stop offset="100%" stop-color="#f43f5e" />
+                </linearGradient>
+            </defs>
+          </svg>
+          <span class="score-text" id="matchScore">94%</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="comparison-grid" id="comparisonGrid">
+      <!-- Item Alpha (Source) -->
+      <div class="compare-panel item-alpha" data-item="source">
+        <div class="panel-header">
+          <div class="id-pill"><i class="fas fa-database"></i> Source #LF-402</div>
+          <span class="status-dot success" title="High confidence match"></span>
+        </div>
+        
+        <div class="visual-container">
+          <img src="https://images.unsplash.com/photo-1590247813693-5541d1c609fd?w=600&h=450&fit=crop" alt="Sony Headphones Item A">
+          <div class="media-overlay"><i class="fas fa-verify"></i> Primary Reference</div>
+        </div>
+
+        <div class="attribute-list">
+          <div class="attr-row match" data-attr="title">
+            <span class="attr-label"><i class="fas fa-tag"></i> Title</span>
+            <div class="attr-val">Sony WH-1000XM4 Headphones</div>
+            <i class="fas fa-check-circle match-icon"></i>
+          </div>
+          <div class="attr-row match" data-attr="category">
+            <span class="attr-label"><i class="fas fa-layer-group"></i> Category</span>
+            <div class="attr-val">Electronics</div>
+            <i class="fas fa-check-circle match-icon"></i>
+          </div>
+          <div class="attr-row conflict" data-attr="location">
+            <span class="attr-label"><i class="fas fa-location-dot"></i> Location</span>
+            <div class="attr-val">Waiting Lounge - Gate B1</div>
+            <i class="fas fa-exclamation-triangle conflict-icon"></i>
+          </div>
+          <div class="attr-row match" data-attr="date">
+            <span class="attr-label"><i class="fas fa-calendar-alt"></i> Date Reported</span>
+            <div class="attr-val">May 1, 2026</div>
+            <i class="fas fa-check-circle match-icon"></i>
+          </div>
+          <div class="attr-row" data-attr="status">
+            <span class="attr-label"><i class="fas fa-flag-checkered"></i> Status</span>
+            <div class="attr-val">Pending Verification</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sync Hub (Center Animated Icon) -->
+      <div class="sync-hub">
+        <div class="line line-top"></div>
+        <div class="hub-icon animated-pulse"><i class="fas fa-code-compare"></i></div>
+        <div class="line line-bottom"></div>
+      </div>
+
+      <!-- Item Beta (Candidate) -->
+      <div class="compare-panel item-beta" data-item="candidate">
+        <div class="panel-header">
+          <div class="id-pill"><i class="fas fa-clone"></i> Candidate #LF-881</div>
+          <span class="status-dot warning" title="Location mismatch"></span>
+        </div>
+
+        <div class="visual-container">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=450&fit=crop" alt="Sony Headphones Item B">
+          <div class="media-overlay"><i class="fas fa-search"></i> Scanned Entry</div>
+        </div>
+
+        <div class="attribute-list">
+          <div class="attr-row match" data-attr="title">
+            <span class="attr-label"><i class="fas fa-tag"></i> Title</span>
+            <div class="attr-val">Sony Headphones (Black)</div>
+            <i class="fas fa-check-circle match-icon"></i>
+          </div>
+          <div class="attr-row match" data-attr="category">
+            <span class="attr-label"><i class="fas fa-layer-group"></i> Category</span>
+            <div class="attr-val">Electronics</div>
+            <i class="fas fa-check-circle match-icon"></i>
+          </div>
+          <div class="attr-row conflict" data-attr="location">
+            <span class="attr-label"><i class="fas fa-location-dot"></i> Location</span>
+            <div class="attr-val">Starbucks near Gate B4</div>
+            <i class="fas fa-exclamation-triangle conflict-icon"></i>
+          </div>
+          <div class="attr-row match" data-attr="date">
+            <span class="attr-label"><i class="fas fa-calendar-alt"></i> Date Reported</span>
+            <div class="attr-val">May 1, 2026</div>
+            <i class="fas fa-check-circle match-icon"></i>
+          </div>
+          <div class="attr-row" data-attr="status">
+            <span class="attr-label"><i class="fas fa-hourglass-half"></i> Status</span>
+            <div class="attr-val">Under Review</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smart Footer -->
+    <footer class="action-footer" id="actionFooter">
+      <div class="footer-note">
+        <i class="fas fa-circle-info"></i>
+        <span id="footerMessage">Conflict detected in <strong>Location</strong> field. AI suggests spatial drift.</span>
+      </div>
+      <div class="footer-btns">
+        <button class="btn-secondary" id="discardBtn"><i class="fas fa-times"></i> Discard Match</button>
+        <button class="btn-gradient" id="mergeBtn"><i class="fas fa-code-merge"></i> Merge Intelligence</button>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="Compare Two.js"></script>
+</body>
+</html>
