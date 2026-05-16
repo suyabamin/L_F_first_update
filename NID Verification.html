@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>NID Verification | Lost & Found Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="NID Verification.css">
+</head>
+<body>
+  <main class="nid-shell">
+    <button class="nav-back" id="nav-back" aria-label="Back">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <!-- Step 0: initial form (NID + DOB) -->
+    <section id="step-0" class="nid-step initial">
+      <div class="nid-media icon-block">
+        <div class="icon-wrapper">
+          <i class="fas fa-id-card"></i>
+        </div>
+        <div class="verified-badge">
+          <i class="fas fa-shield-alt"></i> Secure Verification
+        </div>
+      </div>
+      <div class="nid-instruction">
+        <h2>Verify Your Identity</h2>
+        <p>Enter your National ID number and date of birth to begin the verification process.</p>
+      </div>
+
+      <form class="nid-form" id="nidForm">
+        <div class="input-group">
+          <label class="input-label">
+            <i class="fas fa-id-card"></i> NID NUMBER
+          </label>
+          <input type="text" name="nid" id="nidInput" placeholder="88189845764387238" class="modern-input">
+          <span class="input-hint">Enter your 17-digit National ID number</span>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">
+            <i class="fas fa-calendar-alt"></i> DATE OF BIRTH
+          </label>
+          <input type="text" name="dob" id="dobInput" placeholder="DD/MM/YYYY" class="modern-input">
+          <span class="input-hint">Format: DD/MM/YYYY</span>
+        </div>
+
+        <div class="nid-actions">
+          <button class="btn primary large" type="button" id="startBtn">
+            <i class="fas fa-camera"></i> Take Selfie
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Step 1: capture (camera UI / instruction) -->
+    <section id="step-1" class="nid-step hidden">
+      <div class="nid-media circle" id="cameraContainer">
+        <div class="camera-preview" id="cameraPreview">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="canvas" style="display: none;"></canvas>
+          <div class="camera-overlay">
+            <div class="face-frame"></div>
+          </div>
+        </div>
+        <div class="placeholder-avatar" id="placeholderAvatar" style="display: flex;">
+          <i class="fas fa-user-circle"></i>
+          <span>Camera Ready</span>
+        </div>
+      </div>
+      <div class="nid-instruction">
+        <h3><i class="fas fa-camera-retro"></i> Capture Selfie</h3>
+        <p>Position your face within the frame, keep your eyes open and face centered.</p>
+        <div class="tips">
+          <span><i class="fas fa-lightbulb"></i> Good lighting</span>
+          <span><i class="fas fa-face-smile"></i> Neutral expression</span>
+          <span><i class="fas fa-glasses"></i> Remove glasses if possible</span>
+        </div>
+      </div>
+
+      <div class="nid-actions">
+        <button class="btn primary" type="button" id="takeBtn">
+          <i class="fas fa-camera"></i> Capture Photo
+        </button>
+      </div>
+    </section>
+
+    <!-- Step 2: review (preview + retake/submit) -->
+    <section id="step-2" class="nid-step hidden">
+      <div class="nid-media rect">
+        <div class="review-container">
+          <img id="reviewPreview" src="https://ui-avatars.com/api/?background=14a6b3&color=fff&size=400&name=Preview" alt="review preview">
+          <div class="review-badge">
+            <i class="fas fa-check-circle"></i> Captured
+          </div>
+        </div>
+      </div>
+      <div class="nid-instruction">
+        <h3><i class="fas fa-images"></i> Review Photo</h3>
+        <p>Check if the photo is clear. If satisfied, submit for verification. Otherwise retake.</p>
+      </div>
+
+      <div class="nid-actions column">
+        <button class="btn secondary large" type="button" id="retakeBtn">
+          <i class="fas fa-redo-alt"></i> Retake Photo
+        </button>
+        <button class="btn primary large" type="button" id="submitBtn">
+          <i class="fas fa-check-circle"></i> Submit for Verification
+        </button>
+      </div>
+    </section>
+
+    <nav class="nid-footer">
+      <div class="pager">
+        <button class="dot active" data-step="0" aria-label="Step 1"></button>
+        <button class="dot" data-step="1" aria-label="Step 2"></button>
+        <button class="dot" data-step="2" aria-label="Step 3"></button>
+      </div>
+      <div class="security-badge">
+        <i class="fas fa-lock"></i> End-to-End Encrypted
+      </div>
+    </nav>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-container success-modal">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h3>Verification Successful!</h3>
+      <p>Your identity has been verified. You will be redirected to the dashboard.</p>
+      <div class="progress-spinner">
+        <div class="spinner"></div>
+      </div>
+      <button class="btn-primary" id="goToDashboardBtn">Go to Dashboard Now</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="NID Verification.js"></script>
+</body>
+</html>
