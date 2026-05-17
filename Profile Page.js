@@ -1,4 +1,4 @@
-// DOM Elements
+// Profile page backed by MySQL through backend-php JSON endpoints.
 const userNameDisplay = document.getElementById('userNameDisplay');
 const profileName = document.getElementById('profileName');
 const fullNameInput = document.getElementById('fullName');
@@ -23,58 +23,14 @@ const avatarPreview = document.getElementById('avatarPreview');
 const avatarImg = document.getElementById('avatarImg');
 const toastContainer = document.getElementById('toastContainer');
 
-// User Data
-let userData = {
-    fullName: 'John Doe',
-    username: '@johndoe',
-    email: 'john.doe@example.com',
-    phone: '+880 1XXX-XXXXXX',
-    location: 'Dhaka, Bangladesh',
-    avatar: 'https://ui-avatars.com/api/?background=536FFE&color=fff&size=80&name=John+Doe',
-    darkMode: false,
-    notifications: true,
-    language: 'en'
-};
+let userData = null;
+let userStats = {};
+let pendingAvatar = '';
 
-// Load saved data from localStorage
-function loadUserData() {
-    const saved = localStorage.getItem('profile_user_data');
-    if (saved) {
-        userData = JSON.parse(saved);
-    }
-    applyUserData();
+function defaultAvatar(name, size = 80) {
+    return `https://ui-avatars.com/api/?background=536FFE&color=fff&size=${size}&name=${encodeURIComponent(name || 'User')}`;
 }
 
-// Apply user data to UI
-function applyUserData() {
-    userNameDisplay.textContent = userData.fullName;
-    profileName.textContent = userData.fullName;
-    fullNameInput.value = userData.fullName;
-    usernameInput.value = userData.username;
-    emailInput.value = userData.email;
-    phoneInput.value = userData.phone;
-    locationInput.value = userData.location;
-    avatarImg.src = userData.avatar;
-    avatarPreview.src = userData.avatar;
-    darkModeToggle.checked = userData.darkMode;
-    notifToggle.checked = userData.notifications;
-    languageSelect.value = userData.language;
-    
-    // Apply dark mode if enabled
-    if (userData.darkMode) {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-}
-
-// Save user data to localStorage
-function saveUserData() {
-    localStorage.setItem('profile_user_data', JSON.stringify(userData));
-    showToast('Profile saved successfully!', 'success');
-}
-
-// Show Toast
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = 'toast';
@@ -84,185 +40,194 @@ function showToast(message, type = 'info') {
     setTimeout(() => toast.remove(), 2500);
 }
 
-// Save Profile Changes
-function saveProfile() {
-    userData.fullName = fullNameInput.value;
-    userData.username = usernameInput.value;
-    userData.email = emailInput.value;
-    userData.phone = phoneInput.value;
-    userData.location = locationInput.value;
-    
-    // Update avatar URL if name changed
-    const newAvatarUrl = `https://ui-avatars.com/api/?background=536FFE&color=fff&size=80&name=${encodeURIComponent(userData.fullName)}`;
-    if (!userData.avatar.includes('blob:')) {
-        userData.avatar = newAvatarUrl;
-        avatarImg.src = newAvatarUrl;
-    }
-    
-    applyUserData();
-    saveUserData();
-    showToast('Profile updated successfully!', 'success');
+function applyUserData() {
+    const name = userData.fullName || userData.username || 'User';
+    const avatar = userData.avatar || defaultAvatar(name);
+
+    userNameDisplay.textContent = name;
+    profileName.textContent = name;
+    fullNameInput.value = name;
+    usernameInput.value = userData.username ? `@${userData.username.replace(/^@+/, '')}` : '';
+    emailInput.value = userData.email || '';
+    phoneInput.value = userData.phone || '';
+    locationInput.value = userData.location || '';
+    avatarImg.src = avatar;
+    avatarPreview.src = avatar;
+    pendingAvatar = avatar;
+
+    document.getElementById('statPosts').textContent = userStats.posts || 0;
+    document.getElementById('statFavorites').textContent = userStats.favorites || 0;
+    document.getElementById('statClaims').textContent = userStats.claims || 0;
+    document.getElementById('statJoined').textContent = userData.createdAt ? new Date(userData.createdAt).getFullYear() : new Date().getFullYear();
+
+    notifToggle.checked = userData.preferences?.email !== false;
+    darkModeToggle.checked = localStorage.getItem('profile_dark_mode') === 'true';
+    languageSelect.value = localStorage.getItem('profile_language') || 'en';
+    document.body.classList.toggle('dark-mode', darkModeToggle.checked);
 }
 
-// Dark Mode Toggle
+async function loadUserData() {
+    try {
+        const response = await fetch('backend-php/me.php', {
+            headers: { 'Accept': 'application/json' }
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            window.location.href = 'Login.html';
+            return;
+        }
+
+        userData = data.user;
+        userStats = data.stats || {};
+        localStorage.setItem('current_user', JSON.stringify(userData));
+        applyUserData();
+    } catch (error) {
+        showToast('Could not load profile. Please check the server.', 'error');
+    }
+}
+
+async function saveProfile() {
+    if (!fullNameInput.value.trim() || !emailInput.value.trim()) {
+        showToast('Name and email are required.', 'error');
+        return;
+    }
+
+    const form = new FormData();
+    form.set('username', usernameInput.value.replace(/^@+/, '').trim());
+    form.set('fullName', fullNameInput.value.trim());
+    form.set('email', emailInput.value.trim());
+    form.set('phone', phoneInput.value.trim());
+    form.set('location', locationInput.value.trim());
+    form.set('avatar', pendingAvatar.includes('ui-avatars.com') ? '' : pendingAvatar);
+    form.set('emailNotif', notifToggle.checked ? 'true' : 'false');
+    form.set('pushNotif', 'true');
+    form.set('smsNotif', 'false');
+    form.set('marketingNotif', 'false');
+
+    saveProfileBtn.disabled = true;
+    try {
+        const response = await fetch('backend-php/profile.php', {
+            method: 'POST',
+            body: form,
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            showToast(data.message || 'Profile update failed.', 'error');
+            return;
+        }
+
+        userData = data.user || data.userData || data.user;
+        if (!userData && data.success) {
+            await loadUserData();
+        } else {
+            localStorage.setItem('current_user', JSON.stringify(userData));
+            applyUserData();
+        }
+        showToast(data.message || 'Profile saved successfully!', 'success');
+    } catch (error) {
+        showToast('Server connection failed while saving profile.', 'error');
+    } finally {
+        saveProfileBtn.disabled = false;
+    }
+}
+
+async function logout() {
+    try {
+        await fetch('backend-php/logout.php', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+    } finally {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('current_user');
+        window.location.href = 'Login.html';
+    }
+}
+
 darkModeToggle.addEventListener('change', (e) => {
-    userData.darkMode = e.target.checked;
-    if (userData.darkMode) {
-        document.body.classList.add('dark-mode');
-        showToast('Dark mode enabled', 'info');
-    } else {
-        document.body.classList.remove('dark-mode');
-        showToast('Light mode enabled', 'info');
-    }
-    saveUserData();
+    localStorage.setItem('profile_dark_mode', e.target.checked ? 'true' : 'false');
+    document.body.classList.toggle('dark-mode', e.target.checked);
+    showToast(e.target.checked ? 'Dark mode enabled' : 'Light mode enabled', 'info');
 });
 
-// Notifications Toggle
-notifToggle.addEventListener('change', (e) => {
-    userData.notifications = e.target.checked;
-    showToast(userData.notifications ? 'Notifications enabled' : 'Notifications disabled', 'info');
-    saveUserData();
+notifToggle.addEventListener('change', () => {
+    showToast(notifToggle.checked ? 'Email notifications enabled' : 'Email notifications disabled', 'info');
 });
 
-// Language Change
 languageSelect.addEventListener('change', (e) => {
-    userData.language = e.target.value;
+    localStorage.setItem('profile_language', e.target.value);
     showToast(`Language changed to ${e.target.options[e.target.selectedIndex].text}`, 'info');
-    saveUserData();
 });
 
-// Logout
-logoutBtn.addEventListener('click', () => {
-    showToast('Logged out successfully', 'success');
-    setTimeout(() => {
-        window.location.href = '../index.html';
-    }, 1000);
-});
-
-// Avatar Modal
-avatarMain.addEventListener('click', () => {
-    avatarModal.classList.add('active');
-});
-
-function closeModal() {
-    avatarModal.classList.remove('active');
-}
-
-closeAvatarModal.addEventListener('click', closeModal);
-cancelAvatarBtn.addEventListener('click', closeModal);
-
-avatarModal.addEventListener('click', (e) => {
-    if (e.target === avatarModal) closeModal();
-});
-
-// Upload Avatar
-uploadBtn.addEventListener('click', () => {
-    avatarInput.click();
-});
-
-avatarInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const imgData = event.target.result;
-            avatarPreview.src = imgData;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-// Remove Avatar
-removeAvatarBtn.addEventListener('click', () => {
-    const defaultAvatar = `https://ui-avatars.com/api/?background=536FFE&color=fff&size=80&name=${encodeURIComponent(userData.fullName)}`;
-    avatarPreview.src = defaultAvatar;
-    showToast('Avatar removed', 'info');
-});
-
-// Save Avatar
-saveAvatarBtn.addEventListener('click', () => {
-    userData.avatar = avatarPreview.src;
-    avatarImg.src = userData.avatar;
-    saveUserData();
-    closeModal();
-    showToast('Profile picture updated!', 'success');
-});
-
-// Save profile button
+logoutBtn.addEventListener('click', logout);
 saveProfileBtn.addEventListener('click', saveProfile);
 
-// Add dark mode styles dynamically
+avatarMain.addEventListener('click', () => avatarModal.classList.add('active'));
+closeAvatarModal.addEventListener('click', () => avatarModal.classList.remove('active'));
+cancelAvatarBtn.addEventListener('click', () => avatarModal.classList.remove('active'));
+avatarModal.addEventListener('click', (e) => {
+    if (e.target === avatarModal) avatarModal.classList.remove('active');
+});
+
+uploadBtn.addEventListener('click', () => avatarInput.click());
+avatarInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+        showToast('Please choose an image file.', 'error');
+        return;
+    }
+    if (file.size > 700 * 1024) {
+        showToast('Choose an image below 700KB for this demo database.', 'error');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        pendingAvatar = event.target.result;
+        avatarPreview.src = pendingAvatar;
+    };
+    reader.readAsDataURL(file);
+});
+
+removeAvatarBtn.addEventListener('click', () => {
+    pendingAvatar = defaultAvatar(fullNameInput.value);
+    avatarPreview.src = pendingAvatar;
+});
+
+saveAvatarBtn.addEventListener('click', () => {
+    avatarImg.src = pendingAvatar;
+    avatarModal.classList.remove('active');
+    showToast('Profile picture ready. Click Save Changes to store it.', 'info');
+});
+
 const darkModeStyle = document.createElement('style');
 darkModeStyle.textContent = `
-    body.dark-mode {
-        background: #0f172a;
-    }
-    body.dark-mode .main-body {
-        background: #0f172a;
-    }
-    body.dark-mode .top-bar {
-        background: rgba(30, 41, 59, 0.95);
-        border-bottom-color: #334155;
-    }
+    body.dark-mode { background: #0f172a; }
+    body.dark-mode .main-body { background: #0f172a; }
+    body.dark-mode .top-bar { background: rgba(30, 41, 59, 0.95); border-bottom-color: #334155; }
     body.dark-mode .card-large,
     body.dark-mode .card-small,
-    body.dark-mode .card-wide {
-        background: #1e293b;
-    }
-    body.dark-mode .card-title {
-        color: #f1f5f9;
-    }
-    body.dark-mode .styled-input {
-        background: #334155;
-        border-color: #475569;
-        color: #f1f5f9;
-    }
-    body.dark-mode .input-group label {
-        color: #94a3b8;
-    }
-    body.dark-mode .menu-row {
-        border-bottom-color: #334155;
-    }
-    body.dark-mode .menu-left {
-        color: #cbd5e1;
-    }
-    body.dark-mode .activity-item {
-        border-bottom-color: #334155;
-    }
-    body.dark-mode .activity-content p {
-        color: #cbd5e1;
-    }
-    body.dark-mode .breadcrumb {
-        color: #94a3b8;
-    }
-    body.dark-mode .user-pill {
-        background: #334155;
-    }
+    body.dark-mode .card-wide { background: #1e293b; }
+    body.dark-mode .card-title { color: #f1f5f9; }
+    body.dark-mode .styled-input { background: #334155; border-color: #475569; color: #f1f5f9; }
+    body.dark-mode .input-group label { color: #94a3b8; }
+    body.dark-mode .menu-row { border-bottom-color: #334155; }
+    body.dark-mode .menu-left { color: #cbd5e1; }
+    body.dark-mode .activity-item { border-bottom-color: #334155; }
+    body.dark-mode .activity-content p { color: #cbd5e1; }
+    body.dark-mode .breadcrumb { color: #94a3b8; }
+    body.dark-mode .user-pill { background: #334155; }
 `;
 document.head.appendChild(darkModeStyle);
 
-// Initialize
 loadUserData();
-
-// Animate stats counting
-function animateStats() {
-    const statValues = document.querySelectorAll('.stat-value');
-    statValues.forEach(stat => {
-        const finalValue = parseInt(stat.textContent);
-        if (!isNaN(finalValue)) {
-            let current = 0;
-            const increment = finalValue / 30;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= finalValue) {
-                    stat.textContent = finalValue;
-                    clearInterval(timer);
-                } else {
-                    stat.textContent = Math.floor(current);
-                }
-            }, 30);
-        }
-    });
-}
-
-animateStats();

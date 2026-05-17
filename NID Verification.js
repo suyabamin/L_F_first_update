@@ -183,7 +183,7 @@ function showSuccessModal() {
   
   // Auto redirect after 3 seconds
   setTimeout(() => {
-    window.location.href = '../DashBoard/index.html';
+    window.location.href = 'DashBoard.html';
   }, 3000);
 }
 
@@ -246,13 +246,13 @@ document.querySelectorAll('.dot').forEach(dot => {
 
 // Go to dashboard
 goToDashboardBtn.addEventListener('click', () => {
-  window.location.href = '../DashBoard/index.html';
+  window.location.href = 'DashBoard.html';
 });
 
 // Success modal close on overlay click
 successModal.addEventListener('click', (e) => {
   if (e.target === successModal) {
-    window.location.href = '../DashBoard/index.html';
+    window.location.href = 'DashBoard.html';
   }
 });
 

@@ -159,17 +159,17 @@ window.handleAction = function(action, id) {
     if (action === 'details') {
         showToast(`Opening details for: ${alert.title}`, 'info');
         setTimeout(() => {
-            window.location.href = '../Post Details/index.html';
+            window.location.href = 'backend-php/post_details_view.php';
         }, 800);
     } else if (action === 'map') {
         showToast(`Opening map for location`, 'info');
         setTimeout(() => {
-            window.location.href = '../Map View/index.html';
+            window.location.href = 'Map View.html';
         }, 800);
     } else if (action === 'chat') {
         showToast(`Opening chat with ${alert.title.split(':')[1] || 'finder'}`, 'success');
         setTimeout(() => {
-            window.location.href = '../Chat/index.html';
+            window.location.href = 'Chat.html';
         }, 800);
     } else if (action === 'whatsapp') {
         window.open('https://wa.me/8801712345678?text=Hi%2C%20I%20saw%20your%20alert%20about%20the%20lost%20item', '_blank');

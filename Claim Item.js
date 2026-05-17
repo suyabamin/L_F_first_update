@@ -15,6 +15,7 @@
     const refIdSpan = document.getElementById('refId');
     const submitDateSpan = document.getElementById('submitDate');
     const toast = document.getElementById('toast');
+    const claimItemIdInput = document.getElementById('claimItemId');
 
     // Error message elements
     const nameError = document.getElementById('nameError');
@@ -182,6 +183,12 @@
         e.preventDefault();
         
         if (validateForm()) {
+            const params = new URLSearchParams(window.location.search);
+            const itemId = params.get('item_id') || params.get('id') || '1';
+            if (claimItemIdInput) {
+                claimItemIdInput.value = itemId;
+            }
+
             // Collect form data
             const formData = {
                 fullName: fullNameInput.value.trim(),
@@ -194,6 +201,9 @@
             };
             
             console.log('Claim submitted:', formData);
+            showToast('Submitting claim...', false);
+            claimForm.submit();
+            return;
             
             // Show success modal
             showSuccessModal();

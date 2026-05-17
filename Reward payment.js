@@ -170,7 +170,7 @@ closeSuccessBtn.addEventListener('click', () => {
     successModal.classList.remove('active');
     // Redirect or reset form
     setTimeout(() => {
-        window.location.href = '../DashBoard/index.html';
+        window.location.href = 'DashBoard.html';
     }, 500);
 });
 

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Lost blue backpack</title>
+  <desc id="desc">Illustration of a blue backpack for seed lost item data.</desc>
+  <rect width="900" height="620" fill="#eef3ff"/>
+  <path d="M320 222c8-78 62-125 130-125s122 47 130 125" fill="none" stroke="#22577a" stroke-width="34" stroke-linecap="round"/>
+  <rect x="265" y="185" width="370" height="330" rx="48" fill="#2b6cb0"/>
+  <rect x="310" y="260" width="280" height="195" rx="28" fill="#3f8ed8"/>
+  <rect x="346" y="306" width="208" height="34" rx="17" fill="#cce6ff"/>
+  <rect x="350" y="382" width="200" height="44" rx="22" fill="#174d80"/>
+  <circle cx="375" cy="482" r="20" fill="#f6c85f"/>
+  <circle cx="525" cy="482" r="20" fill="#f6c85f"/>
+  <text x="450" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#163b66">Lost Backpack</text>
+</svg>

@@ -87,7 +87,7 @@ function renderListing() {
     
     // Breadcrumb
     breadCategoryLink.textContent = listingData.category;
-    breadCategoryLink.href = `../Browse Listings/index.html?category=${encodeURIComponent(listingData.category)}`;
+    breadCategoryLink.href = `Browse Listing.html?category=${encodeURIComponent(listingData.category)}`;
 }
 
 // Render carousel
@@ -153,7 +153,7 @@ function confirmModalAction() {
     if (currentAction === 'chat') {
         showToast('💬 Redirecting to chat...', 'success');
         setTimeout(() => {
-            window.location.href = '../Chat/index.html';
+            window.location.href = 'Chat.html';
         }, 500);
     } else if (currentAction === 'claim') {
         showToast('📋 Claim request submitted. Owner will contact you.', 'success');

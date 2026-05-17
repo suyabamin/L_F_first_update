@@ -20,6 +20,8 @@
     const emojiBtn = document.getElementById('emojiBtn');
     const toast = document.getElementById('toast');
     const backLink = document.querySelector('.back-link');
+    const chatItemIdInput = document.getElementById('chatItemId');
+    const chatReceiverIdInput = document.getElementById('chatReceiverId');
 
     let currentContactId = '1';
     let typingTimeout = null;
@@ -269,7 +271,7 @@
             // Enter to send message
             if (e.key === 'Enter' && document.activeElement === messageInput) {
                 e.preventDefault();
-                sendMessage();
+                messageForm?.requestSubmit();
             }
             
             // Escape to clear input
@@ -303,8 +305,18 @@
     function initEventListeners() {
         if (messageForm) {
             messageForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                sendMessage();
+                if (!messageInput.value.trim()) {
+                    e.preventDefault();
+                    return;
+                }
+
+                const params = new URLSearchParams(window.location.search);
+                if (chatItemIdInput) {
+                    chatItemIdInput.value = params.get('item_id') || params.get('id') || chatItemIdInput.value || '1';
+                }
+                if (chatReceiverIdInput) {
+                    chatReceiverIdInput.value = params.get('receiver_id') || currentContactId || chatReceiverIdInput.value || '1';
+                }
             });
         }
         

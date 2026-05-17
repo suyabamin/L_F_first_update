@@ -184,7 +184,9 @@
           <span>Maya is typing...</span>
         </div>
 
-        <form class="composer" id="messageForm">
+        <form class="composer" id="messageForm" action="backend-php/send_message.php" method="post">
+          <input type="hidden" id="chatItemId" name="item_id" value="1">
+          <input type="hidden" id="chatReceiverId" name="receiver_id" value="1">
           <button type="button" class="icon-btn" id="attachBtn" aria-label="Attach file">
             <i class="fa-solid fa-paperclip"></i>
           </button>
@@ -192,7 +194,7 @@
             <i class="fa-regular fa-face-smile"></i>
           </button>
           <label class="sr-only" for="messageInput">Type a message</label>
-          <input id="messageInput" type="text" placeholder="Type a message..." autocomplete="off">
+          <input id="messageInput" name="message" type="text" placeholder="Type a message..." autocomplete="off">
           <button class="send-btn" type="submit">
             Send <i class="fa-solid fa-paper-plane"></i>
           </button>

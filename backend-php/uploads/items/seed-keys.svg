@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Found key ring</title>
+  <desc id="desc">Illustration of keys on a ring for seed found item data.</desc>
+  <rect width="900" height="620" fill="#fff7e8"/>
+  <circle cx="360" cy="215" r="85" fill="none" stroke="#b9892c" stroke-width="28"/>
+  <path d="M420 274l175 175 42-42-36-36 31-31-34-34-31 31-105-105z" fill="#d4a13b"/>
+  <path d="M365 305l84 210 52-21-17-43 39-16-15-38-39 16-50-125z" fill="#f0c45b"/>
+  <path d="M305 292l-95 213 53 24 18-42 40 18 17-39-40-18 57-129z" fill="#c89127"/>
+  <rect x="508" y="170" width="82" height="55" rx="12" fill="#d94e4e"/>
+  <text x="450" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#7a5518">Found Keys</text>
+</svg>

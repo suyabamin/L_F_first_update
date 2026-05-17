@@ -233,34 +233,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Save profile
-    function saveProfile() {
+    async function saveProfile() {
         if (!validateForm()) return;
         
-        const profileData = {
-            fullName: fullNameInput?.value,
-            email: emailInput?.value,
-            phone: phoneInput?.value,
-            location: locationInput?.value,
-            avatar: currentAvatar,
-            emailNotif: document.getElementById('emailNotif')?.checked,
-            pushNotif: document.getElementById('pushNotif')?.checked,
-            smsNotif: document.getElementById('smsNotif')?.checked,
-            marketingNotif: document.getElementById('marketingNotif')?.checked,
-            updatedAt: new Date().toISOString()
-        };
-        
-        // Save to localStorage
-        localStorage.setItem('userProfile', JSON.stringify(profileData));
-        
-        showToast('Profile updated successfully!', 'success');
-        
-        // Show success modal
-        if (successModal) {
-            successModal.classList.add('show');
+        const form = new FormData();
+        form.set('fullName', fullNameInput?.value.trim() || '');
+        form.set('email', emailInput?.value.trim() || '');
+        form.set('phone', phoneInput?.value.trim() || '');
+        form.set('location', locationInput?.value.trim() || '');
+        form.set('avatar', currentAvatar.includes('ui-avatars.com') ? '' : currentAvatar);
+        form.set('emailNotif', document.getElementById('emailNotif')?.checked ? 'true' : 'false');
+        form.set('pushNotif', document.getElementById('pushNotif')?.checked ? 'true' : 'false');
+        form.set('smsNotif', document.getElementById('smsNotif')?.checked ? 'true' : 'false');
+        form.set('marketingNotif', document.getElementById('marketingNotif')?.checked ? 'true' : 'false');
+        if (currentPasswordInput?.value && newPasswordInput?.value) {
+            form.set('currentPassword', currentPasswordInput.value);
+            form.set('newPassword', newPasswordInput.value);
         }
-        
-        // Trigger confetti
-        triggerConfetti();
+
+        saveBtn.disabled = true;
+        try {
+            const response = await fetch('backend-php/profile.php', {
+                method: 'POST',
+                body: form,
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                showToast(data.message || 'Profile update failed.', 'error');
+                return;
+            }
+            localStorage.setItem('current_user', JSON.stringify(data.user));
+            showToast('Profile updated successfully!', 'success');
+            if (successModal) successModal.classList.add('show');
+            triggerConfetti();
+        } catch (error) {
+            showToast('Server connection failed while saving profile.', 'error');
+        } finally {
+            saveBtn.disabled = false;
+        }
     }
     
     // Confetti effect
@@ -310,23 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function resetFormToOriginal() {
-        if (fullNameInput) fullNameInput.value = 'Alex Morgan';
-        if (emailInput) emailInput.value = 'alex.morgan@example.com';
-        if (phoneInput) phoneInput.value = '+880 1234-567890';
-        if (locationInput) locationInput.value = 'Dhaka, Bangladesh';
+    async function resetFormToOriginal() {
+        await loadProfileData();
         if (currentPasswordInput) currentPasswordInput.value = '';
         if (newPasswordInput) newPasswordInput.value = '';
         if (confirmPasswordInput) confirmPasswordInput.value = '';
-        
-        document.getElementById('emailNotif').checked = true;
-        document.getElementById('pushNotif').checked = true;
-        document.getElementById('smsNotif').checked = false;
-        document.getElementById('marketingNotif').checked = false;
-        
-        currentAvatar = 'https://ui-avatars.com/api/?name=Alex+Morgan&background=00cfe8&color=fff&bold=true&size=120';
-        avatarImage.src = currentAvatar;
-        
         if (strengthProgress) strengthProgress.style.width = '0%';
         if (strengthText) strengthText.textContent = 'Password strength: Not entered';
     }
@@ -347,13 +349,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Logout
-    function logout() {
+    async function logout() {
         if (confirm('Are you sure you want to logout?')) {
             showToast('Logging out...', 'info');
-            setTimeout(() => {
-                // In production: window.location.href = '../Login/index.html';
-                alert('Redirecting to login page...');
-            }, 500);
+            await fetch('backend-php/logout.php', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }).catch(() => {});
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('current_user');
+            window.location.href = 'Login.html';
         }
     }
     
@@ -388,26 +396,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Load saved profile data
-    function loadProfileData() {
-        const savedProfile = localStorage.getItem('userProfile');
-        if (savedProfile) {
-            const profile = JSON.parse(savedProfile);
-            if (fullNameInput) fullNameInput.value = profile.fullName || 'Alex Morgan';
-            if (emailInput) emailInput.value = profile.email || 'alex.morgan@example.com';
-            if (phoneInput) phoneInput.value = profile.phone || '+880 1234-567890';
-            if (locationInput) locationInput.value = profile.location || 'Dhaka, Bangladesh';
-            if (profile.avatar) {
-                currentAvatar = profile.avatar;
-                avatarImage.src = currentAvatar;
+    async function loadProfileData() {
+        try {
+            const response = await fetch('backend-php/me.php', { headers: { 'Accept': 'application/json' } });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                window.location.href = 'Login.html';
+                return;
             }
-            if (document.getElementById('emailNotif')) 
-                document.getElementById('emailNotif').checked = profile.emailNotif !== false;
-            if (document.getElementById('pushNotif'))
-                document.getElementById('pushNotif').checked = profile.pushNotif !== false;
-            if (document.getElementById('smsNotif'))
-                document.getElementById('smsNotif').checked = profile.smsNotif || false;
-            if (document.getElementById('marketingNotif'))
-                document.getElementById('marketingNotif').checked = profile.marketingNotif || false;
+            const profile = data.user;
+            const avatar = profile.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.fullName || 'User')}&background=00cfe8&color=fff&bold=true&size=120`;
+            if (fullNameInput) fullNameInput.value = profile.fullName || '';
+            if (emailInput) emailInput.value = profile.email || '';
+            if (phoneInput) phoneInput.value = profile.phone || '';
+            if (locationInput) locationInput.value = profile.location || '';
+            currentAvatar = avatar;
+            avatarImage.src = currentAvatar;
+            if (document.getElementById('emailNotif')) document.getElementById('emailNotif').checked = profile.preferences?.email !== false;
+            if (document.getElementById('pushNotif')) document.getElementById('pushNotif').checked = profile.preferences?.push !== false;
+            if (document.getElementById('smsNotif')) document.getElementById('smsNotif').checked = profile.preferences?.sms === true;
+            if (document.getElementById('marketingNotif')) document.getElementById('marketingNotif').checked = profile.preferences?.marketing === true;
+        } catch (error) {
+            showToast('Could not load profile from database.', 'error');
         }
     }
     

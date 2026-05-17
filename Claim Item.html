@@ -12,7 +12,7 @@
   <div class="app-shell">
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
-      <a class="brand" href="../index.html">
+      <a class="brand" href="Landing Page.html">
         <div class="logo-icon">
           <i class="fa-solid fa-shield-heart"></i>
         </div>
@@ -22,24 +22,24 @@
         </div>
       </a>
       <nav class="nav-list">
-        <a href="../DashBoard/index.html">
+        <a href="DashBoard.html">
           <i class="fa-solid fa-chart-line"></i>
           <span>Dashboard</span>
         </a>
-        <a href="../Post Details/index.html">
+        <a href="backend-php/post_details_view.php">
           <i class="fa-solid fa-box"></i>
           <span>Item Details</span>
         </a>
-        <a href="../Chat/index.html">
+        <a href="Chat.html">
           <i class="fa-solid fa-message"></i>
           <span>Chat</span>
         </a>
-        <a class="active" href="../Claim Item/index.html">
+        <a class="active" href="Claim Item.html">
           <i class="fa-solid fa-hand-holding-hand"></i>
           <span>Claim Item</span>
           <div class="nav-indicator"></div>
         </a>
-        <a href="../Profile Page/index.html">
+        <a href="Profile Page.html">
           <i class="fa-solid fa-user-circle"></i>
           <span>Profile</span>
         </a>
@@ -65,10 +65,10 @@
           <p class="subtitle">Submit your claim with proof of ownership to get your lost item back</p>
         </div>
         <div class="header-actions">
-          <a class="btn btn-outline" href="../Police GD Form/index.html">
+          <a class="btn btn-outline" href="Police GD Form.html">
             <i class="fa-solid fa-file-shield"></i> Police GD Form
           </a>
-          <a class="btn btn-secondary" href="../Help Center/index.html">
+          <a class="btn btn-secondary" href="#">
             <i class="fa-solid fa-circle-question"></i> Help
           </a>
         </div>
@@ -102,7 +102,8 @@
           <span class="required-badge">* Required fields</span>
         </div>
         
-        <form class="form-grid" id="claimForm">
+        <form class="form-grid" id="claimForm" action="backend-php/claim_item.php" method="post">
+          <input type="hidden" id="claimItemId" name="item_id" value="1">
           <div class="form-field">
             <label for="fullName">
               <i class="fa-solid fa-user"></i> Full Name <span class="required">*</span>
@@ -154,7 +155,7 @@
           
           <div class="form-field full checkbox-field">
             <label class="checkbox-label">
-              <input type="checkbox" id="confirmCheck">
+              <input type="checkbox" id="confirmCheck" name="confirm_claim" value="1">
               <span class="checkmark"></span>
               I confirm that the information provided is accurate and I am the rightful owner of this item. <span class="required">*</span>
             </label>

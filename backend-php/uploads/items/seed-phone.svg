@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Lost Samsung phone</title>
+  <desc id="desc">Illustration of a smartphone for seed lost item data.</desc>
+  <rect width="900" height="620" fill="#eef7fb"/>
+  <rect x="325" y="82" width="250" height="452" rx="42" fill="#151922"/>
+  <rect x="348" y="125" width="204" height="356" rx="22" fill="#75c7df"/>
+  <path d="M348 364c58-70 120-82 204-38v155H348z" fill="#3867d6" opacity=".8"/>
+  <circle cx="450" cy="508" r="13" fill="#d7e2ef"/>
+  <rect x="414" y="101" width="72" height="10" rx="5" fill="#4d5563"/>
+  <path d="M604 185c36 24 55 60 55 106s-19 82-55 106" fill="none" stroke="#f46d75" stroke-width="16" stroke-linecap="round"/>
+  <text x="450" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#163b66">Lost Phone</text>
+</svg>

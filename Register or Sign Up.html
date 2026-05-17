@@ -18,7 +18,7 @@
                     <span>Lost<span class="highlight">Found</span></span>
                 </div>
                 <nav class="nav-menu">
-                    <a href="../DashBoard/index.html" class="nav-item">
+                    <a href="DashBoard.html" class="nav-item">
                         <i class="fas fa-chart-line"></i>
                         <span>Dashboard</span>
                     </a>
@@ -26,11 +26,11 @@
                         <i class="fas fa-user-plus"></i>
                         <span>Register</span>
                     </a>
-                    <a href="../Browse Listings/index.html" class="nav-item">
+                    <a href="Browse Listing.html" class="nav-item">
                         <i class="fas fa-search"></i>
                         <span>Browse</span>
                     </a>
-                    <a href="../Profile Page/index.html" class="nav-item">
+                    <a href="Profile Page.html" class="nav-item">
                         <i class="fas fa-user-circle"></i>
                         <span>Profile</span>
                     </a>
@@ -39,7 +39,7 @@
             <div class="sidebar-footer">
                 <div class="login-link">
                     <i class="fas fa-sign-in-alt"></i>
-                    <span>Already have an account? <a href="../Login/index.html">Sign In</a></span>
+                    <span>Already have an account? <a href="Login.html">Sign In</a></span>
                 </div>
             </div>
         </aside>
@@ -52,35 +52,35 @@
                     <p class="form-subtitle">Join our community and help reunite lost items</p>
                 </div>
                 
-                <div class="form-card" id="registerForm">
+                <form class="form-card" id="registerForm" action="backend-php/register.php" method="post">
                     <!-- Standard Inputs -->
                     <div class="input-block">
                         <label><i class="fas fa-at"></i> Username</label>
-                        <input type="text" id="username" placeholder="@username" class="modern-input">
+                        <input type="text" id="username" name="username" placeholder="@username" class="modern-input">
                         <span class="error-message" id="usernameError"></span>
                     </div>
                     
                     <div class="input-block">
                         <label><i class="fas fa-user"></i> Full Name</label>
-                        <input type="text" id="fullname" placeholder="John Doe" class="modern-input">
+                        <input type="text" id="fullname" name="fullname" placeholder="John Doe" class="modern-input">
                         <span class="error-message" id="fullnameError"></span>
                     </div>
                     
                     <div class="input-block">
                         <label><i class="fas fa-envelope"></i> Email Address</label>
-                        <input type="email" id="email" placeholder="john@example.com" class="modern-input">
+                        <input type="email" id="email" name="email" placeholder="john@example.com" class="modern-input">
                         <span class="error-message" id="emailError"></span>
                     </div>
                     
                     <div class="input-row">
                         <div class="input-block half">
                             <label><i class="fas fa-phone"></i> Phone Number</label>
-                            <input type="tel" id="phone" placeholder="+880 1XXX-XXXXXX" class="modern-input">
+                            <input type="tel" id="phone" name="phone" placeholder="+880 1XXX-XXXXXX" class="modern-input">
                             <span class="error-message" id="phoneError"></span>
                         </div>
                         <div class="input-block half">
                             <label><i class="fas fa-globe"></i> Country</label>
-                            <select id="country" class="modern-input">
+                            <select id="country" name="country" class="modern-input">
                                 <option value="">Select Country</option>
                                 <option value="BD">Bangladesh</option>
                                 <option value="IN">India</option>
@@ -97,7 +97,7 @@
                         <div class="input-block half">
                             <label><i class="fas fa-lock"></i> Password</label>
                             <div class="password-wrapper">
-                                <input type="password" id="password" placeholder="Create a strong password" class="modern-input">
+                                <input type="password" id="password" name="password" placeholder="Create a strong password" class="modern-input">
                                 <button type="button" class="toggle-password" data-target="password">
                                     <i class="far fa-eye"></i>
                                 </button>
@@ -114,7 +114,7 @@
                         <div class="input-block half">
                             <label><i class="fas fa-lock"></i> Confirm Password</label>
                             <div class="password-wrapper">
-                                <input type="password" id="confirmPassword" placeholder="Confirm your password" class="modern-input">
+                                <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm your password" class="modern-input">
                                 <button type="button" class="toggle-password" data-target="confirmPassword">
                                     <i class="far fa-eye"></i>
                                 </button>
@@ -172,12 +172,13 @@
                             </select>
                         </div>
                         <span class="error-message" id="dobError"></span>
+                        <input type="hidden" id="dob" name="dob">
                     </div>
 
                     <!-- Terms and Conditions -->
                     <div class="terms-group">
                         <label class="checkbox-label">
-                            <input type="checkbox" id="termsCheck">
+                            <input type="checkbox" id="termsCheck" name="terms" value="1">
                             <span class="checkmark"></span>
                             <span class="terms-text">I agree to the <a href="#" id="termsLink">Terms & Conditions</a> and <a href="#" id="privacyLink">Privacy Policy</a></span>
                         </label>
@@ -185,7 +186,7 @@
                     </div>
 
                     <!-- Main Action -->
-                    <button type="button" class="create-btn" id="createAccountBtn">
+                    <button type="submit" class="create-btn" id="createAccountBtn">
                         <i class="fas fa-user-plus"></i> Create Account
                     </button>
 
@@ -194,14 +195,14 @@
                     </div>
 
                     <div class="social-buttons">
-                        <button class="social-btn google">
+                        <button type="button" class="social-btn google">
                             <i class="fab fa-google"></i> Google
                         </button>
-                        <button class="social-btn facebook">
+                        <button type="button" class="social-btn facebook">
                             <i class="fab fa-facebook-f"></i> Facebook
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </main>
     </div>

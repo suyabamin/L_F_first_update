@@ -1,94 +1,5 @@
-// Notification Data
-let notifications = [
-  {
-    id: 1,
-    title: "Possible Match Found",
-    description: "A found iPhone 13 looks similar to your lost item report. Check the details and claim if it's yours.",
-    type: "match",
-    time: "2 minutes ago",
-    timestamp: new Date(Date.now() - 2 * 60000),
-    read: false,
-    actionLink: "../Post Details/index.html",
-    actionText: "View Details"
-  },
-  {
-    id: 2,
-    title: "New Chat Message",
-    description: "Ahmed Hossain replied to your conversation about the lost wallet.",
-    type: "message",
-    time: "15 minutes ago",
-    timestamp: new Date(Date.now() - 15 * 60000),
-    read: false,
-    actionLink: "../Chat/index.html",
-    actionText: "Open Chat"
-  },
-  {
-    id: 3,
-    title: "Claim Status Updated",
-    description: "Your claim for 'Found iPhone 13' has been approved. Contact the owner to arrange pickup.",
-    type: "claim",
-    time: "1 hour ago",
-    timestamp: new Date(Date.now() - 60 * 60000),
-    read: true,
-    actionLink: "../Claim Item/index.html",
-    actionText: "View Claim"
-  },
-  {
-    id: 4,
-    title: "System Update",
-    description: "We've improved our AI matching algorithm for better results.",
-    type: "system",
-    time: "3 hours ago",
-    timestamp: new Date(Date.now() - 180 * 60000),
-    read: true,
-    actionLink: "#",
-    actionText: "Learn More"
-  },
-  {
-    id: 5,
-    title: "New Listing Alert",
-    description: "A new 'Lost Wallet' was posted in your area. Check if it matches your report.",
-    type: "match",
-    time: "5 hours ago",
-    timestamp: new Date(Date.now() - 300 * 60000),
-    read: true,
-    actionLink: "../Post Details/index.html",
-    actionText: "View Details"
-  },
-  {
-    id: 6,
-    title: "Weekly Summary",
-    description: "You had 8 new matches this week. Keep helping the community!",
-    type: "system",
-    time: "1 day ago",
-    timestamp: new Date(Date.now() - 86400000),
-    read: true,
-    actionLink: "../DashBoard/index.html",
-    actionText: "View Dashboard"
-  },
-  {
-    id: 7,
-    title: "Verification Complete",
-    description: "Your account has been verified. You can now post unlimited listings.",
-    type: "system",
-    time: "2 days ago",
-    timestamp: new Date(Date.now() - 172800000),
-    read: true,
-    actionLink: "../Profile Page/index.html",
-    actionText: "Go to Profile"
-  },
-  {
-    id: 8,
-    title: "Found Item Alert",
-    description: "Someone found your lost 'Brown Wallet'. View and claim now.",
-    type: "match",
-    time: "3 days ago",
-    timestamp: new Date(Date.now() - 259200000),
-    read: true,
-    actionLink: "../Post Details/index.html",
-    actionText: "View Details"
-  }
-];
+// Notification Data loaded from MySQL.
+let notifications = [];
 
 // DOM Elements
 const notificationsContainer = document.getElementById('notificationsContainer');
@@ -148,9 +59,17 @@ function updateUnreadCounters() {
 }
 
 // Mark notification as read
-function markAsRead(id) {
+async function markAsRead(id) {
   const notif = notifications.find(n => n.id === id);
   if (notif && !notif.read) {
+    await fetch('backend-php/notification_read.php', {
+      method: 'POST',
+      body: new URLSearchParams({ id }),
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    }).catch(() => {});
     notif.read = true;
     updateUnreadCounters();
     renderNotifications();
@@ -159,7 +78,7 @@ function markAsRead(id) {
 }
 
 // Mark all as read
-function markAllAsRead() {
+async function markAllAsRead() {
   let markedCount = 0;
   notifications.forEach(notif => {
     if (!notif.read) {
@@ -168,6 +87,14 @@ function markAllAsRead() {
     }
   });
   if (markedCount > 0) {
+    await fetch('backend-php/notification_read.php', {
+      method: 'POST',
+      body: new URLSearchParams({ all: '1' }),
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    }).catch(() => {});
     updateUnreadCounters();
     renderNotifications();
     showToast(`Marked ${markedCount} notification${markedCount > 1 ? 's' : ''} as read`, 'success');
@@ -297,6 +224,27 @@ function saveSettings() {
   showToast('Settings saved successfully!', 'success');
 }
 
+async function loadNotifications() {
+  try {
+    const response = await fetch('backend-php/notifications.php', {
+      headers: { 'Accept': 'application/json' }
+    });
+    const data = await response.json();
+    if (!response.ok || !data.success) {
+      window.location.href = 'Login.html';
+      return;
+    }
+    notifications = data.notifications.map((notif) => ({
+      ...notif,
+      timestamp: new Date(notif.createdAt || Date.now())
+    }));
+    updateUnreadCounters();
+    renderNotifications();
+  } catch (error) {
+    showToast('Could not load notifications from database.', 'error');
+  }
+}
+
 // Simulate new notification (for demo)
 function simulateNewNotification() {
   setInterval(() => {
@@ -308,7 +256,7 @@ function simulateNewNotification() {
       time: "Just now",
       timestamp: new Date(),
       read: false,
-      actionLink: "../Browse Listings/index.html",
+      actionLink: "Browse Listing.html",
       actionText: "View Match"
     };
     notifications.unshift(newNotif);
@@ -336,9 +284,8 @@ window.markAsRead = markAsRead;
 
 // Initialize
 function init() {
-  updateUnreadCounters();
   initFilters();
-  renderNotifications();
+  loadNotifications();
   // Uncomment to enable demo notifications
   // simulateNewNotification();
 }

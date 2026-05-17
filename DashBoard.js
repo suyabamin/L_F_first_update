@@ -2,6 +2,15 @@
 // interactive posts, filtering, counters, like system, load more, animations
 
 document.addEventListener('DOMContentLoaded', () => {
+    const routes = {
+        home: 'DashBoard.html',
+        browse: 'Browse Listing.html',
+        post: 'Create Post.html',
+        profile: 'Profile Page.html',
+        notifications: 'Notification.html',
+        help: 'User Feedback.html'
+    };
+
     // ---------- MOCK POST DATA (rich dataset) ----------
     const allPostsData = [
         { id: 1, status: 'lost', title: 'Lost Wallet - Black Leather', category: 'Bag', time: '2 hours ago', emoji: '👛', bg: '#FEF3C7', icon: 'fas fa-briefcase' },
@@ -27,6 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadMoreBtn = document.getElementById('loadMoreBtn').querySelector('button');
     const globalSearch = document.getElementById('globalSearch');
     const statNumbers = document.querySelectorAll('.stat-value');
+    const notifBadge = document.querySelector('.notif-badge');
+    const userNameEl = document.querySelector('.user-name');
+    const avatarImg = document.querySelector('.user-avatar img');
+    const categoryLinks = {
+        electronics: 'Electronics Category.html',
+        pets: 'pet category.html',
+        bag: 'Bag Category.html',
+        key: 'Key Category.html',
+        paper: 'PaperCategory.html',
+        jewelry: 'backend-php/browse_listing_view.php?category=jewelry'
+    };
 
     // ----- Helper: format relative time smarter -----
     function formatTime(rawTime) {
@@ -113,12 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         
-        // attach click on each post card (simulate navigation)
+        // attach click on each post card
         document.querySelectorAll('.post-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 if(e.target.classList && e.target.classList.contains('heart-icon')) return;
-                showToast(`Opening post details... (demo)`);
-                // In real project: location.href = '../Post Details/index.html?id=${card.dataset.id}'
+                window.location.href = `backend-php/post_details_view.php?id=${card.dataset.id}`;
             });
         });
     }
@@ -180,6 +199,42 @@ document.addEventListener('DOMContentLoaded', () => {
             toastEl.classList.remove('show');
         }, 2000);
     }
+
+    async function loadSessionUser() {
+        try {
+            const response = await fetch('backend-php/me.php', { headers: { 'Accept': 'application/json' } });
+            const data = await response.json();
+            if (!response.ok || !data.success) return;
+
+            const user = data.user;
+            localStorage.setItem('current_user', JSON.stringify(user));
+            if (userNameEl) userNameEl.textContent = (user.fullName || user.username || 'User').split(' ')[0];
+            if (avatarImg) {
+                avatarImg.src = user.avatar || `https://ui-avatars.com/api/?background=0D9488&color=fff&rounded=true&bold=true&size=40&name=${encodeURIComponent(user.fullName || user.username || 'User')}`;
+            }
+            if (notifBadge) notifBadge.textContent = data.stats?.unread || 0;
+        } catch (error) {
+            // Dashboard still works as a public demo if the session endpoint is unavailable.
+        }
+    }
+
+    async function loadCategoryStats() {
+        try {
+            const response = await fetch('backend-php/category_stats.php', { headers: { 'Accept': 'application/json' } });
+            const data = await response.json();
+            if (!response.ok || !data.success) return;
+
+            document.querySelectorAll('#categoryGrid .category-card').forEach(card => {
+                const category = card.dataset.cat;
+                const count = data.counts?.[category] ?? 0;
+                const label = count === 1 ? 'item' : 'items';
+                const countEl = card.querySelector('.cat-count');
+                if (countEl) countEl.textContent = `${count} ${label}`;
+            });
+        } catch (error) {
+            // Keep the static labels if the database endpoint is unavailable.
+        }
+    }
     
     // ----- search debouncer -----
     let debounceTimer;
@@ -193,42 +248,49 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // ----- event listeners for category cards -----
     function setupCategoryListeners() {
-        const catCards = document.querySelectorAll('.category-card');
+        const catCards = document.querySelectorAll('#categoryGrid .category-card');
         catCards.forEach(card => {
             card.addEventListener('click', () => {
-                const catName = card.getAttribute('data-cat') || card.querySelector('p')?.innerText.toLowerCase();
-                showToast(`Showing ${catName} items (demo mode)`);
-                // optional: could filter posts by category in real scenario
+                const catName = card.getAttribute('data-cat');
+                window.location.href = categoryLinks[catName] || `backend-php/browse_listing_view.php?category=${encodeURIComponent(catName)}`;
             });
         });
     }
     
-    // ----- side navigation mock interaction -----
+    // ----- side navigation -----
     function setupSidebarNav() {
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                navItems.forEach(nav => nav.classList.remove('active'));
-                item.classList.add('active');
+            item.addEventListener('click', () => {
                 const navType = item.getAttribute('data-nav');
-                showToast(`Navigating to ${navType} section (demo)`);
+                if (routes[navType]) {
+                    window.location.href = routes[navType];
+                }
             });
         });
+
         const notifBtn = document.getElementById('notifBtn');
-        if(notifBtn) {
-            notifBtn.addEventListener('click', () => showToast('🔔 You have 3 new notifications'));
+        if (notifBtn) {
+            notifBtn.addEventListener('click', () => {
+                window.location.href = routes.notifications;
+            });
         }
+
         const seeAll = document.getElementById('seeAllPostsBtn');
-        if(seeAll) seeAll.addEventListener('click', (e) => {
+        if (seeAll) seeAll.addEventListener('click', (e) => {
             e.preventDefault();
-            showToast('✨ Browse all posts');
+            window.location.href = 'backend-php/browse_listing_view.php';
         });
+
         const help = document.querySelector('.help-btn');
-        if(help) help.addEventListener('click', () => showToast('Help center coming soon!'));
+        if (help) help.addEventListener('click', () => {
+            window.location.href = routes.help;
+        });
     }
-    
     // ----- INIT ALL -----
     function init() {
+        loadSessionUser();
+        loadCategoryStats();
         renderPosts();
         animateStats();
         setupCategoryListeners();
@@ -247,6 +309,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // search event
         globalSearch.addEventListener('input', onSearchInput);
+        globalSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const q = globalSearch.value.trim();
+                window.location.href = `backend-php/browse_listing_view.php${q ? `?q=${encodeURIComponent(q)}` : ''}`;
+            }
+        });
     }
     
     init();

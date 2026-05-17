@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const titleInput = document.getElementById('title');
+    const createPostForm = document.getElementById('createPostForm');
     const descInput = document.getElementById('desc');
     const locationInput = document.getElementById('location');
     const dateInput = document.getElementById('date');
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsDataURL(file);
         });
         
-        fileInput.value = '';
+        // Keep the native file input value so PHP can receive images[] on submit.
     }
     
     function renderPreviewGrid() {
@@ -245,45 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     }
     
-    // Save post data to localStorage
-    function savePostToStorage() {
-        const postData = {
-            id: Date.now(),
-            title: titleInput?.value.trim(),
-            category: currentCategory,
-            status: currentStatus,
-            description: descInput?.value.trim(),
-            location: locationInput?.value.trim(),
-            date: dateInput?.value,
-            contact: contactInput?.value.trim() || '',
-            images: selectedImages.map(img => img.data),
-            timestamp: new Date().toISOString(),
-            author: 'Alex Morgan'
-        };
-        
-        // Get existing posts or initialize new array
-        let existingPosts = JSON.parse(localStorage.getItem('lostFoundPosts') || '[]');
-        existingPosts.unshift(postData); // Add to beginning
-        localStorage.setItem('lostFoundPosts', JSON.stringify(existingPosts));
-        localStorage.setItem('lastCreatedPost', JSON.stringify(postData));
-        
-        return postData;
-    }
-    
-    // Publish post
-    function publishPost() {
-        if (!validateForm()) return;
-        
-        const postData = savePostToStorage();
-        showToast('Post published successfully!', 'success');
-        
-        // Show success modal
-        if (successModal) {
-            successModal.classList.add('show');
+    // Publish post through PHP form submit
+    function publishPost(e) {
+        if (!validateForm()) {
+            e.preventDefault();
+            return;
         }
-        
-        // Trigger confetti effect
-        triggerConfetti();
+
+        showToast('Publishing post...', 'success');
     }
     
     // Confetti effect on success
@@ -379,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Event listeners
-    publishBtn?.addEventListener('click', publishPost);
+    createPostForm?.addEventListener('submit', publishPost);
     discardBtn?.addEventListener('click', resetForm);
     
     // Modal buttons
@@ -388,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Redirecting to post details...', 'success');
         // Simulate navigation
         setTimeout(() => {
-            // In production: window.location.href = '../Post Details/index.html';
+            // In production: window.location.href = 'backend-php/post_details_view.php';
         }, 500);
     });
     
@@ -422,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             e.preventDefault();
-            publishPost();
+            createPostForm?.requestSubmit();
         }
         if (e.key === 'Escape' && successModal?.classList.contains('show')) {
             successModal.classList.remove('show');

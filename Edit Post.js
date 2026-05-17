@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Post deleted permanently', 'error');
         
         setTimeout(() => {
-            // In production: window.location.href = '../Browse Listings/index.html';
+            // In production: window.location.href = 'Browse Listing.html';
             if (deleteModal) deleteModal.classList.remove('show');
             alert('Redirecting to listings page...');
         }, 800);

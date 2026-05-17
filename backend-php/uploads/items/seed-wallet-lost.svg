@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Lost black leather wallet</title>
+  <desc id="desc">Illustration of a black wallet with cards for seed lost item data.</desc>
+  <rect width="900" height="620" fill="#eaf4f8"/>
+  <circle cx="745" cy="120" r="78" fill="#f5c84b" opacity=".9"/>
+  <rect x="155" y="185" width="590" height="295" rx="34" fill="#18202b"/>
+  <rect x="185" y="220" width="530" height="230" rx="24" fill="#273241"/>
+  <rect x="238" y="250" width="178" height="92" rx="12" fill="#f7f0d4"/>
+  <rect x="448" y="250" width="178" height="92" rx="12" fill="#82c5d9"/>
+  <rect x="235" y="375" width="395" height="28" rx="14" fill="#111722"/>
+  <circle cx="672" cy="328" r="38" fill="#f2b84b"/>
+  <text x="450" y="548" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#1d3446">Lost Wallet</text>
+</svg>

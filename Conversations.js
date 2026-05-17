@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div class="conversation-actions">
-                    <a href="../Chat/index.html" class="btn-chat"><i class="fa-solid fa-comment"></i> Open Chat</a>
+                    <a href="Chat.html" class="btn-chat"><i class="fa-solid fa-comment"></i> Open Chat</a>
                     <button class="btn-more"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                 </div>
             `;

@@ -82,50 +82,53 @@
     // Handle Login
     async function handleLogin(e) {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             showToast('Please fix the errors in the form', true);
             return;
         }
 
         const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
 
-        // Show loading state
+        if (rememberMe.checked) {
+            localStorage.setItem('rememberedEmail', email);
+        } else {
+            localStorage.removeItem('rememberedEmail');
+        }
+
         const btnText = signinBtn.querySelector('.btn-text');
         const btnLoader = signinBtn.querySelector('.btn-loader');
-        const originalText = btnText.textContent;
-        
         btnText.style.display = 'none';
         btnLoader.style.display = 'inline-flex';
         signinBtn.disabled = true;
 
-        // Simulate API call
-        setTimeout(() => {
-            // Demo credentials check
-            if (email === 'demo@lostfound.com' && password === 'demo123') {
-                showToast('Login successful! Redirecting to dashboard...', false);
-                
-                // Save remember me preference
-                if (rememberMe.checked) {
-                    localStorage.setItem('rememberedEmail', email);
-                } else {
-                    localStorage.removeItem('rememberedEmail');
+        try {
+            const response = await fetch(loginForm.action, {
+                method: 'POST',
+                body: new FormData(loginForm),
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
-                
-                // Redirect after delay
-                setTimeout(() => {
-                    window.location.href = '../DashBoard/index.html';
-                }, 1500);
-            } else {
-                showToast('Invalid email or password. Try demo@lostfound.com / demo123', true);
+            });
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                showToast(data.message || 'Invalid email or password.', true);
+                return;
             }
-            
-            // Reset button
+
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('current_user', JSON.stringify(data.user));
+            showToast('Login successful!', false);
+            window.location.href = data.redirect || 'DashBoard.html';
+        } catch (error) {
+            showToast('Server connection failed. Please run the project from localhost.', true);
+        } finally {
             btnText.style.display = 'inline';
             btnLoader.style.display = 'none';
             signinBtn.disabled = false;
-        }, 1500);
+        }
     }
 
     // Toggle Password Visibility
@@ -219,7 +222,7 @@
         }
     }
 
-    // Add demo credentials hint
+    // Add backend login hint
     function addDemoHint() {
         const formContainer = document.querySelector('.form-container');
         if (formContainer && !document.querySelector('.demo-hint')) {
@@ -235,7 +238,7 @@
                 color: #065f46;
                 border: 1px solid #d1fae5;
             `;
-            hint.innerHTML = '<i class="fas fa-info-circle"></i> Demo: demo@lostfound.com / demo123';
+            hint.innerHTML = '<i class="fas fa-info-circle"></i> Use your registered MySQL account to sign in.';
             formContainer.appendChild(hint);
         }
     }

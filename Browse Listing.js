@@ -1,54 +1,5 @@
 // ========== DATASET (mock enriched items with professional Icons and interaction) ==========
-const itemsData = [
-  {
-    id: 1,
-    title: "Lost Wallet",
-    description: "Brown leather wallet reported near central bus stop. Contains important cards and a family photo.",
-    type: "lost",
-    category: "Wallet & ID",
-    icon: "fa-solid fa-wallet"
-  },
-  {
-    id: 2,
-    title: "Found iPhone 13",
-    description: "Starlight iPhone 13 with floral case. Found at Dhanmondi Lake side. Owner must confirm lock screen.",
-    type: "found",
-    category: "Electronics",
-    icon: "fa-solid fa-mobile-screen"
-  },
-  {
-    id: 3,
-    title: "Lost Cat",
-    description: "White & orange tabby cat, very friendly, missing from Green Valley area since morning. Responds to 'Mango'.",
-    type: "lost",
-    category: "Pets",
-    icon: "fa-solid fa-cat"
-  },
-  {
-    id: 4,
-    title: "Found Laptop Bag",
-    description: "Black HP backpack containing notebooks and charger. Handed over to campus security.",
-    type: "found",
-    category: "Accessories",
-    icon: "fa-solid fa-bag-shopping"
-  },
-  {
-    id: 5,
-    title: "Lost AirPods Pro",
-    description: "Lost in the central library. White charging case with custom engraving 'A.M.'",
-    type: "lost",
-    category: "Electronics",
-    icon: "fa-solid fa-headphones"
-  },
-  {
-    id: 6,
-    title: "Found Gold Ring",
-    description: "Simple elegant gold ring found near fountain park. Inscription inside: 'Forever'. Claim with proof.",
-    type: "found",
-    category: "Jewelry",
-    icon: "fa-regular fa-gem"
-  }
-];
+let itemsData = [];
 
 const listingsGrid = document.getElementById("listingsGrid");
 const searchInput = document.getElementById("searchInput");
@@ -67,6 +18,7 @@ function showMessage(msg, duration = 1800) {
 
 // Escape HTML to prevent XSS
 function escapeHtml(str) {
+  str = String(str || "");
   return str.replace(/[&<>]/g, function(m) {
     if (m === '&') return '&amp;';
     if (m === '<') return '&lt;';
@@ -75,22 +27,68 @@ function escapeHtml(str) {
   });
 }
 
+function getCategoryIcon(category) {
+  const key = String(category || "").toLowerCase();
+  if (key.includes("elect")) return "fa-solid fa-mobile-screen";
+  if (key.includes("pet")) return "fa-solid fa-paw";
+  if (key.includes("document")) return "fa-solid fa-file-lines";
+  if (key.includes("bag")) return "fa-solid fa-bag-shopping";
+  if (key.includes("key")) return "fa-solid fa-key";
+  if (key.includes("jewel")) return "fa-regular fa-gem";
+  return "fa-regular fa-note-sticky";
+}
+
+function loadItemsFromDatabase() {
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "backend-php/browse_listing.php", true);
+  xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      try {
+        itemsData = JSON.parse(xhr.responseText);
+        syncUrlFilter();
+        renderCards();
+      } catch (error) {
+        showMessage("Could not read database response", 2500);
+      }
+      return;
+    }
+
+    showMessage("Could not load items from database", 2500);
+  };
+  xhr.onerror = function() {
+    showMessage("Database connection failed", 2500);
+  };
+  xhr.send();
+}
+
+function syncUrlFilter() {
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get("type");
+  if (type === "lost" || type === "found") {
+    activeTypeFilter = type;
+    document.querySelectorAll(".filter-chip[data-filter]").forEach(c => c.classList.remove("active-filter"));
+    const activeChip = document.querySelector(`.filter-chip[data-filter="${type}"]`);
+    if (activeChip) activeChip.classList.add("active-filter");
+  }
+}
+
 // render cards with dynamic href references
 function renderCards() {
   let filtered = [...itemsData];
   
   // filter by type (lost/found)
   if (activeTypeFilter !== "all") {
-    filtered = filtered.filter(item => item.type === activeTypeFilter);
+    filtered = filtered.filter(item => (item.type || item.item_type) === activeTypeFilter);
   }
   
   // search by title / category / description
   const searchTerm = searchInput.value.trim().toLowerCase();
   if (searchTerm !== "") {
     filtered = filtered.filter(item => 
-      item.title.toLowerCase().includes(searchTerm) || 
-      item.category.toLowerCase().includes(searchTerm) ||
-      item.description.toLowerCase().includes(searchTerm)
+      String(item.title || "").toLowerCase().includes(searchTerm) || 
+      String(item.category || "").toLowerCase().includes(searchTerm) ||
+      String(item.description || "").toLowerCase().includes(searchTerm) ||
+      String(item.location_name || item.location || "").toLowerCase().includes(searchTerm)
     );
   }
   
@@ -112,33 +110,36 @@ function renderCards() {
   // generate card html
   listingsGrid.innerHTML = filtered.map(item => {
     // dynamic status pill class
-    const typePillClass = item.type === "lost" ? "lost" : "found";
-    const typeLabel = item.type === "lost" ? "Lost" : "Found";
+    const itemType = item.type || item.item_type;
+    const location = item.location || item.location_name || "";
+    const typePillClass = itemType === "lost" ? "lost" : "found";
+    const typeLabel = itemType === "lost" ? "Lost" : "Found";
     
     // action buttons with appropriate links
-    const detailsLink = "../Post Details/index.html";
+    const detailsLink = `backend-php/post_details_view.php?id=${item.id}`;
     let secondaryAction = "";
-    if (item.type === "lost") {
-      secondaryAction = `<a class="btn" href="../Claim Item/index.html"><i class="fa-regular fa-message"></i> Claim</a>`;
+    if (itemType === "lost") {
+      secondaryAction = `<a class="btn" href="Claim Item.html?item_id=${item.id}"><i class="fa-regular fa-message"></i> Claim</a>`;
     } else {
-      secondaryAction = `<a class="btn" href="../Chat/index.html"><i class="fa-regular fa-comments"></i> Chat</a>`;
+      secondaryAction = `<a class="btn" href="Chat.html?item_id=${item.id}&receiver_id=${item.user_id || 1}"><i class="fa-regular fa-comments"></i> Chat</a>`;
     }
     
     // extra icon based on category
-    const categoryIcon = item.icon || "fa-regular fa-note-sticky";
+    const categoryIcon = item.icon || getCategoryIcon(item.category);
     
     return `
       <article class="card" data-id="${item.id}" style="animation-delay: ${Math.random() * 0.1}s">
         <div class="meta">
-          <span class="pill ${typePillClass}"><i class="fa-regular ${item.type === 'lost' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i> ${typeLabel}</span>
+          <span class="pill ${typePillClass}"><i class="fa-regular ${itemType === 'lost' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i> ${typeLabel}</span>
           <span class="pill"><i class="${categoryIcon}" style="margin-right: 4px;"></i> ${item.category}</span>
         </div>
         <h2><i class="${categoryIcon}" style="font-size: 1.1rem; margin-right: 6px; color:#2c7da0;"></i> ${escapeHtml(item.title)}</h2>
         <p>${escapeHtml(item.description)}</p>
+        <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(location)}</p>
         <div class="card-actions">
-          <a class="btn primary" href="${detailsLink}?id=${item.id}"><i class="fa-regular fa-eye"></i> Item Details</a>
+          <a class="btn primary" href="${detailsLink}"><i class="fa-regular fa-eye"></i> Item Details</a>
           ${secondaryAction}
-          <a class="btn" href="../Map View/index.html?item=${item.id}"><i class="fa-solid fa-location-dot"></i> Map View</a>
+          <a class="btn" href="Map View.html?item=${item.id}"><i class="fa-solid fa-location-dot"></i> Map View</a>
         </div>
       </article>
     `;
@@ -196,7 +197,7 @@ function clearSearch() {
 
 // attach event listeners after loading
 document.addEventListener("DOMContentLoaded", () => {
-  renderCards();
+  loadItemsFromDatabase();
   initFilters();
   
   searchInput.addEventListener("input", onSearchInput);
@@ -209,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       showMessage("🔍 Navigate to advanced search — redirecting...", 1700);
       setTimeout(() => {
-        window.location.href = "../Search Results/index.html";
+        window.location.href = "Search Result.html";
       }, 300);
     });
   }

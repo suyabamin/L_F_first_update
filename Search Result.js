@@ -233,10 +233,10 @@ function renderResults() {
                     ${item.distance ? `<span>• ${item.distance} away</span>` : ''}
                 </div>
                 <div class="card-actions">
-                    <a href="../Post Details/index.html?id=${item.id}" class="btn-sm btn-primary-sm">
+                    <a href="backend-php/post_details_view.php?id=${item.id}" class="btn-sm btn-primary-sm">
                         <i class="fas fa-eye"></i> View Details
                     </a>
-                    <a href="../Chat/index.html" class="btn-sm btn-outline-sm">
+                    <a href="Chat.html" class="btn-sm btn-outline-sm">
                         <i class="fas fa-comment"></i> Chat
                     </a>
                 </div>

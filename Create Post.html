@@ -18,21 +18,21 @@
         </div>
 
         <div class="nav-menu">
-            <a href="../DashBoard/index.html" class="nav-link">
+            <a href="DashBoard.html" class="nav-link">
                 <i class="fas fa-grid-2"></i> <span>Dashboard</span>
             </a>
-            <a href="../Browse Listings/index.html" class="nav-link">
+            <a href="Browse Listing.html" class="nav-link">
                 <i class="fas fa-search"></i> <span>Browse Items</span>
             </a>
             <a href="#" class="nav-link active">
                 <i class="fas fa-plus-circle"></i> <span>Create Post</span>
                 <span class="active-indicator"></span>
             </a>
-            <a href="../Conversations/index.html" class="nav-link">
+            <a href="Conversations.html" class="nav-link">
                 <i class="fas fa-message"></i> <span>Messages</span>
                 <span class="badge">3</span>
             </a>
-            <a href="../Profile Page/index.html" class="nav-link">
+            <a href="Profile Page.html" class="nav-link">
                 <i class="fas fa-user"></i> <span>My Profile</span>
             </a>
         </div>
@@ -62,13 +62,13 @@
                 <button class="btn btn-secondary" id="discardBtn">
                     <i class="fas fa-trash-alt"></i> Discard
                 </button>
-                <button class="btn btn-primary" id="publishBtn">
+                <button class="btn btn-primary" id="publishBtn" type="submit" form="createPostForm">
                     <i class="fas fa-paper-plane"></i> Publish Post
                 </button>
             </div>
         </header>
 
-        <div class="main-grid">
+        <form class="main-grid" id="createPostForm" action="backend-php/create_post.php" method="post" enctype="multipart/form-data">
             <!-- Form Section -->
             <section class="form-container">
                 <div class="form-card animate-card">
@@ -78,7 +78,7 @@
                     
                     <div class="input-group">
                         <label>Item Title <span class="required">*</span></label>
-                        <input type="text" id="title" placeholder="e.g., Lost Brown Leather Wallet with ID" class="form-control">
+                        <input type="text" id="title" name="title" placeholder="e.g., Lost Brown Leather Wallet with ID" class="form-control">
                         <div class="input-hint">Be specific - include brand, color, and distinctive features</div>
                     </div>
 
@@ -115,7 +115,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" id="category" value="electronics">
+                            <input type="hidden" id="category" name="category" value="electronics">
                         </div>
                         <div class="input-group">
                             <label>Status <span class="required">*</span></label>
@@ -134,7 +134,7 @@
 
                     <div class="input-group">
                         <label>Description <span class="required">*</span></label>
-                        <textarea id="desc" rows="5" placeholder="Describe your item in detail: brand, color, size, unique marks, reward offered (optional)..." class="form-control"></textarea>
+                        <textarea id="desc" name="desc" rows="5" placeholder="Describe your item in detail: brand, color, size, unique marks, reward offered (optional)..." class="form-control"></textarea>
                         <div class="counter-row">
                             <span id="charCount">0</span> / <span id="charMax">500</span> characters
                             <div class="char-progress">
@@ -151,16 +151,16 @@
                     <div class="input-row">
                         <div class="input-group icon-input">
                             <i class="fas fa-location-dot"></i>
-                            <input type="text" id="location" placeholder="e.g., Dhanmondi Lake, Near Star Kabab" class="form-control">
+                            <input type="text" id="location" name="location" placeholder="e.g., Dhanmondi Lake, Near Star Kabab" class="form-control">
                         </div>
                         <div class="input-group icon-input">
                             <i class="fas fa-calendar"></i>
-                            <input type="date" id="date" class="form-control">
+                            <input type="date" id="date" name="date" class="form-control">
                         </div>
                     </div>
                     <div class="input-group">
                         <label>Contact Information (Optional)</label>
-                        <input type="text" id="contact" placeholder="Phone or email for public contact" class="form-control">
+                        <input type="text" id="contact" name="contact" placeholder="Phone or email for public contact" class="form-control">
                         <div class="input-hint">Your contact will only be shown to interested users after verification</div>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                         </div>
                         <p class="drop-text">Drag & drop images here</p>
                         <span class="drop-subtext">or click to browse</span>
-                        <input type="file" id="fileInput" hidden multiple accept="image/jpeg,image/png,image/jpg,image/webp">
+                        <input type="file" id="fileInput" name="images[]" hidden multiple accept="image/jpeg,image/png,image/jpg,image/webp">
                     </div>
                     <div class="preview-grid" id="previewGrid">
                         <!-- Image previews injected here -->
@@ -212,7 +212,7 @@
                     </div>
                 </div>
             </aside>
-        </div>
+        </form>
     </main>
 
     <!-- Toast Notification -->

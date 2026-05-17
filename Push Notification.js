@@ -9,7 +9,7 @@ const notificationsData = [
         type: "match",
         icon: "fa-robot",
         read: false,
-        link: "../Post Details/index.html"
+        link: "backend-php/post_details_view.php"
     },
     {
         id: 2,
@@ -20,7 +20,7 @@ const notificationsData = [
         type: "nearby",
         icon: "fa-location-dot",
         read: false,
-        link: "../Map View/index.html"
+        link: "Map View.html"
     },
     {
         id: 3,
@@ -31,7 +31,7 @@ const notificationsData = [
         type: "message",
         icon: "fa-comment-dots",
         read: false,
-        link: "../Chat/index.html"
+        link: "Chat.html"
     },
     {
         id: 4,
@@ -42,7 +42,7 @@ const notificationsData = [
         type: "claim",
         icon: "fa-hand-holding-heart",
         read: true,
-        link: "../Claim Item/index.html"
+        link: "Claim Item.html"
     },
     {
         id: 5,
@@ -53,7 +53,7 @@ const notificationsData = [
         type: "match",
         icon: "fa-bullhorn",
         read: true,
-        link: "../Post Details/index.html"
+        link: "backend-php/post_details_view.php"
     },
     {
         id: 6,
@@ -64,7 +64,7 @@ const notificationsData = [
         type: "promo",
         icon: "fa-chart-line",
         read: true,
-        link: "../DashBoard/index.html"
+        link: "DashBoard.html"
     },
     {
         id: 7,
@@ -75,7 +75,7 @@ const notificationsData = [
         type: "promo",
         icon: "fa-shield-alt",
         read: true,
-        link: "../Profile Page/index.html"
+        link: "Profile Page.html"
     },
     {
         id: 8,
@@ -86,7 +86,7 @@ const notificationsData = [
         type: "match",
         icon: "fa-magnifying-glass",
         read: true,
-        link: "../Post Details/index.html"
+        link: "backend-php/post_details_view.php"
     }
 ];
 
@@ -313,7 +313,7 @@ function initLogout() {
     logoutBtn.addEventListener('click', () => {
         showToast('Logged out successfully', 'success');
         setTimeout(() => {
-            window.location.href = '../index.html';
+            window.location.href = 'Landing Page.html';
         }, 1000);
     });
 }
@@ -330,7 +330,7 @@ function simulateNewNotification() {
             type: "match",
             icon: "fa-bullhorn",
             read: false,
-            link: "../Browse Listings/index.html"
+            link: "Browse Listing.html"
         };
         notifications.unshift(newNotif);
         renderNotifications();

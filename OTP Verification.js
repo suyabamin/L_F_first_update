@@ -127,7 +127,7 @@ function showSuccessModal() {
     
     // Auto redirect after 3 seconds
     setTimeout(() => {
-        window.location.href = '../DashBoard/index.html';
+        window.location.href = 'DashBoard.html';
     }, 3000);
 }
 
@@ -206,7 +206,7 @@ verifyBtn.addEventListener('click', verifyOTP);
 resendBtn.addEventListener('click', resendOTP);
 
 goToDashboardBtn.addEventListener('click', () => {
-    window.location.href = '../DashBoard/index.html';
+    window.location.href = 'DashBoard.html';
 });
 
 closeErrorBtn.addEventListener('click', () => {
@@ -223,7 +223,7 @@ smsMethod.addEventListener('click', sendViaSMS);
 // Close modals on overlay click
 successModal.addEventListener('click', (e) => {
     if (e.target === successModal) {
-        window.location.href = '../DashBoard/index.html';
+        window.location.href = 'DashBoard.html';
     }
 });
 

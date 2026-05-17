@@ -721,3 +721,8 @@ body {
         align-items: flex-start;
     }
 }
+
+.category-card.active {
+    outline: 2px solid #ff5c5c;
+    outline-offset: 3px;
+}

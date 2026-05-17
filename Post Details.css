@@ -308,6 +308,13 @@ body {
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.carousel-track img {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .carousel-slide {
     min-width: 100%;
     display: flex;

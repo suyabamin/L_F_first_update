@@ -8,6 +8,7 @@ const passwordInput = document.getElementById('password');
 const confirmInput = document.getElementById('confirmPassword');
 const termsCheck = document.getElementById('termsCheck');
 const createBtn = document.getElementById('createAccountBtn');
+const registerForm = document.getElementById('registerForm');
 const termsModal = document.getElementById('termsModal');
 const successModal = document.getElementById('successModal');
 const termsLink = document.getElementById('termsLink');
@@ -263,30 +264,62 @@ passwordInput.addEventListener('input', () => {
 
 confirmInput.addEventListener('input', checkPasswordMatch);
 
-// Create account
-function createAccount() {
+// Create account through PHP fetch request
+async function createAccount(e) {
+    e.preventDefault();
+
     if (!validateForm()) {
         showToast('Please fix the errors in the form', 'error');
         return;
     }
-    
-    // Save to localStorage
-    const userData = {
-        username: usernameInput.value,
-        fullname: fullnameInput.value,
-        email: emailInput.value,
-        phone: phoneInput.value,
-        country: countrySelect.value,
-        gender: document.querySelector('input[name="gender"]:checked').value,
-        dob: `${document.getElementById('dobDay').value}/${document.getElementById('dobMonth').value}/${document.getElementById('dobYear').value}`,
-        registeredAt: new Date().toISOString()
-    };
-    
-    localStorage.setItem('registered_user', JSON.stringify(userData));
-    localStorage.setItem('isLoggedIn', 'true');
-    
-    showToast('Account created successfully!', 'success');
-    successModal.classList.add('active');
+
+    const day = String(document.getElementById('dobDay').value).padStart(2, '0');
+    const month = String(document.getElementById('dobMonth').value).padStart(2, '0');
+    const year = document.getElementById('dobYear').value;
+    const dobInput = document.getElementById('dob');
+    if (dobInput) {
+        dobInput.value = `${year}-${month}-${day}`;
+    }
+
+    const originalButtonHtml = createBtn.innerHTML;
+    createBtn.disabled = true;
+    createBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Creating...';
+    showToast('Creating account...', 'info');
+
+    try {
+        const response = await fetch(registerForm.action, {
+            method: 'POST',
+            body: new FormData(registerForm),
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            showToast(data.message || 'Registration failed. Please try again.', 'error');
+            return;
+        }
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('registered_user', JSON.stringify(data.user));
+        showToast('Account created successfully!', 'success');
+
+        if (successModal) {
+            successModal.classList.add('active');
+        }
+
+        setTimeout(() => {
+            window.location.href = data.redirect || 'DashBoard.html';
+        }, 1200);
+    } catch (error) {
+        showToast('Server connection failed. Open the project through localhost/XAMPP.', 'error');
+    } finally {
+        createBtn.disabled = false;
+        createBtn.innerHTML = originalButtonHtml;
+    }
 }
 
 // Modal handlers
@@ -324,10 +357,12 @@ successModal.addEventListener('click', (e) => {
 });
 
 goToDashboardBtn.addEventListener('click', () => {
-    window.location.href = '../DashBoard/index.html';
+    window.location.href = 'DashBoard.html';
 });
 
-createBtn.addEventListener('click', createAccount);
+if (registerForm) {
+    registerForm.addEventListener('submit', createAccount);
+}
 
 // Real-time validation on blur
 usernameInput.addEventListener('blur', () => {
