@@ -246,14 +246,38 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     }
     
-    // Publish post through PHP form submit
-    function publishPost(e) {
-        if (!validateForm()) {
-            e.preventDefault();
-            return;
-        }
+    async function publishPost(e) {
+        e.preventDefault();
+        if (!validateForm()) return;
 
-        showToast('Publishing post...', 'success');
+        const formData = new FormData(createPostForm);
+        formData.delete('images[]');
+        selectedImages.forEach((image) => formData.append('images[]', image.file));
+
+        publishBtn.disabled = true;
+        showToast('Publishing post...', 'info');
+
+        try {
+            const response = await fetch(createPostForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                showToast(data.message || 'Could not publish post. Please login first.', 'error');
+                if (response.status === 401) setTimeout(() => { window.location.href = 'Login.html'; }, 900);
+                return;
+            }
+            localStorage.removeItem('postDraft');
+            if (successModal) successModal.classList.add('show');
+            triggerConfetti();
+            viewPostBtn.onclick = () => { window.location.href = data.redirect || `Post Details.html?id=${data.id}`; };
+        } catch {
+            showToast('Server connection failed. Run: npm start', 'error');
+        } finally {
+            publishBtn.disabled = false;
+        }
     }
     
     // Confetti effect on success

@@ -11,21 +11,31 @@ document.addEventListener('DOMContentLoaded', () => {
         help: 'User Feedback.html'
     };
 
-    // ---------- MOCK POST DATA (rich dataset) ----------
-    const allPostsData = [
-        { id: 1, status: 'lost', title: 'Lost Wallet - Black Leather', category: 'Bag', time: '2 hours ago', emoji: '👛', bg: '#FEF3C7', icon: 'fas fa-briefcase' },
-        { id: 2, status: 'found', title: 'iPhone 13 Pro Max (Graphite)', category: 'Electronics', time: '3 hours ago', emoji: '📱', bg: '#E0F2FE', icon: 'fas fa-laptop' },
-        { id: 3, status: 'found', title: 'Pixel 8 Pro - Hazel', category: 'Electronics', time: '1 hour ago', emoji: '📲', bg: '#DCFCE7', icon: 'fas fa-mobile-alt' },
-        { id: 4, status: 'lost', title: 'North Face Side Bag', category: 'Bag', time: '4 hours ago', emoji: '🎒', bg: '#F3E8FF', icon: 'fas fa-briefcase' },
-        { id: 5, status: 'lost', title: 'Missing Tabby Cat - "Milo"', category: 'Pets', time: '5 hours ago', emoji: '🐱', bg: '#FFE4E6', icon: 'fas fa-paw' },
-        { id: 6, status: 'found', title: 'Bunch of Keys with USB', category: 'Keys', time: '30 mins ago', emoji: '🔑', bg: '#E0F2FE', icon: 'fas fa-key' },
-        { id: 7, status: 'found', title: 'Car Key & House Keys set', category: 'Keys', time: '2 hours ago', emoji: '🔑', bg: '#FEF9C3', icon: 'fas fa-key' },
-        { id: 8, status: 'lost', title: 'Beloved Cat - White & Ginger', category: 'Pets', time: '1 hour ago', emoji: '🐾', bg: '#FFEDD5', icon: 'fas fa-paw' },
-        { id: 9, status: 'lost', title: 'MacBook Pro 14" Space Gray', category: 'Electronics', time: '6 hours ago', emoji: '💻', bg: '#E6F7F5', icon: 'fas fa-laptop' },
-        { id: 10, status: 'found', title: 'Gold Necklace with pendant', category: 'Jewelry', time: '12 hours ago', emoji: '💍', bg: '#FCE7F3', icon: 'fas fa-gem' },
-        { id: 11, status: 'found', title: 'Important Passport & Docs', category: 'Documents', time: '1 day ago', emoji: '📄', bg: '#E0F2FE', icon: 'fas fa-file-alt' },
-        { id: 12, status: 'lost', title: 'Brown Leather Backpack', category: 'Bag', time: '2 days ago', emoji: '🎒', bg: '#FEF3C7', icon: 'fas fa-bag-shopping' }
-    ];
+    let allPostsData = [];
+    const bgPalette = ['#FEF3C7', '#E0F2FE', '#DCFCE7', '#F3E8FF', '#FFE4E6', '#E6F7F5', '#FCE7F3'];
+
+    async function loadPostsFromDatabase() {
+        try {
+            const { res, data } = await fetch('backend-php/dashboard_posts.php', {
+                headers: { Accept: 'application/json' }
+            }).then(async (r) => ({ res: r, data: await r.json() }));
+            if (!res.ok || !data.success) return;
+            allPostsData = (data.posts || []).map((post, index) => ({
+                id: post.id,
+                status: post.status,
+                title: post.title,
+                category: post.category,
+                time: post.time,
+                emoji: window.LF ? LF.postEmoji(post.category) : '📦',
+                bg: bgPalette[index % bgPalette.length],
+                icon: window.LF ? LF.categoryIcon(post.category) : 'fas fa-box'
+            }));
+            visibleCount = 6;
+            renderPosts();
+        } catch {
+            // keep empty state if database unavailable
+        }
+    }
 
     let currentFilter = 'all';
     let visibleCount = 6;      // initially show 6 posts
@@ -137,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.post-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 if(e.target.classList && e.target.classList.contains('heart-icon')) return;
-                window.location.href = `backend-php/post_details_view.php?id=${card.dataset.id}`;
+                window.location.href = `Post Details.html?id=${card.dataset.id}`;
             });
         });
     }
@@ -291,6 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function init() {
         loadSessionUser();
         loadCategoryStats();
+        loadPostsFromDatabase();
         renderPosts();
         animateStats();
         setupCategoryListeners();

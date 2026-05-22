@@ -127,7 +127,7 @@ function calculateRelevanceScore(item, keywords, query) {
     return Math.min(score, 100);
 }
 
-function performSearch(queryText = null) {
+async function performSearch(queryText = null) {
     const query = queryText || searchInput.value.trim();
     
     if (!query) {
@@ -138,10 +138,26 @@ function performSearch(queryText = null) {
     
     aiStatusText.textContent = 'Analyzing query...';
     
-    // Simulate AI processing delay
+    let sourceItems = itemsDatabase;
+    if (window.LF) {
+        try {
+            const rows = await LF.fetchItems({ q: query });
+            sourceItems = rows.map((item) => ({
+                id: item.id,
+                title: item.title,
+                description: item.description,
+                category: item.item_type,
+                location: item.location_name,
+                keywords: `${item.title} ${item.description} ${item.category}`.toLowerCase().split(/\s+/)
+            }));
+        } catch {
+            sourceItems = itemsDatabase;
+        }
+    }
+
     setTimeout(() => {
         const keywords = extractKeywords(query);
-        const scoredItems = itemsDatabase.map(item => ({
+        const scoredItems = sourceItems.map(item => ({
             ...item,
             score: calculateRelevanceScore(item, keywords, query)
         }));
@@ -172,16 +188,16 @@ function displayResults(results, query) {
     resultsCount.textContent = `${results.length} result${results.length !== 1 ? 's' : ''}`;
     
     resultsGrid.innerHTML = results.map((item, index) => `
-        <div class="result-card" style="animation-delay: ${index * 0.05}s">
+        <div class="result-card" style="animation-delay: ${index * 0.05}s; cursor:pointer;" onclick="window.location.href='Post Details.html?id=${item.id}'">
             <span class="pill ${item.category}">${item.category === 'lost' ? 'Lost' : 'Found'}</span>
             <h4>${escapeHtml(item.title)}</h4>
             <p>${escapeHtml(item.description)}</p>
-            <div class="card-footer">
+            <motion class="card-footer">
                 <span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(item.location)}</span>
                 <span class="match-score" style="color: var(--primary);">${item.score}% match</span>
             </div>
         </div>
-    `).join('');
+    `).join('').replace(/<motion class="card-footer">/g, '<div class="card-footer">');
     
     resultsSection.style.display = 'block';
     showToast(`Found ${results.length} matching items`, 'success');

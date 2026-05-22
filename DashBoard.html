@@ -48,6 +48,17 @@
 
     <!-- MAIN CONTENT AREA -->
     <main class="main-content">
+        <header class="figma-topbar">
+            <a class="figma-brand" href="DashBoard.html">Lost&amp;<br>Found</a>
+            <nav class="figma-nav" aria-label="Primary navigation">
+                <a href="DashBoard.html">Home</a>
+                <a href="Browse Listing.html">Browse</a>
+                <a href="Create Post.html">Post</a>
+                <a href="Nearby Alerts Post.html">Alert</a>
+                <a href="Notification.html">Notification</a>
+                <a href="Profile Page.html" data-action="profile">Profile</a>
+            </nav>
+        </header>
         <!-- TOP HEADER with welcome and actions -->
         <header class="top-header">
             <div class="greeting">
@@ -135,7 +146,7 @@
         </section>
 
         <!-- PROJECT PAGES / QUICK NAVIGATION -->
-        <section class="section">
+        <section class="section utility-section">
             <div class="section-header">
                 <h2><i class="fas fa-link"></i> Project Pages</h2>
                 <a href="backend-php/browse_listing_view.php" class="see-all-link">Database browse <i class="fas fa-arrow-right"></i></a>
@@ -232,6 +243,8 @@
     <!-- floating toast container -->
     <div id="toast-message" class="toast"></div>
 
+    <script src="js/lf-core.js"></script>
+    <script src="js/lf-ui.js"></script>
     <script src="DashBoard.js"></script>
 </body>
 </html>

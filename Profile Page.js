@@ -1,4 +1,4 @@
-// Profile page backed by MySQL through backend-php JSON endpoints.
+// Profile page backed by the API through backend-php compatibility endpoints.
 const userNameDisplay = document.getElementById('userNameDisplay');
 const profileName = document.getElementById('profileName');
 const fullNameInput = document.getElementById('fullName');
@@ -138,9 +138,14 @@ async function saveProfile() {
 }
 
 async function logout() {
+    if (window.LF?.logout) {
+        await window.LF.logout();
+        return;
+    }
     try {
         await fetch('backend-php/logout.php', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: {
                 'Accept': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
@@ -149,6 +154,7 @@ async function logout() {
     } finally {
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('current_user');
+        localStorage.removeItem('registered_user');
         window.location.href = 'Login.html';
     }
 }

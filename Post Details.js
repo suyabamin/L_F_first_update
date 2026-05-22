@@ -1,20 +1,18 @@
-// Enhanced Listing Data with more details
 const listingData = {
-    title: localStorage.getItem("lf_latest_title") || "Found iPhone 13 Pro Max",
-    category: "Electronics",
-    status: "Found",
-    location: "Dhanmondi Lake, Road #2, Dhaka",
-    time: "3 hours ago",
-    postedDate: "May 15, 2026",
-    postedBy: "Ahmed Hossain",
-    views: 142,
-    description: "A pristine iPhone 13 Pro Max (Graphite) was found near the Dhanmondi Lake walking path. The device has a clear case with a small sticker. Owner must confirm lock screen pattern, Apple ID, or provide proof of purchase to claim. Please reach out with accurate details for verification.",
-    refId: `#LF-${Math.floor(Math.random() * 10000)}`,
-    slides: [
-        { icon: "fa-mobile-screen-button", label: "Device Front" },
-        { icon: "fa-receipt", label: "Proof Available" },
-        { icon: "fa-location-dot", label: "Location Map" }
-    ]
+    id: null,
+    user_id: null,
+    title: 'Loading...',
+    category: '',
+    status: 'Found',
+    location: '',
+    time: 'Just now',
+    postedDate: '—',
+    postedBy: '—',
+    views: 0,
+    description: '',
+    refId: '#LF-—',
+    slides: [{ icon: 'fa-box', label: 'Item' }],
+    isFavorite: false
 };
 
 // Global variables
@@ -92,10 +90,9 @@ function renderListing() {
 
 // Render carousel
 function renderCarousel() {
-    carouselTrack.innerHTML = listingData.slides.map((slide, index) => `
+    carouselTrack.innerHTML = listingData.slides.map((slide) => `
         <div class="carousel-slide">
-            <i class="fas ${slide.icon}"></i>
-            <span>${slide.label}</span>
+            ${slide.src ? `<img src="/${String(slide.src).replace(/^\//, '')}" alt="${slide.label}" style="max-height:220px;border-radius:12px;">` : `<i class="fas ${slide.icon}"></i><span>${slide.label}</span>`}
         </div>
     `).join('');
     
@@ -126,14 +123,30 @@ function slideCarousel(direction) {
 }
 
 // Favorite toggle
-function toggleFavorite() {
-    isFavorited = !isFavorited;
-    const favIcons = document.querySelectorAll('#favBtnTop i, #favBtnSide i');
-    favIcons.forEach(icon => {
-        icon.classList.toggle('far');
-        icon.classList.toggle('fas');
-    });
-    showToast(isFavorited ? '❤️ Added to favorites' : '💔 Removed from favorites', 'success');
+async function toggleFavorite() {
+    if (!listingData.id) return;
+    try {
+        const { res, data } = await LF.api('favorite.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item_id: listingData.id })
+        });
+        if (!res.ok) {
+            showToast(data?.message || 'Please login to save favorites', 'error');
+            if (res.status === 401) setTimeout(() => { window.location.href = 'Login.html'; }, 800);
+            return;
+        }
+        isFavorited = data.favorited;
+        listingData.isFavorite = isFavorited;
+        const favIcons = document.querySelectorAll('#favBtnTop i, #favBtnSide i');
+        favIcons.forEach((icon) => {
+            icon.classList.toggle('far', !isFavorited);
+            icon.classList.toggle('fas', isFavorited);
+        });
+        showToast(isFavorited ? 'Added to favorites' : 'Removed from favorites', 'success');
+    } catch {
+        showToast('Could not update favorites', 'error');
+    }
 }
 
 // Modal functions
@@ -151,15 +164,20 @@ function closeModal() {
 
 function confirmModalAction() {
     if (currentAction === 'chat') {
-        showToast('💬 Redirecting to chat...', 'success');
+        showToast('Redirecting to chat...', 'success');
         setTimeout(() => {
-            window.location.href = 'Chat.html';
-        }, 500);
+            window.location.href = `Chat.html?item_id=${listingData.id}&receiver_id=${listingData.user_id}`;
+        }, 400);
     } else if (currentAction === 'claim') {
-        showToast('📋 Claim request submitted. Owner will contact you.', 'success');
-        closeModal();
+        window.location.href = `Claim Item.html?item_id=${listingData.id}`;
     } else if (currentAction === 'report') {
-        showToast('🚩 Report submitted. Our team will review.', 'success');
+        LF.api('report.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ item_id: listingData.id, reason: 'Suspicious listing', details: 'Reported from post details page' })
+        }).then(({ res, data }) => {
+            showToast(res.ok ? (data.message || 'Report submitted.') : (data?.message || 'Report failed'), res.ok ? 'success' : 'error');
+        });
         closeModal();
     } else if (currentAction === 'share') {
         navigator.clipboard.writeText(window.location.href);
@@ -221,12 +239,42 @@ breadCategoryLink?.addEventListener('click', (e) => {
     }, 500);
 });
 
-// Initialize page
-function init() {
-    renderListing();
-    renderCarousel();
-    updateCarousel();
-    showToast('📱 Listing loaded successfully', 'success');
+async function loadListingFromApi() {
+    const id = LF.getParam('id');
+    if (!id) {
+        showToast('No item id in URL', 'error');
+        return;
+    }
+    try {
+        const item = await LF.fetchItem(id);
+        listingData.id = item.id;
+        listingData.user_id = item.user_id;
+        listingData.title = item.title;
+        listingData.category = item.category;
+        listingData.status = item.item_type === 'lost' ? 'Lost' : 'Found';
+        listingData.location = item.location_name || item.location;
+        listingData.time = item.timeAgo || LF.formatTimeAgo(item.created_at);
+        listingData.postedDate = new Date(item.created_at).toLocaleDateString();
+        listingData.postedBy = item.postedBy || item.full_name || 'User';
+        listingData.views = item.view_count || 0;
+        listingData.description = item.description;
+        listingData.refId = `#LF-${item.id}`;
+        isFavorited = !!item.isFavorite;
+        listingData.slides = (item.images && item.images.length)
+            ? item.images.map((src, i) => ({ icon: 'fa-image', label: `Photo ${i + 1}`, src }))
+            : [{ icon: LF.categoryIcon(item.category).replace('fa-solid ', 'fa-').replace('fa-regular ', 'fa-'), label: item.category }];
+        renderListing();
+        renderCarousel();
+        updateCarousel();
+        if (isFavorited) {
+            document.querySelectorAll('#favBtnTop i, #favBtnSide i').forEach((icon) => {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            });
+        }
+    } catch (error) {
+        showToast(error.message || 'Could not load listing', 'error');
+    }
 }
 
-init();
+document.addEventListener('DOMContentLoaded', loadListingFromApi);

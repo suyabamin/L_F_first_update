@@ -1,0 +1,16 @@
+{
+  "name": "lost-found-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node dev-server.js",
+    "dev": "node dev-server.js",
+    "api": "cd backend && npm run dev",
+    "backend": "cd backend && npm run dev"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "busboy": "^1.6.0",
+    "dotenv": "^16.4.7"
+  }
+}

@@ -80,6 +80,68 @@
     }
 
     // Handle Login
+    function demoUser(email) {
+        return {
+            id: 2,
+            username: 'rahim',
+            fullName: 'Rahim Ahmed',
+            email,
+            phone: '+8801711000001',
+            country: 'BD',
+            location: 'BD',
+            avatar: '',
+            role: 'user',
+            isVerified: true,
+            preferences: {
+                email: true,
+                push: true,
+                sms: false,
+                marketing: false
+            }
+        };
+    }
+
+    function demoAdmin(email) {
+        return {
+            id: 1,
+            username: 'admin',
+            fullName: 'System Admin',
+            email,
+            phone: '+8801711000000',
+            country: 'BD',
+            location: 'Dhaka, Bangladesh',
+            avatar: '',
+            role: 'admin',
+            isVerified: true,
+            preferences: {
+                email: true,
+                push: true,
+                sms: false,
+                marketing: false
+            }
+        };
+    }
+
+    function saveSession(user) {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('current_user', JSON.stringify(user));
+    }
+
+    function canUseDemoLogin(email, password) {
+        return email.toLowerCase() === 'rahim@example.com' && password === 'password';
+    }
+
+    function canUseDemoAdminLogin(email, password) {
+        return email.toLowerCase() === 'admin@lostfound.local' && password === 'password';
+    }
+
+    function finishLogin(user, redirect) {
+        saveSession(user);
+        showToast('Login successful!', false);
+        const next = new URLSearchParams(window.location.search).get('next');
+        window.location.href = next || redirect || 'DashBoard.html';
+    }
+
     async function handleLogin(e) {
         e.preventDefault();
 
@@ -89,6 +151,7 @@
         }
 
         const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
 
         if (rememberMe.checked) {
             localStorage.setItem('rememberedEmail', email);
@@ -103,9 +166,14 @@
         signinBtn.disabled = true;
 
         try {
-            const response = await fetch(loginForm.action, {
+            if (window.location.protocol === 'file:') {
+                throw new Error('Open http://127.0.0.1:8000/Login.html instead of opening this file directly.');
+            }
+
+            const response = await fetch(new URL(loginForm.getAttribute('action'), window.location.origin), {
                 method: 'POST',
                 body: new FormData(loginForm),
+                credentials: 'same-origin',
                 headers: {
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
@@ -118,12 +186,18 @@
                 return;
             }
 
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('current_user', JSON.stringify(data.user));
-            showToast('Login successful!', false);
-            window.location.href = data.redirect || 'DashBoard.html';
+            finishLogin(data.user, data.redirect);
         } catch (error) {
-            showToast('Server connection failed. Please run the project from localhost.', true);
+            if (canUseDemoAdminLogin(email, password)) {
+                finishLogin(demoAdmin(email), 'Admin panel.html');
+                return;
+            }
+            if (canUseDemoLogin(email, password)) {
+                finishLogin(demoUser(email), 'DashBoard.html');
+                return;
+            }
+
+            showToast(error.message || 'Server connection failed. Use rahim@example.com / password or admin@lostfound.local / password for local demo login.', true);
         } finally {
             btnText.style.display = 'inline';
             btnLoader.style.display = 'none';

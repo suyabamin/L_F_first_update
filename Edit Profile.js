@@ -387,12 +387,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function performDeleteAccount() {
-        showToast('Account permanently deleted', 'error');
+    async function performDeleteAccount() {
+        if (!window.confirm('This will delete your account permanently. Continue?')) {
+            return;
+        }
+
         if (deleteModal) deleteModal.classList.remove('show');
-        setTimeout(() => {
-            alert('Account data has been removed. Redirecting...');
-        }, 1000);
+        showToast('Deleting your account...', 'info');
+        try {
+            const response = await fetch('backend-php/delete-account.php', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                showToast(data.message || 'Account deletion failed.', 'error');
+                return;
+            }
+
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('current_user');
+            showToast('Account deleted. Redirecting to login.', 'success');
+            setTimeout(() => {
+                window.location.href = 'Login.html';
+            }, 1200);
+        } catch (error) {
+            showToast('Server error while deleting account.', 'error');
+        }
     }
     
     // Load saved profile data

@@ -200,13 +200,26 @@
                 submittedAt: new Date().toISOString()
             };
             
-            console.log('Claim submitted:', formData);
             showToast('Submitting claim...', false);
-            claimForm.submit();
+            const body = new FormData(claimForm);
+            fetch(claimForm.action, {
+                method: 'POST',
+                body,
+                headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+            })
+                .then((r) => r.json().then((data) => ({ res: r, data })))
+                .then(({ res, data }) => {
+                    if (!res.ok || !data.success) {
+                        showToast(data.message || 'Claim failed. Please login.', true);
+                        if (res.status === 401) setTimeout(() => { window.location.href = 'Login.html'; }, 900);
+                        return;
+                    }
+                    showSuccessModal();
+                    showToast('Claim submitted successfully!', false);
+                    resetForm();
+                })
+                .catch(() => showToast('Server connection failed.', true));
             return;
-            
-            // Show success modal
-            showSuccessModal();
             
             // Reset form
             resetForm();

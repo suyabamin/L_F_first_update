@@ -135,41 +135,107 @@
         return div;
     }
 
-    // Send New Message
-    function sendMessage() {
+    let apiMode = false;
+    let currentUserId = null;
+    let currentConversationId = null;
+
+    async function sendMessage() {
         const text = messageInput.value.trim();
         if (!text) return;
 
-        const now = new Date();
-        const time = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
-        
-        const newMessage = {
-            id: messageIdCounter++,
-            sender: 'me',
-            text: text,
-            time: time,
-            status: 'Sent'
-        };
+        const params = new URLSearchParams(window.location.search);
+        const itemId = chatItemIdInput?.value || params.get('item_id') || '';
+        const receiverId = chatReceiverIdInput?.value || params.get('receiver_id') || '';
 
-        // Add to contacts data
-        if (contactsData[currentContactId]) {
-            contactsData[currentContactId].messages.push(newMessage);
+        if (apiMode && itemId && receiverId) {
+            const body = new FormData();
+            body.append('item_id', itemId);
+            body.append('receiver_id', receiverId);
+            body.append('message', text);
+            try {
+                const { res, data } = await LF.api('send_message.php', { method: 'POST', body });
+                if (!res.ok || !data.success) {
+                    showToast(data?.message || 'Could not send message', true);
+                    return;
+                }
+                messageInput.value = '';
+                if (data.conversation_id) currentConversationId = data.conversation_id;
+                await loadMessagesFromApi(currentConversationId);
+                showToast('Message sent!', false);
+            } catch {
+                showToast('Server connection failed', true);
+            }
+            return;
         }
 
-        // Add to UI
-        const messageDiv = createMessageElement(newMessage);
-        chatMessages.appendChild(messageDiv);
-        
-        // Clear input
+        const now = new Date();
+        const time = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+        const newMessage = { id: messageIdCounter++, sender: 'me', text, time, status: 'Sent' };
+        if (contactsData[currentContactId]) contactsData[currentContactId].messages.push(newMessage);
+        chatMessages.appendChild(createMessageElement(newMessage));
         messageInput.value = '';
-        
-        // Scroll to bottom
         scrollToBottom();
-        
         showToast('Message sent!', false);
-        
-        // Simulate reply after 2 seconds
         simulateReply();
+    }
+
+    async function loadMessagesFromApi(conversationId) {
+        if (!conversationId) return;
+        const { res, data } = await LF.api(`messages.php?conversation_id=${conversationId}`);
+        if (!res.ok || !data.success) return;
+        currentUserId = data.currentUserId;
+        chatMessages.innerHTML = '<div class="day-divider"><span>Today</span></div>';
+        data.messages.forEach((msg) => {
+            const isMe = String(msg.sender_id) === String(currentUserId);
+            const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            chatMessages.appendChild(createMessageElement({
+                id: msg.id,
+                sender: isMe ? 'me' : 'other',
+                text: msg.message_text,
+                time,
+                status: Number(msg.is_read) ? 'Read' : 'Delivered'
+            }));
+        });
+        scrollToBottom();
+    }
+
+    async function bootstrapFromApi() {
+        const session = await LF.getMe();
+        if (!session?.user) {
+            window.location.href = 'Login.html';
+            return;
+        }
+        currentUserId = session.user.id;
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('item_id')) chatItemIdInput.value = params.get('item_id');
+        if (params.get('receiver_id')) chatReceiverIdInput.value = params.get('receiver_id');
+
+        const { res, data } = await LF.api('conversations.php');
+        if (!res.ok || !data.success) return;
+
+        apiMode = true;
+        const list = document.querySelector('.contact-list') || document.querySelector('.contacts');
+        if (list && data.conversations.length) {
+            list.innerHTML = data.conversations.map((c) => `
+              <article class="contact" data-contact-id="${c.id}" data-name="${LF.escapeHtml(c.other_name)}">
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(c.other_name || 'User')}&background=00cfe8&color=fff" alt="">
+                <div>
+                  <h4>${LF.escapeHtml(c.other_name)}</h4>
+                  <p class="preview">${LF.escapeHtml((c.last_message || '').slice(0, 40))}</p>
+                </div>
+              </article>`);
+            document.querySelectorAll('.contact').forEach((el) => {
+                el.addEventListener('click', () => {
+                    currentConversationId = el.getAttribute('data-contact-id');
+                    chatItemIdInput.value = data.conversations.find((x) => String(x.id) === String(currentConversationId))?.item_id || '';
+                    chatReceiverIdInput.value = data.conversations.find((x) => String(x.id) === String(currentConversationId))?.other_id || '';
+                    loadMessagesFromApi(currentConversationId);
+                });
+            });
+        }
+
+        currentConversationId = params.get('conversation_id') || (data.conversations[0] && data.conversations[0].id);
+        if (currentConversationId) await loadMessagesFromApi(currentConversationId);
     }
 
     // Simulate Typing and Reply
@@ -305,18 +371,12 @@
     function initEventListeners() {
         if (messageForm) {
             messageForm.addEventListener('submit', (e) => {
-                if (!messageInput.value.trim()) {
-                    e.preventDefault();
-                    return;
-                }
-
+                e.preventDefault();
+                if (!messageInput.value.trim()) return;
                 const params = new URLSearchParams(window.location.search);
-                if (chatItemIdInput) {
-                    chatItemIdInput.value = params.get('item_id') || params.get('id') || chatItemIdInput.value || '1';
-                }
-                if (chatReceiverIdInput) {
-                    chatReceiverIdInput.value = params.get('receiver_id') || currentContactId || chatReceiverIdInput.value || '1';
-                }
+                if (chatItemIdInput) chatItemIdInput.value = params.get('item_id') || chatItemIdInput.value || '1';
+                if (chatReceiverIdInput) chatReceiverIdInput.value = params.get('receiver_id') || chatReceiverIdInput.value || '1';
+                sendMessage();
             });
         }
         
@@ -395,7 +455,6 @@
         }, 800);
     }
 
-    // Initialize Everything
     function init() {
         initContacts();
         loadMessages(currentContactId);
@@ -403,6 +462,7 @@
         initKeyboardShortcuts();
         initAutoRefresh();
         showWelcome();
+        if (window.LF) bootstrapFromApi().catch(() => {});
     }
 
     init();

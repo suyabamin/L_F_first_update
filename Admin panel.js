@@ -241,6 +241,85 @@
         }
     }
 
+    async function fetchAdminUsers() {
+        const usersTable = document.getElementById('adminUsersTable');
+        if (!usersTable) return;
+
+        usersTable.innerHTML = '<tr><td colspan="5">Loading users...</td></tr>';
+        try {
+            const { res, data } = await LF.api('admin/users.php');
+            if (!res.ok || !data.success) {
+                usersTable.innerHTML = '<tr><td colspan="5">Unable to load user list.</td></tr>';
+                return;
+            }
+
+            const users = Array.isArray(data.users) ? data.users : [];
+            if (users.length === 0) {
+                usersTable.innerHTML = '<tr><td colspan="5">No users found.</td></tr>';
+                return;
+            }
+
+            usersTable.innerHTML = users.map(user => {
+                const roleBadge = user.role === 'admin' ? '<span class="status-badge success">Admin</span>' : '<span class="status-badge info">User</span>';
+                const statusBadge = user.status === 'active' ? '<span class="status-badge green">Active</span>' : '<span class="status-badge danger">Blocked</span>';
+                const toggleRoleLabel = user.role === 'admin' ? 'Demote' : 'Make Admin';
+                const toggleStatusLabel = user.status === 'active' ? 'Ban' : 'Unban';
+                const currentUser = JSON.parse(localStorage.getItem('current_user') || 'null');
+                const disabledAttr = currentUser && user.id === currentUser.id ? ' disabled' : '';
+
+                return `
+                    <tr>
+                        <td>${LF.escapeHtml(user.fullName)}</td>
+                        <td>${LF.escapeHtml(user.email)}</td>
+                        <td>${roleBadge}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="btn-sm user-action-btn" data-user-id="${user.id}" data-action="toggleRole"${disabledAttr}>${toggleRoleLabel}</button>
+                            <button class="btn-sm user-action-btn" data-user-id="${user.id}" data-action="toggleStatus"${disabledAttr}>${toggleStatusLabel}</button>
+                        </td>
+                    </tr>`;
+            }).join('');
+
+            document.querySelectorAll('.user-action-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation();
+                    const target = event.currentTarget;
+                    const userId = target.dataset.userId;
+                    const action = target.dataset.action;
+                    await handleAdminUserAction(userId, action, target);
+                });
+            });
+        } catch (error) {
+            usersTable.innerHTML = '<tr><td colspan="5">Unable to load user list.</td></tr>';
+        }
+    }
+
+    async function handleAdminUserAction(userId, action, button) {
+        if (!button) return;
+        button.disabled = true;
+        try {
+            const formData = new FormData();
+            formData.set('id', userId);
+            formData.set('action', action);
+            const { res, data } = await LF.api('admin/user-action.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!res.ok || !data.success) {
+                showToast(data.message || 'Action failed.', true);
+                return;
+            }
+
+            showToast(data.message || 'Action completed successfully.', false);
+            await fetchAdminUsers();
+        } catch (error) {
+            showToast('Server request failed. Try again.', true);
+        } finally {
+            button.disabled = false;
+        }
+    }
+
     // Add Hover Animations to Cards
     function initCardAnimations() {
         const cards = document.querySelectorAll('.card');
@@ -338,5 +417,25 @@
     }
 
     // Start the application
+    async function loadAdminData() {
+        if (!window.LF) return;
+        const session = await LF.requireAdmin();
+        if (!session) return;
+        try {
+            const { res, data } = await LF.api('admin/stats.php');
+            if (res.ok && data.stats) {
+                const usersEl = document.getElementById('totalUsers');
+                const itemsEl = document.getElementById('totalItems');
+                if (usersEl) usersEl.textContent = data.stats.users;
+                if (itemsEl) itemsEl.textContent = data.stats.items;
+            }
+        } catch {
+            // keep demo values
+        }
+
+        await fetchAdminUsers();
+    }
+
     init();
+    loadAdminData();
 })();

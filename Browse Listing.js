@@ -38,27 +38,21 @@ function getCategoryIcon(category) {
   return "fa-regular fa-note-sticky";
 }
 
-function loadItemsFromDatabase() {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", "backend-php/browse_listing.php", true);
-  xhr.onload = function() {
-    if (xhr.status >= 200 && xhr.status < 300) {
-      try {
-        itemsData = JSON.parse(xhr.responseText);
-        syncUrlFilter();
-        renderCards();
-      } catch (error) {
-        showMessage("Could not read database response", 2500);
-      }
-      return;
+async function loadItemsFromDatabase() {
+  try {
+    if (window.LF) {
+      itemsData = await LF.fetchItems();
+    } else {
+      const res = await fetch("backend-php/browse_listing.php", {
+        headers: { Accept: "application/json" }
+      });
+      itemsData = await res.json();
     }
-
-    showMessage("Could not load items from database", 2500);
-  };
-  xhr.onerror = function() {
-    showMessage("Database connection failed", 2500);
-  };
-  xhr.send();
+    syncUrlFilter();
+    renderCards();
+  } catch {
+    showMessage("Could not load items. Run npm start in project folder.", 2500);
+  }
 }
 
 function syncUrlFilter() {
@@ -116,7 +110,7 @@ function renderCards() {
     const typeLabel = itemType === "lost" ? "Lost" : "Found";
     
     // action buttons with appropriate links
-    const detailsLink = `backend-php/post_details_view.php?id=${item.id}`;
+    const detailsLink = `Post Details.html?id=${item.id}`;
     let secondaryAction = "";
     if (itemType === "lost") {
       secondaryAction = `<a class="btn" href="Claim Item.html?item_id=${item.id}"><i class="fa-regular fa-message"></i> Claim</a>`;
