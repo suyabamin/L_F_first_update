@@ -122,6 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         postsGrid.innerHTML = postsHTML;
         
+        // staggered entrance: set small delays so cards animate sequentially
+        document.querySelectorAll('.post-card').forEach((card, idx) => {
+            card.style.setProperty('--delay', `${(idx % 12) * 0.04}s`);
+        });
+        document.querySelectorAll('.category-card').forEach((card, idx) => {
+            card.style.setProperty('--delay', `${(idx % 8) * 0.03}s`);
+        });
+
         // reattach heart event listeners
         document.querySelectorAll('.heart-icon').forEach(icon => {
             icon.addEventListener('click', (e) => {
@@ -149,6 +157,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(e.target.classList && e.target.classList.contains('heart-icon')) return;
                 window.location.href = `Post Details.html?id=${card.dataset.id}`;
             });
+        });
+
+        // slight micro-interactions for images and icons
+        document.querySelectorAll('.img-placeholder').forEach((img, i) => {
+            img.style.transition = 'transform 0.45s cubic-bezier(.2,.9,.3,1)';
+            img.addEventListener('mouseenter', () => img.style.transform = 'translateY(-6px) scale(1.02)');
+            img.addEventListener('mouseleave', () => img.style.transform = 'translateY(0) scale(1)');
         });
     }
     

@@ -129,6 +129,7 @@
         background: #fff;
         box-shadow: 0 10px 28px rgba(15, 23, 42, .18);
         overflow: hidden;
+        transform-origin: center;
       }
       .lf-profile-fab img {
         width: 100%;
@@ -139,6 +140,10 @@
       .lf-profile-fab:focus-visible {
         outline: 3px solid #536FFE;
         outline-offset: 3px;
+      }
+      @keyframes fabIn {
+        from { transform: scale(0.8) translateY(-6px); opacity: 0; }
+        to { transform: scale(1) translateY(0); opacity: 1; }
       }
       @media (max-width: 640px) {
         .lf-profile-fab {
@@ -180,6 +185,20 @@
   function ensureProfileIcon(user) {
     if (!user) return;
     ensureAuthStyles();
+
+    // If the page already contains a visible profile element, prefer populating it
+    const existingProfileElems = document.querySelectorAll('.nav-profile, .user-avatar, .profile-avatar, .profile-badge, [data-action="profile"]');
+    for (const el of existingProfileElems) {
+      if (el.offsetParent !== null) {
+        const img = el.querySelector('img');
+        if (img) {
+          img.src = avatarUrl(user);
+          img.alt = `${userDisplayName(user)} profile`;
+        }
+        return; // don't add floating FAB when a profile UI exists
+      }
+    }
+
     const existing = document.getElementById('lfProfileFab');
     if (existing) {
       const img = existing.querySelector('img');
@@ -190,6 +209,7 @@
       return;
     }
 
+    // create floating profile FAB with entrance animation
     const button = document.createElement('button');
     button.id = 'lfProfileFab';
     button.className = 'lf-profile-fab';
@@ -197,6 +217,7 @@
     button.dataset.action = 'profile';
     button.title = 'Open profile';
     button.setAttribute('aria-label', 'Open profile');
+    button.style.animation = 'fabIn 0.45s cubic-bezier(.2,.9,.3,1)';
     button.innerHTML = `<img src="${avatarUrl(user)}" alt="${escapeHtml(userDisplayName(user))} profile">`;
     document.body.appendChild(button);
   }

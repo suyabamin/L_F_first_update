@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // State
     let currentAvatar = 'https://ui-avatars.com/api/?name=Alex+Morgan&background=00cfe8&color=fff&bold=true&size=120';
+    let selectedAvatarFile = null;
     
     // Toggle password visibility for all fields
     document.querySelectorAll('.toggle-visibility').forEach(btn => {
@@ -144,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 
+                selectedAvatarFile = file;
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     currentAvatar = event.target.result;
@@ -158,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Remove avatar
     if (removeAvatarBtn) {
         removeAvatarBtn.addEventListener('click', () => {
+            selectedAvatarFile = null;
             currentAvatar = 'https://ui-avatars.com/api/?name=Alex+Morgan&background=00cfe8&color=fff&bold=true&size=120';
             avatarImage.src = currentAvatar;
             showToast('Avatar removed', 'info');
@@ -241,7 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
         form.set('email', emailInput?.value.trim() || '');
         form.set('phone', phoneInput?.value.trim() || '');
         form.set('location', locationInput?.value.trim() || '');
-        form.set('avatar', currentAvatar.includes('ui-avatars.com') ? '' : currentAvatar);
+        if (selectedAvatarFile) {
+            form.append('avatarFile', selectedAvatarFile);
+        } else {
+            form.set('avatar', currentAvatar.includes('ui-avatars.com') ? '' : currentAvatar);
+        }
         form.set('emailNotif', document.getElementById('emailNotif')?.checked ? 'true' : 'false');
         form.set('pushNotif', document.getElementById('pushNotif')?.checked ? 'true' : 'false');
         form.set('smsNotif', document.getElementById('smsNotif')?.checked ? 'true' : 'false');

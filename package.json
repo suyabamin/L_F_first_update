@@ -5,8 +5,9 @@
   "scripts": {
     "start": "node dev-server.js",
     "dev": "node dev-server.js",
-    "api": "cd backend && npm run dev",
-    "backend": "cd backend && npm run dev"
+    "backend": "cd backend && npm start",
+    "clean": "Stop-Process -Id (Get-NetTCPConnection -LocalPort 8000).OwningProcess -ErrorAction SilentlyContinue",
+    "restart": "npm run clean; npm start"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

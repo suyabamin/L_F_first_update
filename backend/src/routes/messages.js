@@ -7,10 +7,10 @@ import { notify } from '../services/notify.js';
 
 const router = Router();
 
-router.post('/', requireAuth, asyncHandler(async (req, res) => {
-  const postId = req.body.item_id || req.body.post_id;
-  const receiverId = req.body.receiver_id;
-  const text = req.body.message || req.body.messageText;
+const sendMessageHandler = asyncHandler(async (req, res) => {
+  const postId = req.body.item_id || req.body.post_id || req.body.item_id;
+  const receiverId = req.body.receiver_id || req.body.receiverId || req.body.receiver;
+  const text = req.body.message || req.body.messageText || req.body.text;
   if (!postId || !receiverId || !text) return res.status(422).json({ success: false, message: 'Invalid message data.' });
   const participants = conversationKey([req.user._id, receiverId]);
   let conversation = await req.models.Conversation.findOne({ post: postId, participants: { $all: participants, $size: 2 } });
@@ -28,7 +28,10 @@ router.post('/', requireAuth, asyncHandler(async (req, res) => {
     created_at: message.createdAt
   });
   return created(res, { conversation_id: String(conversation._id), redirect: `Chat.html?conversation_id=${conversation._id}&item_id=${postId}&receiver_id=${receiverId}` });
-}));
+});
+
+router.post('/', requireAuth, sendMessageHandler);
+router.post('/send', requireAuth, sendMessageHandler);
 
 router.get('/conversations', requireAuth, asyncHandler(async (req, res) => {
   const rows = await req.models.Conversation.find({ participants: req.user._id }).populate('post', 'title').populate('participants', 'fullName').sort({ updatedAt: -1 });

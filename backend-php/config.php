@@ -43,3 +43,29 @@ function clean_text(?string $value): string
     return trim((string) $value);
 }
 
+function send_json($data, int $status = 200, string $message = ''): never
+{
+    header('Content-Type: application/json; charset=utf-8');
+    http_response_code($status);
+    echo json_encode([
+        'success' => true,
+        'data' => $data,
+        'message' => $message,
+        'error' => null
+    ]);
+    exit;
+}
+
+function send_error(string $message, int $status = 400, ?string $error = null): never
+{
+    header('Content-Type: application/json; charset=utf-8');
+    http_response_code($status);
+    echo json_encode([
+        'success' => false,
+        'data' => null,
+        'message' => $message,
+        'error' => $error
+    ]);
+    exit;
+}
+

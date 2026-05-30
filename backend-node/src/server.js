@@ -28,15 +28,14 @@ app.use(session({
   cookie: { httpOnly: true, sameSite: 'lax' }
 }));
 
-app.get('/health', (req, res) => res.json({ ok: true }));
-app.use('/auth', authRoutes);
-app.use('/items', itemRoutes);
-app.use('/claims', claimRoutes);
-app.use('/messages', messageRoutes);
-app.use('/admin', adminRoutes);
+app.get('/api/health', (req, res) => res.json({ ok: true }));
+app.use('/api/auth', authRoutes);
+app.use('/api/items', itemRoutes);
+app.use('/api/claims', claimRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/admin', adminRoutes);
 
 const port = Number(process.env.PORT || 3000);
 app.listen(port, () => {
   console.log(`Lost & Found backend running on http://localhost:${port}`);
 });
-

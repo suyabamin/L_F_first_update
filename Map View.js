@@ -271,6 +271,43 @@
         }, 800);
     }
 
+    // Fetch Real Map Data
+    async function loadMapData() {
+        try {
+            const response = await fetch('backend-php/browse_listing.php', {
+                headers: { 'Accept': 'application/json' }
+            });
+            const data = await response.json();
+            
+            if (data.success && Array.isArray(data.items)) {
+                // Clear and repopulate locations
+                // Only keep hardcoded ones if no real ones exist, otherwise merge
+                const realLocations = data.items.map(item => ({
+                    name: item.location || 'Unknown Location',
+                    lat: parseFloat(item.latitude) || BANGLADESH_CENTER[0],
+                    lng: parseFloat(item.longitude) || BANGLADESH_CENTER[1],
+                    type: item.type === 'found' ? 'found' : 'lost',
+                    status: item.status,
+                    country: "Bangladesh",
+                    city: item.location || "Dhaka",
+                    item: item.title,
+                    reports: 1
+                }));
+
+                if (realLocations.length > 0) {
+                    locations.length = 0; // Clear hardcoded
+                    locations.push(...realLocations);
+                    addMarkers();
+                    updateStats();
+                    showToast('🗺️ Live data markers loaded', false);
+                }
+            }
+        } catch (error) {
+            console.error('Map data load error:', error);
+            showToast('Unable to fetch live item locations', true);
+        }
+    }
+
     // Initialize Everything
     function init() {
         initMap();
@@ -278,9 +315,11 @@
             initZoomControls();
             initKeyboardShortcuts();
             initRealTimeUpdates();
+            loadMapData();
         }, 500);
         showWelcome();
     }
+
 
     init();
 })();

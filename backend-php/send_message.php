@@ -12,6 +12,9 @@ $receiverId = (int) ($_POST['receiver_id'] ?? 0);
 $message = clean_text($_POST['message'] ?? $_POST['message_text'] ?? '');
 
 if ($itemId <= 0 || $receiverId <= 0 || $message === '') {
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+        send_error('Invalid message data.', 422, 'INVALID_DATA');
+    }
     exit('Invalid message data.');
 }
 
@@ -34,6 +37,10 @@ if ($conversationId === 0) {
 
 $msg = $pdo->prepare('INSERT INTO messages (conversation_id, sender_id, message_text) VALUES (?, ?, ?)');
 $msg->execute([$conversationId, $senderId, $message]);
+
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+    send_json(['conversation_id' => $conversationId], 201, 'Message sent successfully.');
+}
 
 redirect_to('../Chat.html?conversation_id=' . $conversationId);
 

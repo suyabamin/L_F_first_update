@@ -20,8 +20,12 @@ forward('get', '/category_stats.php', (req, res, next) => req.app._router.handle
 forward('post', '/create_post.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/posts', method: 'POST' }), res, next));
 forward('post', '/claim_item.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/claims', method: 'POST' }), res, next));
 forward('post', '/send_message.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/messages', method: 'POST' }), res, next));
-forward('get', '/conversations.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/messages/conversations', method: 'GET' }), res, next));
 forward('get', '/messages.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: `/api/messages/conversations/${req.query.conversation_id}`, method: 'GET' }), res, next));
+forward('get', '/user.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: `/api/users/${req.query.id}`, method: 'GET' }), res, next));
+// Conversations legacy endpoints
+forward('post', '/start_conversation.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/conversations/start', method: 'POST' }), res, next));
+forward('get', '/conversations.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/conversations', method: 'GET' }), res, next));
+
 forward('post', '/favorite.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/favorites', method: 'POST' }), res, next));
 forward('get', '/notifications.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/notifications', method: 'GET' }), res, next));
 forward('post', '/notification_read.php', (req, res, next) => req.app._router.handle(Object.assign(req, { url: '/api/notifications/read', method: 'POST' }), res, next));

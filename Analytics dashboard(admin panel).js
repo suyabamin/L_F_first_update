@@ -361,6 +361,36 @@
     }
 
     // Initialize Everything
+    // Fetch Real Analytics Data
+    async function loadAnalyticsData() {
+        try {
+            const response = await fetch('backend-php/admin/stats.php', {
+                headers: { 'Accept': 'application/json' }
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                // Update Numeric Stats
+                if (document.getElementById('totalUsers')) document.getElementById('totalUsers').innerText = (data.totalUsers || 0).toLocaleString();
+                if (document.getElementById('itemListings')) document.getElementById('itemListings').innerText = (data.totalItems || 0).toLocaleString();
+                if (document.getElementById('resolvedCases')) document.getElementById('resolvedCases').innerText = (data.resolvedMatches || 0).toLocaleString();
+                if (document.getElementById('pendingReviews')) document.getElementById('pendingReviews').innerText = (data.pendingReports || 0).toLocaleString();
+                
+                // Calculate and update Match Rate
+                if (data.totalItems > 0 && document.getElementById('matchRate')) {
+                    const rate = Math.round((data.resolvedMatches / data.totalItems) * 100);
+                    document.getElementById('matchRate').innerText = rate + '%';
+                }
+                
+                showToast('📊 Live analytics data loaded', false);
+            }
+        } catch (error) {
+            console.error('Analytics load error:', error);
+            showToast('Unable to fetch live stats', true);
+        }
+    }
+
+    // Initialize Everything
     function init() {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
@@ -372,6 +402,7 @@
                 initQuickActions();
                 initKeyboardShortcuts();
                 initRealTimeUpdates();
+                loadAnalyticsData();
                 window.addEventListener('resize', handleResize);
                 showWelcome();
             });
@@ -384,10 +415,12 @@
             initQuickActions();
             initKeyboardShortcuts();
             initRealTimeUpdates();
+            loadAnalyticsData();
             window.addEventListener('resize', handleResize);
             showWelcome();
         }
     }
+
 
     init();
 })();

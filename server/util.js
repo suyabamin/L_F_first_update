@@ -56,10 +56,35 @@ function send(res, status, body, type = 'text/html') {
   res.end(body);
 }
 
-function sendJson(res, status, body, headers = {}) {
+function sendJson(res, status, data, message = '', headers = {}) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', ...headers });
-  res.end(JSON.stringify(body));
+  const responseBody = {
+    success: true,
+    message: message || 'Success'
+  };
+  
+  if (Array.isArray(data)) {
+    responseBody.data = data;
+  } else if (data && typeof data === 'object') {
+    Object.assign(responseBody, data);
+    if (!responseBody.data) responseBody.data = data; // Keep for compatibility if needed
+  } else {
+    responseBody.data = data;
+  }
+
+  res.end(JSON.stringify(responseBody));
 }
+
+function sendError(res, status, message, error = null, headers = {}) {
+  res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', ...headers });
+  res.end(JSON.stringify({
+    success: false,
+    data: null,
+    message: message || 'An error occurred',
+    error: error || 'UNKNOWN_ERROR'
+  }));
+}
+
 
 function redirect(res, location, headers = {}) {
   res.writeHead(302, { Location: location, ...headers });
@@ -132,6 +157,7 @@ module.exports = {
   wantsJson,
   send,
   sendJson,
+  sendError,
   redirect,
   readBody,
   formBool,

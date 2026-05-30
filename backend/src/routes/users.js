@@ -50,4 +50,10 @@ router.delete('/profile', requireAuth, asyncHandler(async (req, res) => {
   return ok(res, { message: 'Account deactivated.' });
 }));
 
+router.get('/:id', asyncHandler(async (req, res) => {
+  const u = await req.models.User.findById(req.params.id);
+  if (!u) return res.status(404).json({ success: false, message: 'User not found.' });
+  return ok(res, { user: publicUser(u) });
+}));
+
 export default router;

@@ -164,10 +164,20 @@ function closeModal() {
 
 function confirmModalAction() {
     if (currentAction === 'chat') {
-        showToast('Redirecting to chat...', 'success');
-        setTimeout(() => {
-            window.location.href = `Chat.html?item_id=${listingData.id}&receiver_id=${listingData.user_id}`;
-        }, 400);
+        showToast('Opening conversation...', 'info');
+        try {
+            const { res, data } = await LF.api('start_conversation.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ postId: listingData.id }) });
+            if (!res.ok || !data?.success) {
+                showToast(data?.message || 'Could not start conversation', 'error');
+                if (res.status === 401) setTimeout(() => { window.location.href = 'Login.html'; }, 600);
+                return;
+            }
+            const convId = data.conversation_id;
+            showToast('Opening chat...', 'success');
+            setTimeout(() => { window.location.href = `Chat.html?conversation_id=${convId}`; }, 250);
+        } catch (err) {
+            showToast('Server error while starting conversation', 'error');
+        }
     } else if (currentAction === 'claim') {
         window.location.href = `Claim Item.html?item_id=${listingData.id}`;
     } else if (currentAction === 'report') {

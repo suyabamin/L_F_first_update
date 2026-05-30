@@ -12,6 +12,7 @@ const {
   wantsJson,
   send,
   sendJson,
+  sendError,
   redirect,
   readBody,
   formBool,
@@ -24,7 +25,7 @@ async function getUserById(id) {
   const rows = await query(
     `SELECT id, username, full_name, email, phone, country, location_name, avatar_url, role, is_verified, status, created_at,
       email_notifications, push_notifications, sms_notifications, marketing_notifications
-     FROM users WHERE id = ? LIMIT 1`,
+    FROM users WHERE id = ? LIMIT 1`,
     [id]
   );
   return rows[0] || null;
@@ -33,12 +34,12 @@ async function getUserById(id) {
 async function requireActiveUser(req, res) {
   const userId = authUserId(req);
   if (!userId) {
-    sendJson(res, 401, { success: false, message: 'Please login first.' });
+    sendError(res, 401, 'Please login first.', 'AUTH_REQUIRED');
     return null;
   }
   const user = await getUserById(userId);
   if (!user || user.status !== 'active') {
-    sendJson(res, 401, { success: false, message: 'Please login first.' });
+    sendError(res, 401, 'Please login first.', 'AUTH_REQUIRED');
     return null;
   }
   return user;
@@ -99,7 +100,7 @@ async function handleRegister(req, res) {
   try {
     const f = await parseRequestFields(req);
     if (!f.username || !f.fullname || !f.email || !f.password || String(f.password).length < 6) {
-      return sendJson(res, 422, { success: false, message: 'Invalid registration data.' });
+      return sendError(res, 422, 'Invalid registration data.', 'INVALID_DATA');
     }
     const result = await query(
       `INSERT INTO users (username, full_name, email, password_hash, phone, country, gender, date_of_birth)
@@ -115,17 +116,15 @@ async function handleRegister(req, res) {
     return sendJson(
       res,
       201,
-      { success: true, message: 'Account created successfully.', redirect: 'DashBoard.html', user: publicUser(user) },
+      { message: 'Account created successfully.', redirect: 'DashBoard.html', user: publicUser(user) },
+      '',
       { 'Set-Cookie': `user_id=${encodeURIComponent(id)}; Path=/; HttpOnly; SameSite=Lax` }
     );
   } catch (error) {
     console.error('Register error:', error.message);
     const msg = String(error.message || '');
     const duplicate = msg.includes('UNIQUE') || msg.includes('Duplicate');
-    return sendJson(res, duplicate ? 409 : 500, {
-      success: false,
-      message: duplicate ? 'Email or username already exists.' : `Registration failed: ${msg.slice(0, 120)}`
-    });
+    return sendError(res, duplicate ? 409 : 500, duplicate ? 'Email or username already exists.' : `Registration failed: ${msg.slice(0, 120)}`, duplicate ? 'DUPLICATE' : 'SERVER_ERROR');
   }
 }
 
@@ -136,13 +135,12 @@ async function handleHealth(_req, res) {
     const users = await query('SELECT COUNT(*) AS total FROM users');
     const items = await query("SELECT COUNT(*) AS total FROM items WHERE status <> 'removed'");
     return sendJson(res, 200, {
-      success: true,
       database: driver,
       users: users[0]?.total ?? 0,
       items: items[0]?.total ?? 0
     });
   } catch (error) {
-    return sendJson(res, 503, { success: false, message: error.message });
+    return sendError(res, 503, error.message, 'HEALTH_ERROR');
   }
 }
 
@@ -154,28 +152,28 @@ async function handleLogin(req, res) {
   );
   const loginUser = rows[0];
   if (!loginUser || !verifyPassword(f.password, loginUser.password_hash)) {
-    if (wantsJson(req)) return sendJson(res, 401, { success: false, message: 'Invalid email or password.' });
+    if (wantsJson(req)) return sendError(res, 401, 'Invalid email or password.', 'INVALID_AUTH');
     return send(res, 401, 'Invalid email or password.');
   }
   const user = await getUserById(loginUser.id);
   const cookie = `user_id=${encodeURIComponent(loginUser.id)}; Path=/; HttpOnly; SameSite=Lax`;
   if (wantsJson(req)) {
-    return sendJson(res, 200, { success: true, message: 'Login successful.', redirect: 'DashBoard.html', user: publicUser(user) }, { 'Set-Cookie': cookie });
+    return sendJson(res, 200, { message: 'Login successful.', redirect: 'DashBoard.html', user: publicUser(user) }, '', { 'Set-Cookie': cookie });
   }
   return redirect(res, '/DashBoard.html', { 'Set-Cookie': cookie });
 }
 
 async function handleLogout(_req, res) {
-  return sendJson(res, 200, { success: true, redirect: 'Login.html' }, {
+  return sendJson(res, 200, { redirect: 'Login.html' }, 'Logout successful', {
     'Set-Cookie': 'user_id=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax'
   });
 }
 
 async function handleMe(req, res) {
   const userId = authUserId(req);
-  if (!userId) return sendJson(res, 401, { success: false, message: 'Please login first.' });
+  if (!userId) return sendError(res, 401, 'Please login first.', 'AUTH_REQUIRED');
   const user = await getUserById(userId);
-  if (!user || user.status !== 'active') return sendJson(res, 401, { success: false, message: 'Please login first.' });
+  if (!user || user.status !== 'active') return sendError(res, 401, 'Please login first.', 'AUTH_REQUIRED');
   const statsRows = await query(
     `SELECT
       (SELECT COUNT(*) FROM items WHERE user_id = ? AND status <> 'removed') AS posts,
@@ -184,14 +182,14 @@ async function handleMe(req, res) {
       (SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0) AS unread`,
     [userId, userId, userId, userId]
   );
-  return sendJson(res, 200, { success: true, user: publicUser(user), stats: statsRows[0] });
+  return sendJson(res, 200, { user: publicUser(user), stats: statsRows[0] });
 }
 
 async function handleProfileUpdate(req, res) {
   const user = await requireActiveUser(req, res);
   if (!user) return;
   const f = await parseRequestFields(req);
-  if (!f.fullName || !f.email) return sendJson(res, 422, { success: false, message: 'Name and email are required.' });
+  if (!f.fullName || !f.email) return sendError(res, 422, 'Name and email are required.', 'INVALID_DATA');
 
   const credRows = await query('SELECT password_hash FROM users WHERE id = ? LIMIT 1', [user.id]);
   const passwordHash = credRows[0]?.password_hash;
@@ -212,10 +210,10 @@ async function handleProfileUpdate(req, res) {
 
   if (f.newPassword) {
     if (!f.currentPassword || !verifyPassword(f.currentPassword, passwordHash)) {
-      return sendJson(res, 422, { success: false, message: 'Current password is incorrect.' });
+      return sendError(res, 422, 'Current password is incorrect.', 'INVALID_PASSWORD');
     }
     if (String(f.newPassword).length < 6) {
-      return sendJson(res, 422, { success: false, message: 'New password must be at least 6 characters.' });
+      return sendError(res, 422, 'New password must be at least 6 characters.', 'PASSWORD_SHORT');
     }
     passwordSql = ', password_hash = ?';
     params.push(hashPassword(f.newPassword));
@@ -230,7 +228,7 @@ async function handleProfileUpdate(req, res) {
       params
     );
   } catch {
-    return sendJson(res, 409, { success: false, message: 'Email or username already exists.' });
+    return sendError(res, 409, 'Email or username already exists.', 'DUPLICATE');
   }
 
   await query(
@@ -238,7 +236,7 @@ async function handleProfileUpdate(req, res) {
     [user.id, 'Profile Updated', 'Your profile information was saved successfully.', 'Profile Page.html']
   );
   const updated = await getUserById(user.id);
-  return sendJson(res, 200, { success: true, message: 'Profile updated successfully.', user: publicUser(updated) });
+  return sendJson(res, 200, { message: 'Profile updated successfully.', user: publicUser(updated) });
 }
 
 // --- Items ---
@@ -270,9 +268,9 @@ async function handleBrowseJson(req, res, url) {
     `SELECT i.id, i.user_id, i.title, i.description, i.item_type, i.category, i.location_name, i.public_contact,
       i.reward_amount, i.priority_level, i.status, i.created_at, i.view_count, u.full_name,
       (SELECT image_path FROM item_images img WHERE img.item_id = i.id ORDER BY is_primary DESC, id ASC LIMIT 1) AS image_path
-     FROM items i JOIN users u ON u.id = i.user_id
-     WHERE ${where.join(' AND ')}
-     ORDER BY i.created_at DESC`,
+    FROM items i JOIN users u ON u.id = i.user_id
+    WHERE ${where.join(' AND ')}
+    ORDER BY i.created_at DESC`,
     params
   );
   return sendJson(res, 200, rows);
@@ -280,15 +278,15 @@ async function handleBrowseJson(req, res, url) {
 
 async function handleItemJson(req, res, url) {
   const id = url.searchParams.get('id');
-  if (!id) return sendJson(res, 400, { success: false, message: 'Item id required.' });
+  if (!id) return sendError(res, 400, 'Item id required.', 'ID_REQUIRED');
 
   const items = await query(
     `SELECT i.*, u.full_name, u.username
-     FROM items i JOIN users u ON u.id = i.user_id
-     WHERE i.id = ? AND i.status <> 'removed' LIMIT 1`,
+    FROM items i JOIN users u ON u.id = i.user_id
+    WHERE i.id = ? AND i.status <> 'removed' LIMIT 1`,
     [id]
   );
-  if (!items[0]) return sendJson(res, 404, { success: false, message: 'Item not found.' });
+  if (!items[0]) return sendError(res, 404, 'Item not found.', 'NOT_FOUND');
 
   await query('UPDATE items SET view_count = view_count + 1 WHERE id = ?', [id]);
   const images = await query('SELECT id, image_path, is_primary FROM item_images WHERE item_id = ? ORDER BY is_primary DESC, id ASC', [id]);
@@ -299,9 +297,9 @@ async function handleItemJson(req, res, url) {
   const matches = await query(
     `SELECT i.id, i.title, i.description, i.item_type, i.category, i.location_name, i.created_at,
       ((i.category = ?) * 40 + (i.location_name LIKE ?) * 30 + ((i.title LIKE ? OR i.description LIKE ?) * 30)) AS match_score
-     FROM items i
-     WHERE i.item_type = ? AND i.status = 'open' AND i.id <> ?
-     ORDER BY match_score DESC, created_at DESC LIMIT 10`,
+    FROM items i
+    WHERE i.item_type = ? AND i.status = 'open' AND i.id <> ?
+    ORDER BY match_score DESC, created_at DESC LIMIT 10`,
     [item.category, `%${item.location_name}%`, keyword, keyword, oppositeType, id]
   );
 
@@ -313,7 +311,6 @@ async function handleItemJson(req, res, url) {
   }
 
   return sendJson(res, 200, {
-    success: true,
     item: {
       ...item,
       type: item.item_type,
@@ -331,7 +328,7 @@ async function handleDashboardPosts(_req, res) {
   const rows = await query(
     `SELECT i.id, i.title, i.item_type, i.category, i.created_at,
       (SELECT image_path FROM item_images img WHERE img.item_id = i.id LIMIT 1) AS image_path
-     FROM items i WHERE i.status <> 'removed' ORDER BY i.created_at DESC LIMIT 24`
+    FROM items i WHERE i.status <> 'removed' ORDER BY i.created_at DESC LIMIT 24`
   );
   const mapped = rows.map((row) => ({
     id: row.id,
@@ -341,20 +338,20 @@ async function handleDashboardPosts(_req, res) {
     time: timeAgo(row.created_at),
     image_path: row.image_path
   }));
-  return sendJson(res, 200, { success: true, posts: mapped });
+  return sendJson(res, 200, { posts: mapped });
 }
 
 async function handleCreatePost(req, res) {
   const userId = authUserId(req);
   if (!userId) {
-    if (wantsJson(req)) return sendJson(res, 401, { success: false, message: 'Please login first.' });
+    if (wantsJson(req)) return sendError(res, 401, 'Please login first.', 'AUTH_REQUIRED');
     return redirect(res, '/Login.html');
   }
 
   const { fields, files } = await parseRequestWithFiles(req);
   const f = fields;
   if (!f.title || !f.desc || !f.location) {
-    if (wantsJson(req)) return sendJson(res, 422, { success: false, message: 'Please fill all required post fields.' });
+    if (wantsJson(req)) return sendError(res, 422, 'Please fill all required post fields.', 'INVALID_DATA');
     return send(res, 422, 'Please fill all required post fields.');
   }
 
@@ -399,7 +396,7 @@ async function handleCreatePost(req, res) {
 
   const redirectUrl = `/Post Details.html?id=${itemId}`;
   if (wantsJson(req)) {
-    return sendJson(res, 201, { success: true, message: 'Post created.', id: itemId, redirect: redirectUrl });
+    return sendJson(res, 201, { message: 'Post created.', id: itemId, redirect: redirectUrl });
   }
   return redirect(res, redirectUrl);
 }
@@ -408,19 +405,19 @@ async function handleCreatePost(req, res) {
 async function handleClaim(req, res) {
   const userId = authUserId(req);
   if (!userId) {
-    if (wantsJson(req)) return sendJson(res, 401, { success: false, message: 'Please login first.' });
+    if (wantsJson(req)) return sendError(res, 401, 'Please login first.', 'AUTH_REQUIRED');
     return redirect(res, '/Login.html');
   }
 
   const f = await parseRequestFields(req);
   if (!f.item_id || !f.fullName || !f.email || !f.phone || !f.proofDetails) {
-    if (wantsJson(req)) return sendJson(res, 422, { success: false, message: 'Please fill required claim information.' });
+    if (wantsJson(req)) return sendError(res, 422, 'Please fill required claim information.', 'INVALID_DATA');
     return send(res, 422, 'Please fill required claim information.');
   }
 
   const exists = await query('SELECT id, user_id, title FROM items WHERE id = ? LIMIT 1', [f.item_id]);
   if (!exists[0]) {
-    if (wantsJson(req)) return sendJson(res, 404, { success: false, message: 'Item not found.' });
+    if (wantsJson(req)) return sendError(res, 404, 'Item not found.', 'NOT_FOUND');
     return send(res, 404, 'Item not found.');
   }
 
@@ -443,7 +440,6 @@ async function handleClaim(req, res) {
   const redirectUrl = `/Post Details.html?id=${f.item_id}`;
   if (wantsJson(req)) {
     return sendJson(res, 201, {
-      success: true,
       message: 'Claim submitted successfully.',
       id: claimResult.insertId,
       redirect: redirectUrl
@@ -456,13 +452,13 @@ async function handleClaim(req, res) {
 async function handleMessage(req, res) {
   const userId = authUserId(req);
   if (!userId) {
-    if (wantsJson(req)) return sendJson(res, 401, { success: false, message: 'Please login first.' });
+    if (wantsJson(req)) return sendError(res, 401, 'Please login first.', 'AUTH_REQUIRED');
     return redirect(res, '/Login.html');
   }
 
   const f = await parseRequestFields(req);
   if (!f.item_id || !f.receiver_id || !f.message) {
-    if (wantsJson(req)) return sendJson(res, 422, { success: false, message: 'Invalid message data.' });
+    if (wantsJson(req)) return sendError(res, 422, 'Invalid message data.', 'INVALID_DATA');
     return send(res, 422, 'Invalid message data.');
   }
 
@@ -478,6 +474,8 @@ async function handleMessage(req, res) {
     'SELECT id FROM conversations WHERE item_id = ? AND owner_id = ? AND participant_id = ? LIMIT 1',
     [f.item_id, ownerId, participantId]
   );
+  if (!convs[0]) return sendError(res, 500, 'Failed to create conversation.', 'CONV_CREATE_FAILED');
+  
   const convId = convs[0].id;
   await query('INSERT INTO messages (conversation_id, sender_id, message_text) VALUES (?, ?, ?)', [
     convId,
@@ -492,7 +490,7 @@ async function handleMessage(req, res) {
 
   const redirectUrl = `/Chat.html?conversation_id=${convId}&item_id=${f.item_id}&receiver_id=${f.receiver_id}`;
   if (wantsJson(req)) {
-    return sendJson(res, 201, { success: true, conversation_id: convId, redirect: redirectUrl });
+    return sendJson(res, 201, { conversation_id: convId }, 'Message sent successfully.');
   }
   return redirect(res, redirectUrl);
 }
@@ -512,20 +510,20 @@ async function handleConversations(req, res) {
      ORDER BY c.updated_at DESC`,
     [userId, userId, userId, userId]
   );
-  return sendJson(res, 200, { success: true, conversations: rows });
+  return sendJson(res, 200, { conversations: rows });
 }
 
 async function handleMessages(req, res, url) {
   const user = await requireActiveUser(req, res);
   if (!user) return;
   const convId = url.searchParams.get('conversation_id');
-  if (!convId) return sendJson(res, 400, { success: false, message: 'conversation_id required' });
+  if (!convId) return sendError(res, 400, 'conversation_id required', 'CONV_ID_REQUIRED');
 
   const access = await query(
     'SELECT id FROM conversations WHERE id = ? AND (owner_id = ? OR participant_id = ?) LIMIT 1',
     [convId, user.id, user.id]
   );
-  if (!access[0]) return sendJson(res, 403, { success: false, message: 'Access denied.' });
+  if (!access[0]) return sendError(res, 403, 'Access denied.', 'ACCESS_DENIED');
 
   const rows = await query(
     `SELECT m.id, m.sender_id, m.message_text, m.is_read, m.created_at, u.full_name
@@ -537,7 +535,7 @@ async function handleMessages(req, res, url) {
     'UPDATE messages SET is_read = 1 WHERE conversation_id = ? AND sender_id <> ?',
     [convId, user.id]
   );
-  return sendJson(res, 200, { success: true, messages: rows, currentUserId: Number(user.id) });
+  return sendJson(res, 200, { messages: rows, currentUserId: Number(user.id) });
 }
 
 // --- Favorites & reports ---
@@ -546,37 +544,37 @@ async function handleFavorite(req, res) {
   if (!user) return;
   const f = await parseRequestFields(req);
   const itemId = f.item_id;
-  if (!itemId) return sendJson(res, 400, { success: false, message: 'item_id required' });
+  if (!itemId) return sendError(res, 400, 'item_id required', 'ID_REQUIRED');
 
   const existing = await query('SELECT 1 FROM favorites WHERE user_id = ? AND item_id = ?', [user.id, itemId]);
   if (existing.length) {
     await query('DELETE FROM favorites WHERE user_id = ? AND item_id = ?', [user.id, itemId]);
-    return sendJson(res, 200, { success: true, favorited: false });
+    return sendJson(res, 200, { favorited: false });
   }
   await query('INSERT INTO favorites (user_id, item_id) VALUES (?, ?)', [user.id, itemId]);
-  return sendJson(res, 200, { success: true, favorited: true });
+  return sendJson(res, 200, { favorited: true });
 }
 
 async function handleReport(req, res) {
   const userId = authUserId(req);
   const f = await parseRequestFields(req);
-  if (!f.item_id || !f.reason) return sendJson(res, 422, { success: false, message: 'Reason and item are required.' });
+  if (!f.item_id || !f.reason) return sendError(res, 422, 'Reason and item are required.', 'INVALID_DATA');
   await query(
     'INSERT INTO reports (reporter_id, item_id, reason, details) VALUES (?, ?, ?, ?)',
     [userId || null, f.item_id, f.reason, f.details || null]
   );
-  return sendJson(res, 201, { success: true, message: 'Report submitted. Our team will review it.' });
+  return sendJson(res, 201, { message: 'Report submitted. Our team will review it.' });
 }
 
 async function handleFeedback(req, res) {
   const userId = authUserId(req);
   const f = await parseRequestFields(req);
-  if (!f.message) return sendJson(res, 422, { success: false, message: 'Feedback message is required.' });
+  if (!f.message) return sendError(res, 422, 'Feedback message is required.', 'INVALID_DATA');
   await query(
     'INSERT INTO reports (reporter_id, item_id, reason, details) VALUES (?, NULL, ?, ?)',
     [userId || null, 'User Feedback', f.message]
   );
-  return sendJson(res, 201, { success: true, message: 'Thank you for your feedback.' });
+  return sendJson(res, 201, { message: 'Thank you for your feedback.' });
 }
 
 // --- Notifications ---
@@ -589,7 +587,6 @@ async function handleNotifications(req, res) {
     [user.id]
   );
   return sendJson(res, 200, {
-    success: true,
     notifications: rows.map((n) => ({
       id: Number(n.id),
       title: n.title,
@@ -612,7 +609,7 @@ async function handleNotificationRead(req, res) {
   } else if (f.id) {
     await query('UPDATE notifications SET is_read = 1 WHERE user_id = ? AND id = ?', [user.id, f.id]);
   }
-  return sendJson(res, 200, { success: true });
+  return sendJson(res, 200, { message: 'Notifications marked as read' });
 }
 
 async function handleCategoryStats(_req, res) {
@@ -636,13 +633,13 @@ async function handleCategoryStats(_req, res) {
     const key = aliases[String(row.category || '').toLowerCase()] || String(row.category || '').toLowerCase();
     if (Object.prototype.hasOwnProperty.call(counts, key)) counts[key] += Number(row.total || 0);
   });
-  return sendJson(res, 200, { success: true, counts });
+  return sendJson(res, 200, { counts });
 }
 
 // --- Admin ---
 async function handleAdminStats(req, res) {
   const user = await requireActiveUser(req, res);
-  if (!user || user.role !== 'admin') return sendJson(res, 403, { success: false, message: 'Admin access required.' });
+  if (!user || user.role !== 'admin') return sendError(res, 403, 'Admin access required.', 'FORBIDDEN');
 
   const users = await query("SELECT COUNT(*) AS total FROM users WHERE status = 'active'");
   const items = await query("SELECT COUNT(*) AS total FROM items WHERE status <> 'removed'");
@@ -651,7 +648,6 @@ async function handleAdminStats(req, res) {
   const claims = await query("SELECT COUNT(*) AS total FROM claims WHERE status = 'pending'");
 
   return sendJson(res, 200, {
-    success: true,
     stats: {
       users: users[0].total,
       items: items[0].total,
@@ -664,34 +660,34 @@ async function handleAdminStats(req, res) {
 
 async function handleAdminItems(req, res) {
   const user = await requireActiveUser(req, res);
-  if (!user || user.role !== 'admin') return sendJson(res, 403, { success: false, message: 'Admin access required.' });
+  if (!user || user.role !== 'admin') return sendError(res, 403, 'Admin access required.', 'FORBIDDEN');
   const rows = await query(
     `SELECT i.id, i.title, i.item_type, i.category, i.status, i.created_at, u.full_name
      FROM items i JOIN users u ON u.id = i.user_id
      WHERE i.status <> 'removed' ORDER BY i.created_at DESC LIMIT 50`
   );
-  return sendJson(res, 200, { success: true, items: rows });
+  return sendJson(res, 200, { items: rows });
 }
 
 async function handleAdminRemoveItem(req, res, itemId) {
   const user = await requireActiveUser(req, res);
-  if (!user || user.role !== 'admin') return sendJson(res, 403, { success: false, message: 'Admin access required.' });
+  if (!user || user.role !== 'admin') return sendError(res, 403, 'Admin access required.', 'FORBIDDEN');
   await query("UPDATE items SET status = 'removed' WHERE id = ?", [itemId]);
-  return sendJson(res, 200, { success: true, message: 'Item removed.' });
+  return sendJson(res, 200, { message: 'Item removed.' });
 }
 
 async function handleAdminClaims(req, res) {
   const user = await requireActiveUser(req, res);
-  if (!user || user.role !== 'admin') return sendJson(res, 403, { success: false, message: 'Admin access required.' });
+  if (!user || user.role !== 'admin') return sendError(res, 403, 'Admin access required.', 'FORBIDDEN');
   const rows = await query(
     `SELECT c.*, i.title FROM claims c JOIN items i ON i.id = c.item_id ORDER BY c.created_at DESC LIMIT 50`
   );
-  return sendJson(res, 200, { success: true, claims: rows });
+  return sendJson(res, 200, { claims: rows });
 }
 
 async function handleAdminClaimUpdate(req, res, claimId) {
   const user = await requireActiveUser(req, res);
-  if (!user || user.role !== 'admin') return sendJson(res, 403, { success: false, message: 'Admin access required.' });
+  if (!user || user.role !== 'admin') return sendError(res, 403, 'Admin access required.', 'FORBIDDEN');
   const f = await parseRequestFields(req);
   const status = ['approved', 'rejected'].includes(f.status) ? f.status : 'pending';
   await query("UPDATE claims SET status = ?, reviewed_by = ?, reviewed_at = datetime('now') WHERE id = ?", [
@@ -699,17 +695,17 @@ async function handleAdminClaimUpdate(req, res, claimId) {
     user.id,
     claimId
   ]);
-  return sendJson(res, 200, { success: true, message: 'Claim updated.' });
+  return sendJson(res, 200, { message: 'Claim updated.' });
 }
 
 async function handleAdminReports(req, res) {
   const user = await requireActiveUser(req, res);
-  if (!user || user.role !== 'admin') return sendJson(res, 403, { success: false, message: 'Admin access required.' });
+  if (!user || user.role !== 'admin') return sendError(res, 403, 'Admin access required.', 'FORBIDDEN');
   const rows = await query(
     `SELECT r.*, i.title AS item_title FROM reports r LEFT JOIN items i ON i.id = r.item_id
      ORDER BY r.created_at DESC LIMIT 50`
   );
-  return sendJson(res, 200, { success: true, reports: rows });
+  return sendJson(res, 200, { reports: rows });
 }
 
 // --- HTML views ---
@@ -718,47 +714,6 @@ async function handleBrowseView(url, res) {
   return redirect(res, `/Browse Listing.html${qs ? `?${qs}` : ''}`);
 }
 
-async function handleBrowseViewLegacy(url, res) {
-  const { where, params } = await buildItemListWhere(url);
-  const rows = await query(
-    `SELECT i.id, i.user_id, i.title, i.description, i.item_type, i.category, i.location_name, i.created_at, u.full_name
-     FROM items i JOIN users u ON u.id = i.user_id
-     WHERE ${where.join(' AND ')} ORDER BY i.created_at DESC`,
-    params
-  );
-  const q = url.searchParams.get('q') || '';
-  const category = url.searchParams.get('category') || '';
-  const cards = rows.length
-    ? rows
-        .map(
-          (item) => `<article class="card">
-      <motion class="meta"><span class="pill ${item.item_type}">${item.item_type}</span><span class="pill">${escapeHtml(item.category)}</span></div>
-      <h2>${escapeHtml(item.title)}</h2>
-      <p>${escapeHtml(item.description)}</p>
-      <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.location_name)}</p>
-      <motion class="card-actions">
-        <a class="btn primary" href="/Post Details.html?id=${item.id}">Item Details</a>
-        <a class="btn" href="/Chat.html?item_id=${item.id}&receiver_id=${item.user_id}">Chat</a>
-        <a class="btn" href="/Claim Item.html?item_id=${item.id}">Claim</a>
-      </motion>
-    </article>`
-        )
-        .join('')
-    : '<motion class="empty-state"><h2>No items found</h2><p>Create a post first.</p></motion>';
-
-  const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Browse Listings</title><link rel="stylesheet" href="/Browse Listing.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></head>
-    <body><motion class="app-shell"><aside class="sidebar"><a class="brand" href="/DashBoard.html">Lost & Found</a>
-    <nav class="nav-list"><a href="/DashBoard.html">Dashboard</a><a class="active" href="/Browse Listing.html">Browse</a><a href="/Create Post.html">Post Item</a></nav></aside>
-    <main class="content"><header class="topline"><h1>Browse Lost & Found Items</h1></header>
-    <form class="filter-bar" method="get" action="/backend-php/browse_listing_view.php"><input name="q" value="${escapeHtml(q)}" placeholder="Search"><select name="type"><option value="">All</option><option value="lost">Lost</option><option value="found">Found</option></select><input name="category" value="${escapeHtml(category)}" placeholder="Category"><button class="btn primary">Search</button></form>
-    <section class="grid" id="listingsGrid">${cards.replace(/<motion/g, '<motion').replace(/motion/g, 'motion')}</section></main></motion></body></html>`;
-  return send(res, 200, html.replace(/<motion/g, '<div').replace(/<\/motion>/g, '</motion>').replace(/motion/g, 'motion'));
-}
-
-// Fix the browse view HTML - I made typos with motion instead of div. Let me fix in handleBrowseView properly when writing dev-server.
-
 async function handleDetailsView(url, res) {
   const id = url.searchParams.get('id') || '0';
   return redirect(res, `/Post Details.html?id=${id}`);
@@ -766,9 +721,7 @@ async function handleDetailsView(url, res) {
 
 function serveStatic(url, res) {
   const decodedPath = decodeURIComponent(url.pathname === '/' ? '/Landing Page.html' : url.pathname);
-  const filePath = decodedPath.startsWith('/storage/')
-    ? path.resolve(rootDir, `.${decodedPath}`)
-    : path.resolve(rootDir, `.${decodedPath}`);
+  const filePath = path.resolve(rootDir, `.${decodedPath}`);
 
   if (!filePath.startsWith(rootDir)) {
     return send(res, 403, 'Forbidden');
@@ -802,6 +755,9 @@ async function routeRequest(req, res) {
   const pathname = url.pathname;
 
   try {
+    if (req.method === 'GET' && (pathname === '/backend-php' || pathname === '/backend-php/')) {
+        return sendJson(res, 200, { status: 'healthy', version: '1.0.0-node-fallback', engine: 'SQLite3' }, 'Lost & Found API Backend');
+    }
     if (req.method === 'GET' && pathname === '/backend-php/health.php') return handleHealth(req, res);
     if (req.method === 'POST' && pathname === '/backend-php/register.php') return handleRegister(req, res);
     if (req.method === 'POST' && pathname === '/backend-php/login.php') return handleLogin(req, res);
@@ -840,7 +796,7 @@ async function routeRequest(req, res) {
     return serveStatic(url, res);
   } catch (error) {
     console.error(error);
-    if (wantsJson(req)) return sendJson(res, 500, { success: false, message: error.message || 'Server error' });
+    if (wantsJson(req)) return sendError(res, 500, error.message || 'Server error', 'SERVER_ERROR');
     return send(res, 500, error.message || 'Server error');
   }
 }

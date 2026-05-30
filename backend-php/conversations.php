@@ -12,5 +12,4 @@ $stmt = $pdo->prepare(
 );
 $stmt->execute(['uid' => $userId, 'uid2' => $userId, 'uid3' => $userId, 'uid4' => $userId]);
 
-header('Content-Type: application/json');
-echo json_encode(['success' => true, 'conversations' => $stmt->fetchAll()]);
+send_json(['conversations' => $stmt->fetchAll()]);

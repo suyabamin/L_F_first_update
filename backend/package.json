@@ -28,6 +28,7 @@
     "xss": "^1.0.15"
   },
   "devDependencies": {
+    "mongodb-memory-server": "^11.1.0",
     "nodemon": "^3.1.7"
   }
 }

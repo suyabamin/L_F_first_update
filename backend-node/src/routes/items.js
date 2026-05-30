@@ -1,23 +1,11 @@
 import { Router } from 'express';
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
 import { pool } from '../db.js';
 import { requireLogin } from '../middleware/auth.js';
+import { uploadToSupabase } from '../supabase.js';
 
 const router = Router();
-const uploadDir = 'uploads/items';
-fs.mkdirSync(uploadDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: uploadDir,
-  filename: (_req, file, cb) => {
-    const safeExt = path.extname(file.originalname).toLowerCase();
-    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${safeExt}`);
-  }
-});
-
-const upload = multer({ storage });
+const upload = multer({ storage: multer.memoryStorage() });
 
 router.get('/', async (req, res) => {
   const { type, category, q } = req.query;
@@ -40,7 +28,7 @@ router.get('/', async (req, res) => {
   }
 
   const [rows] = await pool.execute(
-    `SELECT i.*, u.full_name,
+    `SELECT i.*, u.full_name, u.avatar_url as user_avatar,
       (SELECT image_path FROM item_images img WHERE img.item_id = i.id ORDER BY is_primary DESC, id ASC LIMIT 1) AS image_path
      FROM items i
      JOIN users u ON u.id = i.user_id
@@ -78,19 +66,28 @@ router.post('/', requireLogin, upload.array('images', 5), async (req, res) => {
     ]
   );
 
-  for (const [index, file] of (req.files || []).entries()) {
-    await pool.execute(
-      'INSERT INTO item_images (item_id, image_path, is_primary) VALUES (?, ?, ?)',
-      [result.insertId, `/uploads/items/${file.filename}`, index === 0 ? 1 : 0]
-    );
+  const itemId = result.insertId;
+
+  if (req.files && req.files.length > 0) {
+    for (const [index, file] of req.files.entries()) {
+      try {
+        const publicUrl = await uploadToSupabase(file.buffer, file.originalname, file.mimetype, 'items');
+        await pool.execute(
+          'INSERT INTO item_images (item_id, image_path, is_primary) VALUES (?, ?, ?)',
+          [itemId, publicUrl, index === 0 ? 1 : 0]
+        );
+      } catch (err) {
+        console.error('[ERROR] Image upload failed:', err.message);
+      }
+    }
   }
 
-  res.status(201).json({ id: result.insertId, message: 'Post created successfully' });
+  res.status(201).json({ id: itemId, message: 'Post created successfully' });
 });
 
 router.get('/:id', async (req, res) => {
   const [rows] = await pool.execute(
-    `SELECT i.*, u.full_name
+    `SELECT i.*, u.full_name, u.avatar_url as user_avatar
      FROM items i
      JOIN users u ON u.id = i.user_id
      WHERE i.id = ? AND i.status <> 'removed'
@@ -106,30 +103,6 @@ router.get('/:id', async (req, res) => {
   const [images] = await pool.execute('SELECT image_path FROM item_images WHERE item_id = ?', [req.params.id]);
 
   res.json({ ...rows[0], images });
-});
-
-router.get('/:id/matches', async (req, res) => {
-  const [items] = await pool.execute('SELECT * FROM items WHERE id = ? LIMIT 1', [req.params.id]);
-  const item = items[0];
-
-  if (!item) {
-    return res.status(404).json({ message: 'Item not found' });
-  }
-
-  const oppositeType = item.item_type === 'lost' ? 'found' : 'lost';
-  const keyword = `%${item.title.split(' ')[0]}%`;
-
-  const [matches] = await pool.execute(
-    `SELECT *, 
-      ((category = ?) * 40 + (location_name LIKE ?) * 30 + ((title LIKE ? OR description LIKE ?) * 30)) AS match_score
-     FROM items
-     WHERE item_type = ? AND status = 'open' AND id <> ?
-     ORDER BY match_score DESC, created_at DESC
-     LIMIT 10`,
-    [item.category, `%${item.location_name}%`, keyword, keyword, oppositeType, item.id]
-  );
-
-  res.json(matches);
 });
 
 export default router;

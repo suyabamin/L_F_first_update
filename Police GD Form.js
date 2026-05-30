@@ -127,46 +127,51 @@ function generateGDRef() {
 }
 
 // Submit form
-function submitForm() {
+async function submitForm() {
     if (!validateForm()) return;
 
     const gdReference = generateGDRef();
-    const formData = {
-        reference: gdReference,
-        applicant: {
-            name: displayName.innerText,
-            nid: displayNid.innerText,
-            phone: displayPhone.innerText,
-            email: displayEmail.innerText
-        },
-        incident: {
-            type: gdType.options[gdType.selectedIndex]?.text,
-            date: incidentDate.value,
-            time: incidentTime.value,
-            location: incidentLocation.value,
-            description: incidentDescription.value,
-            referenceNo: referenceNo.value
-        },
-        files: uploadedFiles.length,
-        submittedAt: new Date().toISOString()
-    };
+    const formData = new FormData();
+    formData.append('reference', gdReference);
+    formData.append('type', gdType.options[gdType.selectedIndex]?.text);
+    formData.append('date', incidentDate.value);
+    formData.append('time', incidentTime.value);
+    formData.append('location', incidentLocation.value);
+    formData.append('description', incidentDescription.value);
+    formData.append('referenceNo', referenceNo.value);
+    formData.append('applicant_name', displayName.innerText);
+    formData.append('applicant_nid', displayNid.innerText);
 
-    // Store in localStorage as submitted
-    const submissions = JSON.parse(localStorage.getItem('gd_submissions') || '[]');
-    submissions.push(formData);
-    localStorage.setItem('gd_submissions', JSON.stringify(submissions));
-    
-    // Clear draft
-    clearDraft();
-    
-    // Show success modal with reference
-    const refNumberDisplay = document.getElementById('refNumberDisplay');
-    refNumberDisplay.innerText = `Ref: ${gdReference}`;
-    successModal.classList.add('active');
-    
-    // Reset form
-    resetForm();
+    showToast('Submitting GD report...', 'info');
+
+    try {
+        const response = await fetch('backend-php/report.php', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            showToast(data.message || 'Report submission failed. Please login.', 'error');
+            return;
+        }
+        
+        // Clear draft
+        clearDraft();
+        
+        // Show success modal with reference
+        const refNumberDisplay = document.getElementById('refNumberDisplay');
+        if (refNumberDisplay) refNumberDisplay.innerText = `Ref: ${gdReference}`;
+        successModal.classList.add('active');
+        
+        // Reset form
+        resetForm();
+    } catch (error) {
+        showToast('Server connection failed.', 'error');
+    }
 }
+
 
 function resetForm() {
     setDefaultDate();
